@@ -1,4 +1,5 @@
 import { Alert, MCQ, MockConfig, PastPaper, SyllabusItem } from "@/lib/types";
+import { EXTRA_ALERTS, EXTRA_MCQ, EXTRA_MOCKS, EXTRA_PAPERS, EXTRA_SYL } from "./extra";
 
 type TopicSpec = { subject: string; topic: string; subtopic: string; weightage: number };
 
@@ -10,7 +11,7 @@ function syl(test_id: string, rows: TopicSpec[]): SyllabusItem[] {
   }));
 }
 
-export const SYLLABUS: SyllabusItem[] = [
+const BASE_SYL: SyllabusItem[] = [
   ...syl("adm-01", [
     { subject: "Biology (81 MCQs, 45%)", topic: "Acellular life", subtopic: "Viruses; HIV/AIDS (PMDC uniform curriculum)", weightage: 3 },
     { subject: "Biology (81 MCQs, 45%)", topic: "Biological molecules", subtopic: "Water, carbohydrates, proteins, lipids, nucleic acids", weightage: 4 },
@@ -132,6 +133,8 @@ export const SYLLABUS: SyllabusItem[] = [
   ]),
 ];
 
+export const SYLLABUS: SyllabusItem[] = [...BASE_SYL, ...EXTRA_SYL];
+
 export const PAST_PAPERS: PastPaper[] = [
   { id: "pp-md-uhs", test_id: "adm-01", year: 2025, conducting_body_variant: "UHS / Punjab", file_url: "https://www.uhs.edu.pk", source: "https://www.uhs.edu.pk", verified: true },
   { id: "pp-md-pmdc", test_id: "adm-01", year: 2025, conducting_body_variant: "PMDC regulations", file_url: "https://pmdc.pk", source: "https://pmdc.pk", verified: true },
@@ -146,6 +149,7 @@ export const PAST_PAPERS: PastPaper[] = [
   { id: "pp-icap", test_id: "pro-02", year: 2025, conducting_body_variant: "ICAP student resources", file_url: "https://icap.org.pk/students/study-resources", source: "https://icap.org.pk", verified: true },
   { id: "pp-cfa", test_id: "pro-04", year: 2025, conducting_body_variant: "CFA Institute mock / LES", file_url: "https://www.cfainstitute.org/en/programs/cfa/exam", source: "https://www.cfainstitute.org", verified: true },
   { id: "pp-ibp", test_id: "bnk-01", year: 2025, conducting_body_variant: "IBP", file_url: "https://ibp.org.pk", source: "https://ibp.org.pk", verified: true },
+  ...EXTRA_PAPERS,
 ];
 
 function q(
@@ -173,7 +177,7 @@ function q(
   };
 }
 
-export const MCQS: MCQ[] = [
+const BASE_MCQ: MCQ[] = [
   q("md1", "adm-01", "Biology", "Cell structure", "Mitochondria are the principal site of which process in eukaryotes?", ["Glycolysis only", "Oxidative phosphorylation", "Transcription of all cellular RNA", "Protein glycosylation"], 1, "The electron-transport chain and ATP synthase sit in the inner mitochondrial membrane."),
   q("md2", "adm-01", "Biology", "Genetics", "A monohybrid heterozygous self-cross (Aa × Aa) with complete dominance yields phenotypic ratio:", ["1:1", "1:2:1", "3:1", "9:3:3:1"], 2, "3 dominant : 1 recessive phenotype."),
   q("md3", "adm-01", "Biology", "Bioenergetics", "Light-dependent reactions of photosynthesis occur mainly in the:", ["Stroma", "Thylakoid membrane", "Cytosol", "Mitochondrial matrix"], 1, "Photosystems are embedded in thylakoids."),
@@ -251,6 +255,8 @@ export const MCQS: MCQ[] = [
   q("bk5", "bnk-01", "Banking GK", "Policy", "SBP’s primary mandate includes:", ["Running commercial branches for retail loans only", "Price stability / monetary policy and financial-system stability", "Collecting income tax", "Issuing CNICs"], 1, "Central banking functions."),
 ];
 
+export const MCQS: MCQ[] = [...BASE_MCQ, ...EXTRA_MCQ];
+
 export const MOCKS: MockConfig[] = [
   { id: "mk-adm-01", test_id: "adm-01", time_limit_minutes: 18, negative_marking: false, negative_value: 0, question_count: 12 },
   { id: "mk-adm-02", test_id: "adm-02", time_limit_minutes: 10, negative_marking: false, negative_value: 0, question_count: 6 },
@@ -263,6 +269,7 @@ export const MOCKS: MockConfig[] = [
   { id: "mk-pro-02", test_id: "pro-02", time_limit_minutes: 8, negative_marking: false, negative_value: 0, question_count: 4 },
   { id: "mk-pro-04", test_id: "pro-04", time_limit_minutes: 10, negative_marking: false, negative_value: 0, question_count: 5 },
   { id: "mk-bnk-01", test_id: "bnk-01", time_limit_minutes: 8, negative_marking: true, negative_value: 0.25, question_count: 5 },
+  ...EXTRA_MOCKS,
 ];
 
 export const ALERTS: Alert[] = [
@@ -365,6 +372,7 @@ export const ALERTS: Alert[] = [
     source_url: "https://uet.edu.pk",
     published_at: "2026-07-22T09:00:00Z",
   },
+  ...EXTRA_ALERTS,
 ];
 
 export const LEADERBOARD: { name: string; points: number; streak: number; category: string }[] = [];

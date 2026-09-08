@@ -34,7 +34,7 @@ export default function Home() {
       </section>
       <AdBanner />
       <section>
-        <h2 className="mb-3 text-lg font-semibold">{t.categories}</h2>
+        <h2 className="mb-3 text-center text-lg font-semibold">{t.categories}</h2>
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
           {CATEGORY_META.map((c) => {
             const n = TESTS.filter((x) => x.category === c.key).length;
