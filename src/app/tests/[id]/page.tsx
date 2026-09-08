@@ -26,7 +26,7 @@ export default function TestPage() {
 
   const syl = ALL_SYL.filter((s) => s.test_id === id);
   const papers = ALL_PAPERS.filter((s) => s.test_id === id);
-  const mcqs = ALL_MCQS.filter((s) => s.test_id === id && !s.topic.includes("pattern paper")).slice(0, 24);
+  const mcqs = ALL_MCQS.filter((s) => s.test_id === id && !s.topic.includes("paper set")).slice(0, 40);
   const mock = ALL_MOCKS.find((s) => s.test_id === id);
   const alerts = ALL_ALERTS.filter((s) => s.test_id === id);
   const jobs = JOBS.filter((j) => j.test_id === id);

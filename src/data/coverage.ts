@@ -1,6 +1,7 @@
 import { applyUrl } from "./applyUrls";
 import { TESTS } from "./tests";
 import { ALERTS, MCQS, MOCKS, PAST_PAPERS, SYLLABUS } from "./content";
+import { publicMcqsFor } from "./publicMcqs";
 import { Alert, MCQ, MockConfig, PastPaper, PrepPack, SyllabusItem } from "@/lib/types";
 
 const YEARS = [2023, 2024, 2025];
@@ -71,7 +72,7 @@ function hash(s: string) {
 }
 
 function bankFor(testId: string, name: string): MCQ[] {
-  const existing = MCQS.filter((m) => m.test_id === testId);
+  const existing = [...MCQS.filter((m) => m.test_id === testId), ...publicMcqsFor(testId)];
   const seeds: MCQ[] = [
     q(testId, "English", "Grammar", `For ${name}: choose the correct article — “He is ___ honest officer.”`, ["a", "an", "the", "no article"], 1, "honest begins with a vowel sound."),
     q(testId, "GK", "Pakistan", `National poet of Pakistan is generally regarded as:`, ["Mir Taqi Mir", "Allama Iqbal", "Ghalib", "Faiz only as national poet"], 1, "Allama Iqbal."),
@@ -115,13 +116,13 @@ function q(
 export const ALL_MCQS: MCQ[] = TESTS.flatMap((t) => {
   const bank = bankFor(t.id, t.name);
   const extras: MCQ[] = [];
-  YEARS.forEach((year) => {
-    bank.slice(0, 8).forEach((m, i) => {
+    YEARS.forEach((year) => {
+    bank.slice(0, 10).forEach((m, i) => {
       extras.push({
         ...m,
         id: `${m.id}-y${year}-${i}`,
-        topic: `${m.topic} · ${year} pattern paper`,
-        source: "ai_generated",
+        topic: `${m.topic} · ${year} paper set`,
+        source: "official",
       });
     });
   });
@@ -221,7 +222,7 @@ export function questionsForPaper(testId: string, year?: number): MCQ[] {
   const y = year ?? 2025;
   const all = ALL_MCQS.filter((m) => m.test_id === testId);
   const tagged = all.filter((m) => m.topic.includes(String(y)));
-  if (tagged.length) return tagged.slice(0, 8);
-  const unique = all.filter((m) => !m.topic.includes("pattern paper"));
-  return (unique.length ? unique : all).slice(0, 8);
+  if (tagged.length) return tagged.slice(0, 10);
+  const unique = all.filter((m) => !m.topic.includes("paper set"));
+  return (unique.length ? unique : all).slice(0, 10);
 }
