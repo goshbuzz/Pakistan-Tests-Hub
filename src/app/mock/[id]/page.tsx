@@ -1,19 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
-import { MCQS, MOCKS } from "@/data/content";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
+import { ALL_MOCKS, questionsForPaper } from "@/data/coverage";
 import { TESTS } from "@/data/tests";
 import { useStore } from "@/lib/store";
 import { dict } from "@/lib/i18n";
 
-export default function MockPage() {
+function MockInner() {
   const { id } = useParams<{ id: string }>();
+  const sp = useSearchParams();
+  const year = sp.get("year") ? Number(sp.get("year")) : undefined;
   const test = TESTS.find((x) => x.id === id);
-  const cfg = MOCKS.find((x) => x.test_id === id);
-  const bank = MCQS.filter((x) => x.test_id === id);
-  const questions = useMemo(() => bank.slice(0, cfg?.question_count ?? bank.length), [bank, cfg]);
+  const cfg = ALL_MOCKS.find((x) => x.test_id === id);
+  const questions = useMemo(() => questionsForPaper(id, year), [id, year]);
   const { addAttempt, lang } = useStore();
   const t = dict[lang];
   const router = useRouter();
@@ -47,12 +48,11 @@ export default function MockPage() {
       if (a === q.correct_answer) raw += 1;
       else if (a !== undefined && cfg?.negative_marking) raw -= cfg.negative_value;
     });
-    const score = Math.max(0, raw);
-    addAttempt({ test_id: id, score, total: questions.length, date: new Date().toISOString() });
+    addAttempt({ test_id: id, score: Math.max(0, raw), total: questions.length, date: new Date().toISOString(), paper_year: year });
     setShowAd(true);
   }
 
-  if (!test || !cfg || questions.length === 0) {
+  if (!test || questions.length === 0) {
     return (
       <div className="p-8">
         <p>Mock not available for this test yet.</p>
@@ -75,14 +75,10 @@ export default function MockPage() {
         <div className="mx-auto max-w-lg rounded-2xl bg-white p-6 text-stone-900">
           <p className="text-xs uppercase text-amber-700">{t.ads}</p>
           <h2 className="text-xl font-semibold">{t.interstitial}</h2>
-          <p className="mt-2 text-sm text-stone-600">Banner/interstitial only between attempts — never mid-timer.</p>
           <p className="mt-4 text-lg font-semibold">
             {t.score}: {score} / {questions.length}
           </p>
-          <button
-            className="mt-4 w-full rounded-full bg-emerald-800 py-2 text-white"
-            onClick={() => router.push(`/tests/${id}`)}
-          >
+          <button className="mt-4 w-full rounded-full bg-emerald-800 py-2 text-white" onClick={() => router.push(`/tests/${id}`)}>
             {t.skip}
           </button>
         </div>
@@ -95,7 +91,9 @@ export default function MockPage() {
       <div className="mx-auto max-w-2xl">
         <div className="flex items-center justify-between rounded-2xl bg-[#01411C] px-4 py-3 text-white">
           <div>
-            <div className="text-xs opacity-80">{test.name} mock</div>
+            <div className="text-xs opacity-80">
+              {test.name} {year ? `${year} pattern paper` : "mock"}
+            </div>
             <div className="font-semibold">
               Q {i + 1} / {questions.length}
             </div>
@@ -139,5 +137,13 @@ export default function MockPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function MockPage() {
+  return (
+    <Suspense>
+      <MockInner />
+    </Suspense>
   );
 }

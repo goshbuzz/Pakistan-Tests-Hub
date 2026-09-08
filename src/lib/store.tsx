@@ -15,6 +15,9 @@ type Store = {
   lastActive: string | null;
   badges: string[];
   pendingQueue: { testId: string; note: string }[];
+  lastSync: string | null;
+  jobFollow: string[];
+  docsDone: Record<string, string[]>;
   login: (name: string, email: string) => void;
   logout: () => void;
   setLang: (l: Lang) => void;
@@ -22,6 +25,9 @@ type Store = {
   toggleTopic: (testId: string, topicId: string) => void;
   addAttempt: (a: MockAttempt) => void;
   suggest: (testId: string, note: string) => void;
+  markSynced: () => void;
+  toggleJobFollow: (testId: string) => void;
+  toggleDoc: (testId: string, doc: string) => void;
 };
 
 const Ctx = createContext<Store | null>(null);
@@ -39,6 +45,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [lastActive, setLastActive] = useState<string | null>(null);
   const [badges, setBadges] = useState<string[]>([]);
   const [pendingQueue, setPending] = useState<{ testId: string; note: string }[]>([]);
+  const [lastSync, setLastSync] = useState<string | null>(null);
+  const [jobFollow, setJobFollow] = useState<string[]>([]);
+  const [docsDone, setDocsDone] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
     try {
@@ -55,6 +64,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setLastActive(d.lastActive ?? null);
         setBadges(d.badges ?? []);
         setPending(d.pendingQueue ?? []);
+        setLastSync(d.lastSync ?? null);
+        setJobFollow(d.jobFollow ?? []);
+        setDocsDone(d.docsDone ?? {});
       }
     } catch {}
     setHydrated(true);
@@ -64,9 +76,11 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     if (!hydrated) return;
     localStorage.setItem(
       KEY,
-      JSON.stringify({ user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue })
+      JSON.stringify({
+        user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue, lastSync, jobFollow, docsDone,
+      })
     );
-  }, [hydrated, user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue]);
+  }, [hydrated, user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue, lastSync, jobFollow, docsDone]);
 
   const value = useMemo<Store>(
     () => ({
@@ -80,6 +94,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       lastActive,
       badges,
       pendingQueue,
+      lastSync,
+      jobFollow,
+      docsDone,
       login: (name, email) =>
         setUser({ id: "u1", name, email, language: lang }),
       logout: () => setUser(null),
@@ -104,8 +121,17 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         if (a.score / a.total >= 0.8) setBadges((b) => (b.includes("High Scorer") ? b : [...b, "High Scorer"]));
       },
       suggest: (testId, note) => setPending((q) => [...q, { testId, note }]),
+      markSynced: () => setLastSync(new Date().toISOString()),
+      toggleJobFollow: (testId) =>
+        setJobFollow((s) => (s.includes(testId) ? s.filter((x) => x !== testId) : [...s, testId])),
+      toggleDoc: (testId, doc) =>
+        setDocsDone((prev) => {
+          const cur = prev[testId] ?? [];
+          const next = cur.includes(doc) ? cur.filter((x) => x !== doc) : [...cur, doc];
+          return { ...prev, [testId]: next };
+        }),
     }),
-    [user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue]
+    [user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue, lastSync, jobFollow, docsDone]
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

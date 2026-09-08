@@ -19,6 +19,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const tabs = [
     { href: "/", label: t.home, icon: "⌂" },
     { href: "/explore", label: t.explore, icon: "▣" },
+    { href: "/jobs", label: t.jobs, icon: "💼" },
     { href: "/alerts", label: t.alerts, icon: "⚑" },
     { href: "/profile", label: t.profile, icon: "☺" },
   ];

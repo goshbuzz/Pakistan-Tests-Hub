@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { ALERTS } from "@/data/content";
+import { ALL_ALERTS } from "@/data/coverage";
+import { JOBS } from "@/data/jobs";
 import { CATEGORY_META, TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
@@ -12,7 +13,7 @@ export default function Home() {
   const t = dict[lang];
   const savedTests = TESTS.filter((x) => saved.includes(x.id));
   const rec = TESTS.filter((x) => x.priority);
-  const feed = [...ALERTS].sort((a, b) => b.published_at.localeCompare(a.published_at)).slice(0, 6);
+  const feed = [...ALL_ALERTS].sort((a, b) => b.published_at.localeCompare(a.published_at)).slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -80,6 +81,24 @@ export default function Home() {
           </div>
         </section>
       )}
+      <section>
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-lg font-semibold">{t.jobs}</h2>
+          <Link href="/jobs" className="text-sm text-emerald-800">
+            View all
+          </Link>
+        </div>
+        <ul className="space-y-2">
+          {JOBS.slice(0, 4).map((j) => (
+            <li key={j.id} className="rounded-xl border bg-white p-3">
+              <div className="font-medium">{j.title}</div>
+              <a href={j.apply_url} className="text-xs text-emerald-800" target="_blank" rel="noreferrer">
+                {j.apply_url}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
       <section>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-lg font-semibold">{t.forYou} · {t.alerts}</h2>

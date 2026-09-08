@@ -94,4 +94,27 @@ export type MockAttempt = {
   score: number;
   total: number;
   date: string;
+  paper_year?: number;
+};
+
+export type Job = {
+  id: string;
+  test_id: string;
+  title: string;
+  organization: string;
+  location: string;
+  last_date: string;
+  apply_url: string;
+  source: string;
+  posts?: string;
+  fee?: string;
+  synced_at: string;
+};
+
+export type PrepPack = {
+  test_id: string;
+  documents: string[];
+  challan: string;
+  apply_url: string;
+  apply_label: string;
 };

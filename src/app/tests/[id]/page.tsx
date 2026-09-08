@@ -4,29 +4,33 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import { ALERTS, MCQS, MOCKS, PAST_PAPERS, SYLLABUS } from "@/data/content";
+import { ALL_ALERTS, ALL_MCQS, ALL_MOCKS, ALL_PAPERS, ALL_SYL, PREP_PACKS } from "@/data/coverage";
+import { JOBS } from "@/data/jobs";
 import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
 
-const TABS = ["overview", "syllabus", "papers", "mcq", "mock", "alerts"] as const;
+const TABS = ["overview", "syllabus", "papers", "mcq", "mock", "jobs", "apply", "alerts"] as const;
 
 export default function TestPage() {
   const { id } = useParams<{ id: string }>();
   const test = TESTS.find((x) => x.id === id);
-  const { lang, user, saved, toggleSave, syllabusDone, toggleTopic, suggest } = useStore();
+  const { lang, user, saved, toggleSave, syllabusDone, toggleTopic, suggest, jobFollow, toggleJobFollow, docsDone, toggleDoc } =
+    useStore();
   const t = dict[lang];
   const [tab, setTab] = useState<(typeof TABS)[number]>("overview");
   const [note, setNote] = useState("");
   const [filter, setFilter] = useState("");
   const [revealed, setRevealed] = useState<string | null>(null);
 
-  const syl = SYLLABUS.filter((s) => s.test_id === id);
-  const papers = PAST_PAPERS.filter((s) => s.test_id === id);
-  const mcqs = MCQS.filter((s) => s.test_id === id);
-  const mock = MOCKS.find((s) => s.test_id === id);
-  const alerts = ALERTS.filter((s) => s.test_id === id);
+  const syl = ALL_SYL.filter((s) => s.test_id === id);
+  const papers = ALL_PAPERS.filter((s) => s.test_id === id);
+  const mcqs = ALL_MCQS.filter((s) => s.test_id === id && !s.topic.includes("pattern paper")).slice(0, 24);
+  const mock = ALL_MOCKS.find((s) => s.test_id === id);
+  const alerts = ALL_ALERTS.filter((s) => s.test_id === id);
+  const jobs = JOBS.filter((j) => j.test_id === id);
+  const pack = PREP_PACKS.find((p) => p.test_id === id);
   const done = syllabusDone[id] ?? [];
   const pct = syl.length ? Math.round((done.length / syl.length) * 100) : 0;
 
@@ -53,6 +57,8 @@ export default function TestPage() {
     papers: t.papers,
     mcq: t.mcq,
     mock: t.mock,
+    jobs: t.jobs,
+    apply: t.apply,
     alerts: t.alertsTab,
   };
 
@@ -169,17 +175,24 @@ export default function TestPage() {
 
       {tab === "papers" && (
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          {papers.length === 0 && <p className="text-sm text-stone-600">Past papers will attach as official PDFs are verified.</p>}
-          {papers.map((p) => (
-            <a key={p.id} href={p.file_url} target="_blank" rel="noreferrer" className="rounded-xl border bg-white p-4">
-              <div className="font-medium">
-                {test.name} {p.year}
-              </div>
-              <div className="text-xs text-stone-500">
-                {p.source} {p.verified ? "· verified" : "· pending review"}
-              </div>
-            </a>
-          ))}
+          <p className="sm:col-span-2 text-xs text-stone-500">
+            Year papers are timed pattern practice (original items). Official PDFs open the conducting-body site — we do not host leaked copyrighted scans.
+          </p>
+          {papers.map((p) =>
+            p.file_url.startsWith("/") ? (
+              <Link key={p.id} href={p.file_url} className="rounded-xl border bg-white p-4">
+                <div className="font-medium">
+                  {test.name} {p.year} · sit paper
+                </div>
+                <div className="text-xs text-stone-500">{p.conducting_body_variant}</div>
+              </Link>
+            ) : (
+              <a key={p.id} href={p.file_url} target="_blank" rel="noreferrer" className="rounded-xl border bg-white p-4">
+                <div className="font-medium">Official source {p.year}</div>
+                <div className="text-xs text-stone-500">{p.source}</div>
+              </a>
+            )
+          )}
         </div>
       )}
 
@@ -232,6 +245,63 @@ export default function TestPage() {
           ) : (
             <p className="text-sm">Mock config uses the same template — add questions to enable the runner.</p>
           )}
+        </div>
+      )}
+
+      {tab === "jobs" && (
+        <div className="mt-4 space-y-3">
+          <button
+            onClick={() => toggleJobFollow(test.id)}
+            className={`rounded-full px-4 py-2 text-sm ${jobFollow.includes(test.id) ? "bg-emerald-800 text-white" : "border bg-white"}`}
+          >
+            {jobFollow.includes(test.id) ? t.following : t.followJobs}
+          </button>
+          {jobs.length === 0 && (
+            <p className="text-sm">No live ads in the last sync. Follow to surface them when the official site posts.</p>
+          )}
+          {jobs.map((j) => (
+            <div key={j.id} className="rounded-xl border bg-white p-4">
+              <div className="font-medium">{j.title}</div>
+              <p className="text-sm text-stone-600">
+                {j.organization} · {j.location} · last date: {j.last_date}
+              </p>
+              <p className="text-xs text-stone-500">
+                Fee: {j.fee} · {j.source}
+              </p>
+              <a href={j.apply_url} target="_blank" rel="noreferrer" className="mt-2 inline-block text-sm font-medium text-emerald-800">
+                {t.applyNow} →
+              </a>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {tab === "apply" && pack && (
+        <div className="mt-4 space-y-4 rounded-2xl border bg-white p-5">
+          <h3 className="font-semibold">{t.documents}</h3>
+          <ul className="space-y-2">
+            {pack.documents.map((d) => (
+              <li key={d} className="flex items-start gap-2 text-sm">
+                <input type="checkbox" checked={(docsDone[test.id] ?? []).includes(d)} onChange={() => toggleDoc(test.id, d)} />
+                <span>{d}</span>
+              </li>
+            ))}
+          </ul>
+          <div>
+            <div className="text-xs uppercase text-stone-500">{t.challan}</div>
+            <p className="text-sm">{pack.challan}</p>
+          </div>
+          <a
+            href={pack.apply_url}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block rounded-full bg-emerald-800 px-5 py-2 text-sm text-white"
+          >
+            {pack.apply_label}
+          </a>
+          <p className="text-xs text-stone-500">
+            You always submit on the official site. This pack only checks documents and opens the correct apply URL.
+          </p>
         </div>
       )}
 

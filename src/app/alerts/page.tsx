@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ALERTS } from "@/data/content";
+import { ALL_ALERTS } from "@/data/coverage";
 import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
@@ -11,7 +11,7 @@ export default function AlertsPage() {
   const { lang, saved } = useStore();
   const t = dict[lang];
   const [only, setOnly] = useState(false);
-  const items = [...ALERTS]
+  const items = [...ALL_ALERTS]
     .filter((a) => !only || saved.includes(a.test_id))
     .sort((a, b) => b.published_at.localeCompare(a.published_at));
 
