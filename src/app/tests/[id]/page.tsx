@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ALERTS, MCQS, MOCKS, PAST_PAPERS, SYLLABUS } from "@/data/content";
@@ -252,7 +253,7 @@ export default function TestPage() {
   );
 }
 
-function Row({ label, value }: { label: string; value: React.ReactNode }) {
+function Row({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div>
       <div className="text-xs uppercase text-stone-500">{label}</div>

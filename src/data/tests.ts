@@ -1,4 +1,4 @@
-import { Test } from "@/lib/types";
+import { Category, Test } from "@/lib/types";
 
 export const TESTS: Test[] = [
   { id: "adm-01", name: "MDCAT", category: "Admissions", career_stage: "Intermediate", conducting_body: "PMDC / UHS / provincial boards", official_url: "https://pmdc.pk", eligibility: "FSc Pre-Medical (or equivalent) with minimum 60% marks. Age and domicile as per provincial policy.", format_description: "200 MCQs · 3.5 hours · Biology 68, Chemistry 54, Physics 54, English 18, Logical Reasoning 6. No negative marking.", fee_info: "Typically PKR 6,000–8,000 (varies by province).", last_updated: "2026-08-15", priority: true },
