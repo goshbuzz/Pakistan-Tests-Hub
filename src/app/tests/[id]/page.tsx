@@ -171,7 +171,7 @@ export default function TestPage() {
         <div className="mt-4 grid gap-2 sm:grid-cols-2">
           {papers.length === 0 && <p className="text-sm text-stone-600">Past papers will attach as official PDFs are verified.</p>}
           {papers.map((p) => (
-            <a key={p.id} href={p.file_url} className="rounded-xl border bg-white p-4">
+            <a key={p.id} href={p.file_url} target="_blank" rel="noreferrer" className="rounded-xl border bg-white p-4">
               <div className="font-medium">
                 {test.name} {p.year}
               </div>
@@ -224,7 +224,7 @@ export default function TestPage() {
                 {mock.question_count} questions · {mock.time_limit_minutes} minutes
                 {mock.negative_marking ? ` · negative marking −${mock.negative_value}` : " · no negative marking"}
               </p>
-              <p className="mt-2 text-sm">Demo runner matches this test&apos;s rules. No ads during the timer.</p>
+              <p className="mt-2 text-sm">Timed practice set using this exam&apos;s marking rules. Ads never run during the timer.</p>
               <Link href={`/mock/${test.id}`} className="mt-4 inline-block rounded-full bg-emerald-800 px-5 py-2 text-white">
                 {t.startMock}
               </Link>

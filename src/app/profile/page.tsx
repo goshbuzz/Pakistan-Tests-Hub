@@ -5,7 +5,7 @@ import { TESTS } from "@/data/tests";
 import { SYLLABUS } from "@/data/content";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
-import { LEADERBOARD } from "@/data/content";
+
 
 export default function ProfilePage() {
   const { lang, setLang, user, logout, saved, attempts, points, streak, badges, syllabusDone } = useStore();
@@ -84,16 +84,7 @@ export default function ProfilePage() {
             Full board
           </Link>
         </div>
-        <ol className="mt-2 space-y-1">
-          {LEADERBOARD.slice(0, 5).map((r, i) => (
-            <li key={r.name} className="flex justify-between rounded-lg bg-white px-3 py-2 text-sm">
-              <span>
-                {i + 1}. {r.name}
-              </span>
-              <span>{r.points} pts</span>
-            </li>
-          ))}
-        </ol>
+        <p className="mt-2 text-sm text-stone-600">Your points: {points}. Public ranks appear only for opt-in users.</p>
       </section>
 
       <section className="rounded-2xl border bg-white p-4">

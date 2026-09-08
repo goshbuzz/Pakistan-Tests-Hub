@@ -26,7 +26,7 @@ export default function AlertsPage() {
           {t.savedOnly}
         </button>
       </div>
-      <p className="mt-2 text-xs text-stone-500">Last synced: just now (demo seed). Live scrapers attach in production.</p>
+      <p className="mt-2 text-xs text-stone-500">Sourced from official conducting-body notices. Always re-check the linked site before applying.</p>
       <ul className="mt-4 space-y-2">
         {items.map((a) => {
           const test = TESTS.find((x) => x.id === a.test_id);
