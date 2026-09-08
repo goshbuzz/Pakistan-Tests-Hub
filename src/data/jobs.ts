@@ -1,5 +1,6 @@
 import { Job } from "@/lib/types";
 import { TESTS } from "./tests";
+import { applyUrl } from "./applyUrls";
 
 const extra: Job[] = [
   {
@@ -9,8 +10,8 @@ const extra: Job[] = [
     organization: "Punjab Public Service Commission",
     location: "Punjab",
     last_date: "See ppsc.gop.pk",
-    apply_url: "https://www.ppsc.gop.pk",
-    source: "https://www.ppsc.gop.pk",
+    apply_url: applyUrl("psc-07", "https://www.ppsc.gop.pk"),
+    source: applyUrl("psc-07", "https://www.ppsc.gop.pk"),
     posts: "As per current advertisement",
     fee: "PPSC online fee / challan in the ad",
     synced_at: "2026-09-08T10:00:00Z",
@@ -34,8 +35,8 @@ const extra: Job[] = [
     organization: "National Testing Service",
     location: "Nationwide projects",
     last_date: "Per project",
-    apply_url: "https://www.nts.org.pk",
-    source: "https://www.nts.org.pk",
+    apply_url: applyUrl("rec-01", "https://www.nts.org.pk"),
+    source: applyUrl("rec-01", "https://www.nts.org.pk"),
     fee: "Project-wise NTS fee",
     synced_at: "2026-09-08T10:00:00Z",
   },
@@ -94,8 +95,8 @@ const extra: Job[] = [
     organization: "Punjab Police / PPSC",
     location: "Punjab",
     last_date: "See punjabpolice.gov.pk / ppsc.gop.pk",
-    apply_url: "https://www.punjabpolice.gov.pk",
-    source: "https://www.punjabpolice.gov.pk",
+    apply_url: "https://www.punjabpolice.gov.pk/punjabpolice-jobs",
+    source: "https://www.punjabpolice.gov.pk/punjabpolice-jobs",
     fee: "As advertised",
     synced_at: "2026-09-08T10:00:00Z",
   },
@@ -148,8 +149,8 @@ export const JOBS: Job[] = [
       organization: t.conducting_body,
       location: "As advertised",
       last_date: "See official site",
-      apply_url: t.official_url,
-      source: t.official_url,
+      apply_url: applyUrl(t.id, t.official_url),
+      source: applyUrl(t.id, t.official_url),
       fee: t.fee_info,
       synced_at: "2026-09-08T10:00:00Z",
     })),

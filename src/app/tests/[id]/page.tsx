@@ -208,7 +208,7 @@ export default function TestPage() {
           {filteredMcq.map((m) => (
             <div key={m.id} className="rounded-xl border bg-white p-4">
               <div className="text-xs text-stone-500">
-                {m.subject} · {m.topic} · {m.difficulty} · {m.source}
+                {m.subject} · {m.topic}
               </div>
               <p className="mt-1 font-medium">{m.question_text}</p>
               <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm">
@@ -237,8 +237,8 @@ export default function TestPage() {
                 {mock.question_count} questions · {mock.time_limit_minutes} minutes
                 {mock.negative_marking ? ` · negative marking −${mock.negative_value}` : " · no negative marking"}
               </p>
-              <p className="mt-2 text-sm">Timed practice set using this exam&apos;s marking rules. Ads never run during the timer.</p>
-              <Link href={`/mock/${test.id}`} className="mt-4 inline-block rounded-full bg-emerald-800 px-5 py-2 text-white">
+              <p className="mt-2 text-sm">Uses the 2025 past-year set for this test. Pick 2023/2024 under Past Papers for other years. Ads never run during the timer.</p>
+              <Link href={`/mock/${test.id}?year=2025`} className="mt-4 inline-block rounded-full bg-emerald-800 px-5 py-2 text-white">
                 {t.startMock}
               </Link>
             </>

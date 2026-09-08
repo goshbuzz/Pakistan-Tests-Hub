@@ -11,7 +11,7 @@ import { dict } from "@/lib/i18n";
 function MockInner() {
   const { id } = useParams<{ id: string }>();
   const sp = useSearchParams();
-  const year = sp.get("year") ? Number(sp.get("year")) : undefined;
+  const year = sp.get("year") ? Number(sp.get("year")) : 2025;
   const test = TESTS.find((x) => x.id === id);
   const cfg = ALL_MOCKS.find((x) => x.test_id === id);
   const questions = useMemo(() => questionsForPaper(id, year), [id, year]);

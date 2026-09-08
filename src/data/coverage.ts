@@ -1,3 +1,4 @@
+import { applyUrl } from "./applyUrls";
 import { TESTS } from "./tests";
 import { ALERTS, MCQS, MOCKS, PAST_PAPERS, SYLLABUS } from "./content";
 import { Alert, MCQ, MockConfig, PastPaper, PrepPack, SyllabusItem } from "@/lib/types";
@@ -157,8 +158,8 @@ export const ALL_PAPERS: PastPaper[] = TESTS.flatMap((t) => {
     test_id: t.id,
     year: 2025,
     conducting_body_variant: "Official conducting-body site",
-    file_url: t.official_url,
-    source: t.official_url,
+    file_url: applyUrl(t.id, t.official_url),
+    source: applyUrl(t.id, t.official_url),
     verified: true,
   };
   return [...years, official, ...have.filter((p) => !years.some((y) => y.year === p.year && p.file_url.startsWith("http") === false))];
@@ -185,7 +186,7 @@ export const ALL_ALERTS: Alert[] = [
     type: "announcement" as const,
     title: `${t.name}: watch ${t.conducting_body}`,
     body: `Registration, roll slips and results are only valid from ${t.official_url}. Sync jobs for saved tests in the Jobs tab.`,
-    source_url: t.official_url,
+    source_url: applyUrl(t.id, t.official_url),
     published_at: "2026-08-01T08:00:00Z",
   })),
 ];
@@ -194,7 +195,7 @@ export const PREP_PACKS: PrepPack[] = TESTS.map((t) => ({
   test_id: t.id,
   documents: defaultDocs(t.category),
   challan: t.fee_info,
-  apply_url: t.official_url,
+  apply_url: applyUrl(t.id, t.official_url),
   apply_label: `Apply / register on ${t.conducting_body}`,
 }));
 
@@ -217,11 +218,10 @@ function defaultDocs(cat: string): string[] {
 }
 
 export function questionsForPaper(testId: string, year?: number): MCQ[] {
+  const y = year ?? 2025;
   const all = ALL_MCQS.filter((m) => m.test_id === testId);
-  if (year) {
-    const tagged = all.filter((m) => m.topic.includes(String(year)));
-    if (tagged.length) return tagged.slice(0, 8);
-  }
+  const tagged = all.filter((m) => m.topic.includes(String(y)));
+  if (tagged.length) return tagged.slice(0, 8);
   const unique = all.filter((m) => !m.topic.includes("pattern paper"));
   return (unique.length ? unique : all).slice(0, 8);
 }
