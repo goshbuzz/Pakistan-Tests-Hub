@@ -1,4 +1,4 @@
-const CACHE = "pth-pk-v1";
+const CACHE = "pth-pk-v3";
 const CORE = ["/", "/logo.png", "/manifest.json"];
 
 self.addEventListener("install", (e) => {

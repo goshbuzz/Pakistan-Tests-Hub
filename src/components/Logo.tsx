@@ -1,11 +1,13 @@
 "use client";
 
-/** Same file on website, PWA, login, and notifications: /logo.png */
+import { LOGO_SRC } from "@/lib/brand";
+
+/** Website header, login, profile, install prompt — same file as the PWA icon. */
 export function Logo({ size = 32, className = "" }: { size?: number; className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
-      src="/logo.png"
+      src={LOGO_SRC}
       alt="Pakistan Tests Hub"
       width={size}
       height={size}

@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   applicationName: "Pakistan Tests Hub",
   manifest: "/manifest.json",
   icons: {
-    icon: [{ url: "/logo.png", type: "image/png", sizes: "512x512" }],
-    apple: [{ url: "/logo.png", type: "image/png", sizes: "512x512" }],
-    shortcut: "/logo.png",
+    icon: [{ url: "/logo.png?v=3", type: "image/png", sizes: "512x512" }],
+    apple: [{ url: "/logo.png?v=3", type: "image/png", sizes: "512x512" }],
+    shortcut: "/logo.png?v=3",
   },
   appleWebApp: {
     capable: true,
