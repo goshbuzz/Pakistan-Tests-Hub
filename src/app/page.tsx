@@ -20,7 +20,7 @@ export default function Home() {
     <div className="space-y-6">
       <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-[#01411C] via-[#046a32] to-[#0a7a3e] p-6 text-white shadow-lg">
         <div className="flex items-center gap-3">
-          <Logo size={56} className="ring-2 ring-[#C5A44E]/80" />
+          <Logo size={56} />
           <div>
             <p className="text-sm text-emerald-100">{t.tagline}</p>
             <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{t.app}</h1>
