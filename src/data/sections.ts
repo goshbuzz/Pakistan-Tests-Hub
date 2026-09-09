@@ -92,6 +92,21 @@ const ALIASES: Record<string, string[]> = {
   writing: ["writing"],
   speaking: ["speaking"],
   maths: ["maths", "mathematics", "math"],
+  "banking gk": ["banking gk", "banking"],
+  pedagogy: ["pedagogy"],
+  accounting: ["accounting", "fa", "fra"],
+  fa: ["fa", "accounting"],
+  fra: ["fra", "accounting"],
+  ethics: ["ethics"],
+  fm: ["fm"],
+  aa: ["aa"],
+  subject: ["subject"],
+  issb: ["issb"],
+  urdu: ["urdu"],
+  constitution: ["constitution"],
+  "civil law": ["civil law", "law"],
+  "criminal law": ["criminal law", "law"],
+  law: ["law", "civil law", "criminal law", "constitution"],
 };
 
 function norm(s: string) {

@@ -41,6 +41,13 @@ export const CIVIC: Omit<MCQ, "id" | "test_id">[] = [
   q("Job related", "Service", "A government job advertisement should be read from:", ["the official conducting-body site", "only forwarded PDFs", "random Facebook pages", "guesswork"], 0, "Official ad is authoritative.", "easy"),
   q("Pedagogy", "Classroom", "A SMART objective is:", ["vague", "specific and measurable", "only emotional", "never timed"], 1, "Specific, measurable, etc.", "medium"),
   q("Law", "Constitution", "Article 184(3) is associated with:", ["original jurisdiction of the Supreme Court on questions of public importance and FR", "income tax rates", "MDCAT seats", "bank interest"], 0, "Suo motu / original SC jurisdiction theme.", "hard"),
+  q("Pakistan Affairs", "Movement", "The Lahore Resolution was adopted in:", ["1930", "1940", "1946", "1956"], 1, "23 March 1940.", "easy"),
+  q("Pakistan Affairs", "Polity", "The 18th Amendment (2010) mainly:", ["abolished provinces", "strengthened provincial autonomy", "ended the Senate", "moved the capital"], 1, "Devolution / concurrent list.", "medium"),
+  q("GSA", "Science", "The SI unit of electric current is:", ["volt", "ampere", "ohm", "watt"], 1, "Ampere.", "easy"),
+  q("GSA", "Ability", "If 25% of a number is 40, the number is:", ["80", "120", "160", "200"], 2, "n=160.", "easy"),
+  q("Current Affairs", "Pakistan", "CPEC is primarily a corridor project with:", ["China", "Brazil", "Iceland", "New Zealand only"], 0, "China–Pakistan Economic Corridor.", "easy"),
+  q("Optional", "Method", "For CSS optionals you should pick subjects:", ["only rumoured scoring without background", "with some academic background + scoring mix", "all science if you are a lawyer", "randomly on exam day"], 1, "Background + FPSC groups.", "easy"),
+  q("Urdu", "Grammar", "Urdu izafat typically links:", ["two nouns (e.g. kitab-e-adab)", "only English verbs", "CNIC numbers", "DNA bases"], 0, "Persian-style izafat.", "medium"),
 ];
 
 export function civicFor(allowed: string[]): Omit<MCQ, "id" | "test_id">[] {

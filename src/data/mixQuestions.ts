@@ -4,6 +4,7 @@ import { allowMix, subjectsFor } from "./sections";
 import { scienceFor } from "./scienceBank";
 import { civicFor } from "./civicBank";
 import { languageFor } from "./languageBank";
+import { extraFor } from "./extraBank";
 
 function item(
   kind: MCQ["kind"],
@@ -161,6 +162,7 @@ export function mixFor(testId: string, category: string): Omit<MCQ, "id" | "test
   out.push(...scienceFor(allowed));
   out.push(...civicFor(allowed));
   out.push(...languageFor(testId));
+  out.push(...extraFor(allowed));
   if (a.english) out.push(...ENGLISH);
   if (a.maths) out.push(...MATHS);
   if (a.analytical) out.push(...ANALYTICAL);

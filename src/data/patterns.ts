@@ -113,4 +113,6 @@ export const HAS_LONG = new Set([
   "int-05",
   "int-07",
   "int-08",
+  "pro-12",
+  "grd-04",
 ]);

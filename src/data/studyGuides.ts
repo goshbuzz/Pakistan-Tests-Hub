@@ -126,6 +126,91 @@ export const STUDY_GUIDES: Guide[] = [
     title: "CSS without an academy",
     body: "MPT is MCQ screening. Written is long answers: 3 hours × 12 papers. Build outlines, not photocopied notes. Compulsory: Essay, Precis, GSA, CA, PA, Islamiat. Optionals: pick scoring+background mix from FPSC groups. Read Dawn + one international paper daily.",
   },
+  {
+    test_id: "psc-01",
+    title: "Essay & précis method",
+    body: "Essay: 10 min outline, 2.5 h write, 10 min cut repetition. One thesis, four arguments, Pakistan examples with years. Precis: count words, compress to 1/3, keep proportion, title last. Do not dump current-affairs lists into the essay.",
+  },
+  {
+    test_id: "adm-02",
+    title: "ECAT self-study",
+    body: "UET-style 100 MCQ / 100 min: Maths 30, Physics 30, Chem or CS 30, English 10. Finish FSc textbooks, then timed mini-mocks here. Calculator policy follows the live UET notice — drill without one unless allowed.",
+  },
+  {
+    test_id: "adm-03",
+    title: "NUST NET",
+    body: "Engineering NET: Maths 40%, Physics 30%, Chemistry 15%, English 10%, Intelligence 5%, computer-based. Merit uses NET + HSSC + SSC as NUST publishes. Sit several NET series; this hub’s mocks are short slices of that mix.",
+  },
+  {
+    test_id: "grd-01",
+    title: "GAT-General plan",
+    body: "100 MCQ / 120 min: Verbal, Quantitative, Analytical (A/B/C share). No Pakistan Studies. Analogies and analytic games need daily 20-minute drills. HEC/NTS passing marks depend on the university — check the programme, not rumours.",
+  },
+  {
+    test_id: "psc-07",
+    title: "PPSC one-paper jobs",
+    body: "Most general posts: one MCQ paper (English, Urdu, Islamiat, Pak Studies, GK, job-related) then interview. Read the advertisement’s syllabus line-by-line. Apply only on ppsc.gop.pk.",
+  },
+  {
+    test_id: "rec-01",
+    title: "NTS recruitment tests",
+    body: "Each project has its own ad: English, analytical, GK, professional MCQs; negative marking only if that ad says so. Practise the mix here, then print the official roll number slip from nts.org.pk.",
+  },
+  {
+    test_id: "pol-01",
+    title: "Punjab Police written after physical",
+    body: "Physical first (height, running, etc. as advertised), then a written MCQ in Urdu, English, Islamiat, Pakistan Studies, GK — not CSS essays. Apply via punjabpolice.gov.pk/punjabpolice-jobs or PPSC when they conduct the post.",
+  },
+  {
+    test_id: "bnk-01",
+    title: "Bank MTO / IBP-style",
+    body: "English, Quant, Analytical, Banking GK (SBP, KYC/AML, products, Raast). Read the last SBP monetary policy summary in plain language. Apply on the bank’s careers page, not on this hub.",
+  },
+  {
+    test_id: "arm-01",
+    title: "ISSB four days",
+    body: "Not a university MCQ exam. Screening intelligence + WAT (short sentences under time) + TAT stories + GTO outdoor + interview. Practise honest, positive, specific sentences — selectors read personality, not coaching slogans.",
+  },
+  {
+    test_id: "arm-02",
+    title: "PMA Long Course initial",
+    body: "Intelligence + academic MCQ (English, maths, Islamiat, Pak Studies, GK), then physical, ISSB, medical. Join only on joinpakarmy.gov.pk.",
+  },
+  {
+    test_id: "tch-01",
+    title: "Educators / PPSC teaching",
+    body: "MCQ: English, pedagogy (Bloom, assessment, classroom), your subject, GK/Islamiat/Pak Studies. Tick pedagogy first — many fail method items, not content.",
+  },
+  {
+    test_id: "jud-01",
+    title: "Civil Judge written",
+    body: "Long law papers (CPC, PPC, CrPC, Constitution, evidence, judgment writing) + viva. Mocks here are short notes and a judgment skeleton — not auto-marked. Read bare acts; do not rely on MCQ banks as the real paper.",
+  },
+  {
+    test_id: "pro-01",
+    title: "ACCA Skills papers",
+    body: "CBE: objective + constructed response. Practise time per constructed task. Ethics and professional skills marks are real. Book exams on accaglobal.com only.",
+  },
+  {
+    test_id: "pro-04",
+    title: "CFA Level I",
+    body: "Item-set / independent MCQs. Ethics is weighted — read the Code. Quant, FRA, Econ, CF, PM, Equity, FI, Derivatives, Alt, Portfolio. Mini-mocks here are Ethics/FRA/Quant slices.",
+  },
+  {
+    test_id: "pro-07",
+    title: "HEC LAT",
+    body: "Law Admission Test for 5-year LLB: MCQ on intro to law / constitution / language plus an essay component as HEC notifies. Apply on hec.gov.pk.",
+  },
+  {
+    test_id: "adm-05",
+    title: "FAST NU entry",
+    body: "Maths + English + Analytical; Physics or Computer by programme. No Biology, no Pakistan GK. Drill calculus and patterns under a clock.",
+  },
+  {
+    test_id: "grd-05",
+    title: "HEC HAT",
+    body: "English, analytical, quantitative (subject variants for some scholarships). Used for indigenous scholarships / many local PhD screens. Confirm the live HEC portal.",
+  },
 ];
 
 export function guidesFor(testId: string): Guide[] {

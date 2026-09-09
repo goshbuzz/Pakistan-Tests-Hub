@@ -161,6 +161,7 @@ export function outlineFor(testId: string, category: string): OutlineRow[] | nul
   if (testId === "adm-05") return FAST;
   if (testId === "adm-06") return LCAT;
   if (testId === "adm-07") return IBA;
+  if (testId === "adm-08" || testId === "adm-11") return GAT;
   if (["grd-01", "grd-03", "grd-05"].includes(testId)) return GAT;
   if (testId === "psc-01") return CSS;
   if (category === "Police") return POLICE;

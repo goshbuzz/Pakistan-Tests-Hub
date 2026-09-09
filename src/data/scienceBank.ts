@@ -63,6 +63,17 @@ export const SCIENCE: Omit<MCQ, "id" | "test_id">[] = [
   q("Mathematics", "Trig", "cos 60° =", ["0", "1/2", "√3/2", "1"], 1, "1/2.", "easy"),
   q("Mathematics", "Matrices", "Order of a 2×3 matrix:", ["2×3", "3×2", "6×1", "5"], 0, "Rows × columns.", "medium"),
   q("Computer", "Logic", "Binary of decimal 5 is:", ["101", "110", "011", "100"], 0, "4+1.", "easy"),
+  q("Biology", "Cell", "Mitochondria are inherited in humans mainly from:", ["father", "mother", "equal both", "diet only"], 1, "Maternal mtDNA.", "medium"),
+  q("Biology", "Genetics", "A test-cross uses:", ["TT × TT", "tt × unknown dominant phenotype", "two heterozygotes only", "cloning"], 1, "Recessive tester.", "hard"),
+  q("Biology", "Physiology", "ADH mainly acts on the:", ["alveoli", "collecting ducts", "spleen", "retina"], 1, "Water reabsorption.", "medium"),
+  q("Biology", "Immunity", "Antibodies are produced by:", ["neutrophils only", "plasma cells (B lineage)", "erythrocytes", "osteocytes"], 1, "Humoral immunity.", "medium"),
+  q("Chemistry", "Mole", "Number of moles in 11.2 L of an ideal gas at STP (approx 22.4 L/mol):", ["0.25", "0.5", "1", "2"], 1, "11.2/22.4=0.5.", "medium"),
+  q("Chemistry", "Organic", "Markovnikov addition of HBr to propene mainly gives:", ["1-bromopropane", "2-bromopropane", "propane", "benzene"], 1, "2-bromopropane.", "hard"),
+  q("Chemistry", "Periodic", "Electronegativity across a period generally:", ["decreases", "increases", "is random", "is zero"], 1, "Towards fluorine.", "easy"),
+  q("Physics", "SHM", "In SHM, acceleration is proportional to:", ["velocity squared", "displacement towards mean", "mass only", "temperature"], 1, "a = −ω²x.", "medium"),
+  q("Physics", "Magnetism", "Force on a charge in a magnetic field is maximum when v is:", ["parallel to B", "perpendicular to B", "zero always", "anti-parallel only"], 1, "F=qvB sinθ.", "medium"),
+  q("Physics", "Modern", "Photoelectric effect shows light as:", ["only wave always", "quantised photons", "sound", "gravity"], 1, "Einstein photoelectric.", "medium"),
+  q("Logical Reasoning", "Assumption", "“Ban plastic bags to cut pollution.” An underlying assumption is that:", ["plastic is metal", "bags contribute to pollution", "bans never work", "air is nitrogen only"], 1, "Causal assumption.", "easy"),
 ];
 
 export function scienceFor(allowed: string[]): Omit<MCQ, "id" | "test_id">[] {

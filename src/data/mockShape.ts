@@ -69,13 +69,31 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 4, "Mathematics"), s("mcq", 3, "English"), s("mcq", 3, "Analytical")],
     };
   }
-  if (["grd-01", "grd-03", "grd-05"].includes(testId)) {
+  if (["grd-01", "grd-03", "grd-05", "adm-08", "adm-11"].includes(testId)) {
     return {
       minutes: 20,
       negative: false,
       negativeValue: 0,
-      note: "GAT/NAT/HAT mini: Verbal, Quantitative, Analytical MCQ (full GAT is 100q / 120 min).",
+      note: "GAT/NAT/HAT/USAT mini: Verbal, Quantitative, Analytical MCQ (full GAT is 100q / 120 min).",
       slots: [s("mcq", 4, "English"), s("mcq", 3, "Quantitative"), s("mcq", 3, "Analytical")],
+    };
+  }
+  if (testId === "grd-02") {
+    return {
+      minutes: 18,
+      negative: false,
+      negativeValue: 0,
+      note: "GAT-Subject mini: subject MCQs plus a short analytical block.",
+      slots: [s("mcq", 6, "Subject"), s("mcq", 4, "Analytical")],
+    };
+  }
+  if (["grd-04", "pro-07", "pro-12"].includes(testId)) {
+    return {
+      minutes: 22,
+      negative: false,
+      negativeValue: 0,
+      note: "LAT / Law-GAT mini: law MCQs + one short essay (HEC LAT often has an essay component).",
+      slots: [s("mcq", 4, "Law"), s("mcq", 2, "English"), s("mcq", 2, "Pakistan Studies"), s("long", 1, "English")],
     };
   }
   if (["int-01", "int-02"].includes(testId)) {
@@ -114,13 +132,22 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 4, "Verbal"), s("mcq", 4, "Quantitative"), s("long", 1, "Writing")],
     };
   }
-  if (testId === "psc-01" || category === "PSC" && testId.startsWith("psc-0") && Number(testId.slice(4)) <= 5) {
+  if (["psc-01", "psc-02", "psc-03", "psc-04", "psc-05"].includes(testId)) {
     return {
       minutes: 25,
       negative: true,
       negativeValue: 0.25,
       note: "CSS/PMS mix: a few MPT-style MCQs then written precis/short notes and one essay — not MCQ-only.",
       slots: [s("mcq", 4), s("short", 2), s("long", 1)],
+    };
+  }
+  if (["psc-06", "psc-07", "psc-08"].includes(testId)) {
+    return {
+      minutes: 16,
+      negative: true,
+      negativeValue: 0.25,
+      note: "PSC one-paper / general recruitment MCQ (English, Pak Studies, Islamiat, GK) — not CSS essays.",
+      slots: [s("mcq", 2, "English"), s("mcq", 2, "Pakistan Studies"), s("mcq", 2, "Islamiat"), s("mcq", 2, "GK"), s("mcq", 2, "Urdu")],
     };
   }
   if (category === "Judicial") {
@@ -141,22 +168,94 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 4, "Intelligence"), s("short", 3, "ISSB")],
     };
   }
+  if (["arm-02", "arm-03"].includes(testId)) {
+    return {
+      minutes: 16,
+      negative: false,
+      negativeValue: 0,
+      note: "PMA/Navy initial: intelligence + academic MCQ (English, maths, Islamiat, Pak Studies).",
+      slots: [s("mcq", 3, "Intelligence"), s("mcq", 2, "English"), s("mcq", 2, "Mathematics"), s("mcq", 2, "Pakistan Studies"), s("mcq", 1, "Islamiat")],
+    };
+  }
+  if (testId === "arm-04") {
+    return {
+      minutes: 16,
+      negative: false,
+      negativeValue: 0,
+      note: "PAF e-testing mini: intelligence + Physics/Maths/English (not ISSB WAT).",
+      slots: [s("mcq", 3, "Intelligence"), s("mcq", 3, "Physics"), s("mcq", 2, "Mathematics"), s("mcq", 2, "English")],
+    };
+  }
   if (["pro-01", "pro-02", "pro-03"].includes(testId)) {
     return {
       minutes: 20,
       negative: false,
       negativeValue: 0,
       note: "Professional paper: objective items plus one constructed-response scenario.",
-      slots: [s("mcq", 6), s("long", 1)],
+      slots: [s("mcq", 6, "Accounting"), s("long", 1, "FA")],
     };
   }
-  if (category === "Recruitment" || category === "Police" || category === "Banking" || category === "Teaching") {
+  if (testId === "pro-04") {
+    return {
+      minutes: 18,
+      negative: false,
+      negativeValue: 0,
+      note: "CFA L1-style: independent MCQs (Ethics, FRA, Quant) — no essay.",
+      slots: [s("mcq", 3, "Ethics"), s("mcq", 3, "FRA"), s("mcq", 2, "Quant"), s("mcq", 2, "FM")],
+    };
+  }
+  if (testId === "pro-09") {
+    return {
+      minutes: 18,
+      negative: false,
+      negativeValue: 0,
+      note: "NLE mini: clinical/basic science MCQs — not CSS GK.",
+      slots: [s("mcq", 6, "Biology"), s("mcq", 2, "English"), s("mcq", 2, "Logical Reasoning")],
+    };
+  }
+  if (category === "Banking") {
+    return {
+      minutes: 16,
+      negative: false,
+      negativeValue: 0,
+      note: "Bank MTO mini: English, Quant, Analytical, Banking GK.",
+      slots: [s("mcq", 3, "English"), s("mcq", 3, "Quantitative"), s("mcq", 2, "Analytical"), s("mcq", 2, "Banking GK")],
+    };
+  }
+  if (category === "Police") {
     return {
       minutes: 15,
-      negative: category === "Recruitment",
+      negative: false,
+      negativeValue: 0,
+      note: "Police written mini: Urdu, English, Islamiat, Pak Studies, GK (after physical).",
+      slots: [s("mcq", 2, "English"), s("mcq", 2, "Urdu"), s("mcq", 2, "Islamiat"), s("mcq", 2, "Pakistan Studies"), s("mcq", 2, "GK")],
+    };
+  }
+  if (category === "Teaching") {
+    return {
+      minutes: 16,
+      negative: false,
+      negativeValue: 0,
+      note: "Educators / SESE mini: English, Pedagogy, subject, GK/Islamiat/Pak Studies.",
+      slots: [s("mcq", 2, "English"), s("mcq", 3, "Pedagogy"), s("mcq", 2, "Subject"), s("mcq", 1, "GK"), s("mcq", 1, "Islamiat"), s("mcq", 1, "Pakistan Studies")],
+    };
+  }
+  if (testId === "rec-09") {
+    return {
+      minutes: 16,
+      negative: true,
       negativeValue: 0.25,
-      note: "Screening MCQ paper in this test’s subjects only.",
-      slots: [s("mcq", 10)],
+      note: "IT cadre mini: English, analytical, computer/IT MCQs.",
+      slots: [s("mcq", 3, "English"), s("mcq", 3, "Analytical"), s("mcq", 4, "Computer")],
+    };
+  }
+  if (category === "Recruitment") {
+    return {
+      minutes: 15,
+      negative: true,
+      negativeValue: 0.25,
+      note: "Testing-service screening: English, Analytical, GK, job-related MCQ.",
+      slots: [s("mcq", 3, "English"), s("mcq", 2, "Analytical"), s("mcq", 2, "GK"), s("mcq", 2, "Pakistan Studies"), s("mcq", 1, "Job related")],
     };
   }
   return {
