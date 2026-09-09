@@ -160,7 +160,7 @@ export function mixFor(testId: string, category: string): Omit<MCQ, "id" | "test
   const out: Omit<MCQ, "id" | "test_id">[] = [];
   out.push(...scienceFor(allowed));
   out.push(...civicFor(allowed));
-  out.push(...languageFor(testId, allowed));
+  out.push(...languageFor(testId));
   if (a.english) out.push(...ENGLISH);
   if (a.maths) out.push(...MATHS);
   if (a.analytical) out.push(...ANALYTICAL);

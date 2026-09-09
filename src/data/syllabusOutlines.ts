@@ -124,9 +124,43 @@ const GERMAN: OutlineRow[] = [
   { subject: "Vocabulary", topic: "Wortschatz", subtopic: "Family, work, housing, Behörden, study", weightage: 10 },
 ];
 
+const LCAT: OutlineRow[] = [
+  { subject: "Verbal", topic: "Reading comprehension", subtopic: "Short passages; main idea, inference, tone (LCAT verbal sections)", weightage: 20 },
+  { subject: "Verbal", topic: "Grammar & usage", subtopic: "Sentence correction, tenses, modifiers, parallelism", weightage: 15 },
+  { subject: "Verbal", topic: "Vocabulary in context", subtopic: "Words in sentences; no rote GK", weightage: 15 },
+  { subject: "Mathematics", topic: "Arithmetic", subtopic: "Percent, ratio, averages, word problems; no calculator", weightage: 15 },
+  { subject: "Mathematics", topic: "Algebra", subtopic: "Linear/quadratic equations, inequalities, functions", weightage: 15 },
+  { subject: "Mathematics", topic: "Geometry & data", subtopic: "Lines, triangles, circles, basic stats / graphs", weightage: 20 },
+];
+
+const IBA: OutlineRow[] = [
+  { subject: "English", topic: "Reading & grammar", subtopic: "Comprehension, error spotting, sentence completion (~half the paper)", weightage: 45 },
+  { subject: "English", topic: "Vocabulary", subtopic: "Synonyms/antonyms in context", weightage: 5 },
+  { subject: "Mathematics", topic: "Quantitative", subtopic: "Algebra, arithmetic, word problems (~half the paper)", weightage: 40 },
+  { subject: "Analytical", topic: "IQ / logic", subtopic: "Only if that year's IBA paper includes a small IQ block — confirm live notice", weightage: 10 },
+];
+
+const FAST: OutlineRow[] = [
+  { subject: "Mathematics", topic: "Calculus & algebra", subtopic: "FAST NU engineering/CS quantitative core", weightage: 30 },
+  { subject: "English", topic: "Verbal", subtopic: "Grammar and reading", weightage: 20 },
+  { subject: "Analytical", topic: "IQ", subtopic: "Patterns, logic", weightage: 20 },
+  { subject: "Physics", topic: "Mechanics & circuits", subtopic: "Engineering stream (CS may swap Computer)", weightage: 15 },
+  { subject: "Computer", topic: "Programming basics", subtopic: "CS/SE stream alternative to Physics", weightage: 15 },
+];
+
+const GIKI: OutlineRow[] = [
+  { subject: "Mathematics", topic: "Problem solving", subtopic: "Algebra, calculus, trig — GIKI aptitude (no Chemistry paper)", weightage: 40 },
+  { subject: "Physics", topic: "Mechanics & EM", subtopic: "FSc-level physics reasoning", weightage: 35 },
+  { subject: "English", topic: "Usage", subtopic: "Grammar and comprehension", weightage: 25 },
+];
+
 export function outlineFor(testId: string, category: string): OutlineRow[] | null {
   if (["adm-01", "adm-09", "adm-10", "adm-13", "adm-14", "adm-15"].includes(testId)) return MDCAT;
-  if (["adm-02", "adm-03", "adm-04", "adm-12"].includes(testId)) return ECAT;
+  if (["adm-02", "adm-03", "adm-12"].includes(testId)) return ECAT;
+  if (testId === "adm-04") return GIKI;
+  if (testId === "adm-05") return FAST;
+  if (testId === "adm-06") return LCAT;
+  if (testId === "adm-07") return IBA;
   if (["grd-01", "grd-03", "grd-05"].includes(testId)) return GAT;
   if (testId === "psc-01") return CSS;
   if (category === "Police") return POLICE;

@@ -22,16 +22,16 @@ function shuffle<T>(arr: T[]): T[] {
 function bankFor(testId: string): MCQ[] {
   const cat = TESTS.find((x) => x.id === testId)?.category ?? "Recruitment";
   const allowed = subjectsFor(testId, cat);
-  const existing = [
-    ...MCQS.filter((m) => m.test_id === testId),
-    ...publicMcqsFor(testId),
-    ...mixFor(testId, cat).map((m, i) => ({
-      ...m,
-      id: `${testId}-mix-${i}`,
-      test_id: testId,
-    })),
-  ].filter((m) => matchesSubject(m.subject, allowed));
-  return existing.length ? existing : publicMcqsFor(testId).filter((m) => matchesSubject(m.subject, allowed));
+  const mix = mixFor(testId, cat).map((m, i) => ({
+    ...m,
+    id: `${testId}-mix-${i}`,
+    test_id: testId,
+  }));
+  const pub = cat === "International" ? [] : publicMcqsFor(testId);
+  const existing = [...MCQS.filter((m) => m.test_id === testId), ...pub, ...mix].filter((m) =>
+    matchesSubject(m.subject, allowed)
+  );
+  return existing;
 }
 
 export const ALL_MCQS: MCQ[] = TESTS.flatMap((t) => bankFor(t.id));

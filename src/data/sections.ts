@@ -3,13 +3,18 @@ export function subjectsFor(testId: string, category: string): string[] {
   if (["adm-01", "adm-09", "adm-10", "adm-13", "adm-14", "adm-15"].includes(testId)) {
     return ["Biology", "Chemistry", "Physics", "English", "Logical Reasoning"];
   }
-  if (["adm-02", "adm-03", "adm-04", "adm-12"].includes(testId)) {
+  if (["adm-02", "adm-03", "adm-12"].includes(testId)) {
     return ["Mathematics", "Physics", "Chemistry", "English", "Intelligence"];
   }
-  if (["adm-05", "adm-07"].includes(testId)) {
+  if (testId === "adm-04") return ["Mathematics", "Physics", "English"];
+  if (testId === "adm-05") {
     return ["Mathematics", "English", "Analytical", "Physics", "Computer"];
   }
-  if (testId === "adm-06") return ["English", "Mathematics", "Analytical"];
+  if (testId === "adm-07") return ["English", "Mathematics", "Analytical"];
+  if (testId === "adm-06") return ["Verbal", "Mathematics"];
+  if (testId === "adm-08" || testId === "adm-11") {
+    return ["English", "Mathematics", "Analytical"];
+  }
   if (["grd-01", "grd-03", "grd-05"].includes(testId)) {
     return ["English", "Verbal", "Quantitative", "Mathematics", "Analytical"];
   }
@@ -53,6 +58,9 @@ export function subjectsFor(testId: string, category: string): string[] {
 }
 
 export function allowMix(testId: string, category: string) {
+  if (category === "International" && testId !== "int-13") {
+    return { english: false, maths: false, analytical: false };
+  }
   const s = subjectsFor(testId, category).map((x) => x.toLowerCase());
   return {
     english: s.some((x) => x.includes("english") || x.includes("verbal")),
@@ -62,28 +70,41 @@ export function allowMix(testId: string, category: string) {
 }
 
 const ALIASES: Record<string, string[]> = {
-  analytical: ["analytical", "logical", "intelligence", "iq", "reasoning"],
-  "logical reasoning": ["logical", "analytical", "reasoning", "intelligence"],
-  intelligence: ["intelligence", "analytical", "logical", "iq"],
-  quantitative: ["quant", "quantitative", "mathematics", "maths", "math"],
-  mathematics: ["math", "maths", "mathematics", "quantitative", "quant"],
-  quant: ["quant", "quantitative", "mathematics"],
-  english: ["english", "verbal", "essay"],
+  analytical: ["analytical", "logical reasoning", "intelligence"],
+  "logical reasoning": ["logical reasoning", "analytical"],
+  intelligence: ["intelligence"],
+  quantitative: ["quantitative", "quant", "mathematics", "maths"],
+  mathematics: ["mathematics", "maths", "math", "quantitative", "quant"],
+  quant: ["quant", "quantitative"],
+  english: ["english", "verbal"],
   verbal: ["verbal", "english"],
-  gk: ["gk", "current", "general"],
-  "current affairs": ["current", "gk"],
-  "pakistan studies": ["pakistan", "pak studies"],
-  "pakistan affairs": ["pakistan", "pak"],
-  computer: ["computer", "cs", "it"],
-  gsa: ["gsa", "science", "ability", "quant"],
+  gk: ["gk", "general knowledge"],
+  "current affairs": ["current affairs", "current"],
+  "pakistan studies": ["pakistan studies", "pak studies"],
+  "pakistan affairs": ["pakistan affairs"],
+  computer: ["computer"],
+  gsa: ["gsa"],
+  german: ["german"],
+  grammar: ["grammar"],
+  vocabulary: ["vocabulary", "vocab"],
+  listening: ["listening"],
+  reading: ["reading"],
+  writing: ["writing"],
+  speaking: ["speaking"],
+  maths: ["maths", "mathematics", "math"],
 };
 
+function norm(s: string) {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+}
+
+/** Question subject must belong to an allowed paper section — never leak Pak Studies into German. */
 export function matchesSubject(questionSubject: string, allowed: string[]) {
-  const q = questionSubject.toLowerCase();
+  const q = norm(questionSubject);
+  if (!q) return false;
   return allowed.some((a) => {
-    const x = a.toLowerCase();
-    if (q.includes(x) || x.includes(q.split(" ")[0]) || q.split(" ")[0] === x.split(" ")[0]) return true;
-    const keys = [...(ALIASES[x] ?? []), ...(ALIASES[q] ?? [])];
-    return keys.some((k) => q.includes(k) || x.includes(k));
+    const x = norm(a);
+    const keys = [x, ...(ALIASES[x] ?? [])];
+    return keys.some((k) => q === k || q.startsWith(k + " ") || q.endsWith(" " + k));
   });
 }
