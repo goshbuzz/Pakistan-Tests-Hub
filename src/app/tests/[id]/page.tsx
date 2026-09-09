@@ -4,8 +4,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import { ALL_ALERTS, ALL_MCQS, ALL_MOCKS, ALL_PAPERS, ALL_SYL, PREP_PACKS } from "@/data/coverage";
+import { ALL_ALERTS, ALL_MCQS, ALL_PAPERS, ALL_SYL, MOCK_SLOTS, PREP_PACKS, mockLevel } from "@/data/coverage";
 import { patternFor } from "@/data/patterns";
+import { subjectsFor } from "@/data/sections";
 import { JOBS } from "@/data/jobs";
 import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
@@ -27,8 +28,7 @@ export default function TestPage() {
 
   const syl = ALL_SYL.filter((s) => s.test_id === id);
   const papers = ALL_PAPERS.filter((s) => s.test_id === id);
-  const mcqs = ALL_MCQS.filter((s) => s.test_id === id && !s.topic.includes("paper set")).slice(0, 40);
-  const mock = ALL_MOCKS.find((s) => s.test_id === id);
+  const mcqs = ALL_MCQS.filter((s) => s.test_id === id).slice(0, 40);
   const alerts = ALL_ALERTS.filter((s) => s.test_id === id);
   const jobs = JOBS.filter((j) => j.test_id === id);
   const pack = PREP_PACKS.find((p) => p.test_id === id);
@@ -238,20 +238,21 @@ export default function TestPage() {
 
       {tab === "mock" && (
         <div className="mt-4 rounded-2xl border bg-white p-5">
-          {mock ? (
-            <>
-              <p className="text-sm text-stone-600">
-                {mock.question_count} questions · {mock.time_limit_minutes} minutes
-                {mock.negative_marking ? ` · negative marking −${mock.negative_value}` : " · no negative marking"}
-              </p>
-              <p className="mt-2 text-sm">Uses the 2025 past-year set for this test. Pick 2023/2024 under Past Papers for other years. Ads never run during the timer.</p>
-              <Link href={`/mock/${test.id}?year=2025`} className="mt-4 inline-block rounded-full bg-emerald-800 px-5 py-2 text-white">
-                {t.startMock}
+          <p className="text-sm text-stone-600">
+            10 mocks from this syllabus ({subjectsFor(test.id, test.category).join(", ")}). A new draw each start. 1–3 easy, 4–7 medium, 8–10 hard.
+          </p>
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
+            {MOCK_SLOTS.map((n) => (
+              <Link
+                key={n}
+                href={`/mock/${test.id}?year=2025&n=${n}`}
+                className="rounded-xl border bg-emerald-50 px-3 py-3 text-center text-sm font-medium text-emerald-900 hover:bg-emerald-100"
+              >
+                Mock {n}
+                <div className="text-[10px] uppercase text-stone-500">{mockLevel(n)}</div>
               </Link>
-            </>
-          ) : (
-            <p className="text-sm">Mock config uses the same template — add questions to enable the runner.</p>
-          )}
+            ))}
+          </div>
         </div>
       )}
 

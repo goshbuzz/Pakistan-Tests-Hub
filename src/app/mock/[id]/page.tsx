@@ -12,9 +12,10 @@ function MockInner() {
   const { id } = useParams<{ id: string }>();
   const sp = useSearchParams();
   const year = sp.get("year") ? Number(sp.get("year")) : 2025;
+  const n = sp.get("n") ? Number(sp.get("n")) : 1;
   const test = TESTS.find((x) => x.id === id);
   const cfg = ALL_MOCKS.find((x) => x.test_id === id);
-  const questions = useMemo(() => questionsForPaper(id, year), [id, year]);
+  const questions = useMemo(() => questionsForPaper(id, year, n), [id, year, n]);
   const { addAttempt, lang } = useStore();
   const t = dict[lang];
   const router = useRouter();
@@ -94,7 +95,7 @@ function MockInner() {
         <div className="flex items-center justify-between rounded-2xl bg-[#01411C] px-4 py-3 text-white">
           <div>
             <div className="text-xs opacity-80">
-              {test.name} {year ? `${year} pattern paper` : "mock"}
+              {test.name} · Mock {n} · {year}
             </div>
             <div className="font-semibold">
               Q {i + 1} / {questions.length}

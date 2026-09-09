@@ -3,189 +3,90 @@ import { TESTS } from "./tests";
 import { ALERTS, MCQS, MOCKS, PAST_PAPERS, SYLLABUS } from "./content";
 import { publicMcqsFor } from "./publicMcqs";
 import { mixFor } from "./mixQuestions";
+import { matchesSubject, subjectsFor } from "./sections";
 import { Alert, MCQ, MockConfig, PastPaper, PrepPack, SyllabusItem } from "@/lib/types";
+import { patternFor } from "./patterns";
 
 const YEARS = [2023, 2024, 2025];
 
-const CAT_SYL: Record<string, [string, string, string, number][]> = {
-  Admissions: [
-    ["English", "Usage", "Grammar and comprehension", 20],
-    ["Quantitative / sciences", "Core", "As per programme (maths/physics/bio)", 50],
-    ["Intelligence", "IQ", "Patterns and analysis", 15],
-    ["Interview / merit", "Board policy", "Confirm on official admissions page", 15],
-  ],
-  "Admissions-Grad": [
-    ["Verbal", "English", "GAT/NAT style", 30],
-    ["Quantitative", "Maths", "Arithmetic and algebra", 35],
-    ["Analytical", "Reasoning", "Arguments and data", 35],
-  ],
-  Recruitment: [
-    ["English", "MCQ", "Testing-service battery", 25],
-    ["Analytical", "IQ + quant", "Screening", 25],
-    ["GK", "Pakistan & current", "As advertised", 20],
-    ["Job related", "Subject", "Per project ad", 30],
-  ],
-  PSC: [
-    ["English", "Essay / precis / MCQ", "Commission pattern", 25],
-    ["Pakistan Studies / Islamiat / GK", "General", "Screening + written", 35],
-    ["Optional / professional", "As advertised", "PMS / general recruitment", 40],
-  ],
-  Banking: [
-    ["English", "Comprehension", "MTO/OG", 25],
-    ["Quantitative", "Numeracy", "Interest, data", 25],
-    ["Banking GK", "SBP & products", "AML/CFT basics", 30],
-    ["IQ", "Analytical", "Logic", 20],
-  ],
-  Police: [
-    ["Physical", "Standards", "As per rank advertisement", 30],
-    ["Written", "GK / Islamiat / Pak Studies / English", "MCQ", 50],
-    ["Interview", "Board", "After written", 20],
-  ],
-  Judicial: [
-    ["Civil law", "CPC / Contract", "High Court syllabus", 30],
-    ["Criminal law", "PPC / CrPC", "Written", 30],
-    ["Constitution", "Pakistan", "Jurisprudence", 20],
-    ["Judgment writing / viva", "Language", "English & Urdu", 20],
-  ],
-  Teaching: [
-    ["English", "Language", "Educators paper", 20],
-    ["Pedagogy", "Methods & assessment", "Classroom", 30],
-    ["Subject content", "As per scale", "SESE/SSE/etc.", 30],
-    ["GK / Islamiat / Pak Studies", "General", "One-paper", 20],
-  ],
-  "Armed Forces": [
-    ["Intelligence", "Verbal / non-verbal", "Initial test", 30],
-    ["Academic", "English, maths, GK, Islamiat", "MCQ", 30],
-    ["Physical", "Running / strength", "As notified", 20],
-    ["ISSB / medical", "Board", "After shortlist", 20],
-  ],
-  Professional: [
-    ["Core papers", "Professional syllabus", "See official body", 60],
-    ["Ethics / law", "Standards", "As applicable", 20],
-    ["Electives", "Options", "Per institute", 20],
-  ],
-};
-
-function hash(s: string) {
-  let h = 0;
-  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
-  return h;
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
-function bankFor(testId: string, name: string): MCQ[] {
+function bankFor(testId: string): MCQ[] {
+  const cat = TESTS.find((x) => x.id === testId)?.category ?? "Recruitment";
+  const allowed = subjectsFor(testId, cat);
   const existing = [
     ...MCQS.filter((m) => m.test_id === testId),
     ...publicMcqsFor(testId),
-    ...mixFor(testId, TESTS.find((x) => x.id === testId)?.category ?? "Recruitment").map((m, i) => ({
+    ...mixFor(testId, cat).map((m, i) => ({
       ...m,
       id: `${testId}-mix-${i}`,
       test_id: testId,
     })),
-  ];
-  const seeds: MCQ[] = [
-    q(testId, "English", "Grammar", `For ${name}: choose the correct article — “He is ___ honest officer.”`, ["a", "an", "the", "no article"], 1, "honest begins with a vowel sound."),
-    q(testId, "GK", "Pakistan", `National poet of Pakistan is generally regarded as:`, ["Mir Taqi Mir", "Allama Iqbal", "Ghalib", "Faiz only as national poet"], 1, "Allama Iqbal."),
-    q(testId, "Quant", "Arithmetic", `12.5% of 80 =`, ["8", "10", "12", "16"], 1, "10."),
-    q(testId, "Analytical", "Series", `2, 5, 10, 17, 26, ?`, ["35", "37", "39", "41"], 1, "+3,+5,+7,+9,+11 → 37."),
-    q(testId, "Islamiat", "Basics", `There are how many pillars of Islam?`, ["4", "5", "6", "7"], 1, "Five."),
-    q(testId, "Current", "Orgs", `Pakistan joined the UN in:`, ["1945", "1947", "1948", "1956"], 1, "30 September 1947."),
-    q(testId, "English", "Vocab", `Synonym of “brief”:`, ["lengthy", "concise", "noisy", "rare"], 1, "concise."),
-    q(testId, "Quant", "Ratio", `Divide 90 in 2:1. Larger part is:`, ["30", "45", "60", "75"], 2, "60."),
-  ];
-  const merged = [...existing];
-  seeds.forEach((s) => {
-    if (!merged.some((m) => m.question_text === s.question_text)) merged.push(s);
-  });
-  return merged;
+  ].filter((m) => matchesSubject(m.subject, allowed));
+  return existing.length ? existing : publicMcqsFor(testId).filter((m) => matchesSubject(m.subject, allowed));
 }
 
-function q(
-  test_id: string,
-  subject: string,
-  topic: string,
-  question_text: string,
-  options: string[],
-  correct_answer: number,
-  explanation: string
-): MCQ {
-  return {
-    id: `${test_id}-${hash(question_text).toString(16)}`,
-    test_id,
-    subject,
-    topic,
-    question_text,
-    options,
-    correct_answer,
-    explanation,
-    difficulty: "medium",
-    source: "ai_generated",
-  };
-}
-
-export const ALL_MCQS: MCQ[] = TESTS.flatMap((t) => {
-  const bank = bankFor(t.id, t.name);
-  const extras: MCQ[] = [];
-    YEARS.forEach((year) => {
-    bank.slice(0, 10).forEach((m, i) => {
-      extras.push({
-        ...m,
-        id: `${m.id}-y${year}-${i}`,
-        topic: `${m.topic} · ${year} paper set`,
-        source: "official",
-      });
-    });
-  });
-  return [...bank, ...extras];
-});
+export const ALL_MCQS: MCQ[] = TESTS.flatMap((t) => bankFor(t.id));
 
 export const ALL_SYL: SyllabusItem[] = TESTS.flatMap((t) => {
   const have = SYLLABUS.filter((s) => s.test_id === t.id);
   if (have.length) return have;
-  const rows = CAT_SYL[t.category] ?? CAT_SYL.Recruitment;
-  return rows.map((r, i) => ({
+  const subs = subjectsFor(t.id, t.category);
+  const w = Math.max(1, Math.round(100 / subs.length));
+  return subs.map((subject, i) => ({
     id: `${t.id}-gen-sy-${i}`,
     test_id: t.id,
-    subject: r[0],
-    topic: r[1],
-    subtopic: r[2],
-    weightage: r[3],
+    subject,
+    topic: `${subject} — current outline`,
+    subtopic: `${patternFor(t.id)} (syllabus_version ${t.last_updated})`,
+    weightage: w,
   }));
 });
 
 export const ALL_PAPERS: PastPaper[] = TESTS.flatMap((t) => {
-  const have = PAST_PAPERS.filter((p) => p.test_id === t.id);
   const years = YEARS.map((year) => ({
     id: `${t.id}-paper-${year}`,
     test_id: t.id,
     year,
-    conducting_body_variant: `${t.conducting_body} · pattern practice (not a leaked official PDF)`,
-    file_url: `/mock/${t.id}?year=${year}`,
-    source: t.official_url,
+    conducting_body_variant: `${t.conducting_body} · syllabus practice`,
+    file_url: `/mock/${t.id}?year=${year}&n=1`,
+    source: applyUrl(t.id, t.official_url),
     verified: false,
   }));
-  const official = {
-    id: `${t.id}-official-hub`,
-    test_id: t.id,
-    year: 2025,
-    conducting_body_variant: "Official conducting-body site",
-    file_url: applyUrl(t.id, t.official_url),
-    source: applyUrl(t.id, t.official_url),
-    verified: true,
-  };
-  return [...years, official, ...have.filter((p) => !years.some((y) => y.year === p.year && p.file_url.startsWith("http") === false))];
+  return [
+    ...years,
+    {
+      id: `${t.id}-official-hub`,
+      test_id: t.id,
+      year: 2025,
+      conducting_body_variant: "Official site",
+      file_url: applyUrl(t.id, t.official_url),
+      source: applyUrl(t.id, t.official_url),
+      verified: true,
+    },
+    ...PAST_PAPERS.filter((p) => p.test_id === t.id && p.file_url.startsWith("http")),
+  ];
 });
 
 export const ALL_MOCKS: MockConfig[] = TESTS.map((t) => {
   const have = MOCKS.find((m) => m.test_id === t.id);
-  if (have) return have;
-  return {
-    id: `mk-all-${t.id}`,
-    test_id: t.id,
-    time_limit_minutes: 12,
-    negative_marking: t.category === "PSC" || t.category === "Recruitment",
-    negative_value: t.category === "PSC" || t.category === "Recruitment" ? 0.25 : 0,
-    question_count: 8,
-  };
+  return (
+    have ?? {
+      id: `mk-all-${t.id}`,
+      test_id: t.id,
+      time_limit_minutes: 15,
+      negative_marking: t.category === "PSC" || t.category === "Recruitment",
+      negative_value: 0.25,
+      question_count: 12,
+    }
+  );
 });
 
 export const ALL_ALERTS: Alert[] = [
@@ -195,7 +96,7 @@ export const ALL_ALERTS: Alert[] = [
     test_id: t.id,
     type: "announcement" as const,
     title: `${t.name}: watch ${t.conducting_body}`,
-    body: `Registration, roll slips and results are only valid from ${t.official_url}. Sync jobs for saved tests in the Jobs tab.`,
+    body: `Syllabus version ${t.last_updated}. Official: ${applyUrl(t.id, t.official_url)}`,
     source_url: applyUrl(t.id, t.official_url),
     published_at: "2026-08-01T08:00:00Z",
   })),
@@ -218,32 +119,33 @@ function defaultDocs(cat: string): string[] {
     "Paid fee challan / bank deposit slip",
     "Email & mobile registered in your name",
   ];
-  if (cat === "Armed Forces")
-    return [...common, "Medical fitness awareness (eyes, BMI)", "NOC if already serving", "Hope certificate if result awaited"];
-  if (cat === "Police") return [...common, "Physical standard printout", "Character certificate if asked"];
-  if (cat === "Professional") return [...common, "Institute registration number", "Exemption letters if any"];
-  if (cat === "Admissions" || cat === "Admissions-Grad")
-    return [...common, "HSSC / bachelor result card", "Equivalence (IBCC/HEC) if foreign"];
+  if (cat === "Armed Forces") return [...common, "Medical fitness awareness", "NOC if serving"];
+  if (cat === "Police") return [...common, "Physical standard printout"];
+  if (cat === "Professional") return [...common, "Institute registration number"];
+  if (cat === "Admissions" || cat === "Admissions-Grad") return [...common, "HSSC / bachelor result card"];
   return common;
 }
 
-export function questionsForPaper(testId: string, year?: number): MCQ[] {
-  const y = year ?? 2025;
-  const all = ALL_MCQS.filter((m) => m.test_id === testId);
-  const unique = all.filter((m) => !m.topic.includes("paper set"));
-  const eng = unique.filter((m) => m.subject === "English" && (m.kind ?? "mcq") === "mcq").slice(0, 3);
-  const math = unique.filter((m) => (m.subject === "Mathematics" || m.subject === "Quant") && (m.kind ?? "mcq") === "mcq").slice(0, 3);
-  const an = unique.filter((m) => m.subject === "Analytical" && (m.kind ?? "mcq") === "mcq").slice(0, 2);
-  const short = unique.filter((m) => m.kind === "short" || m.kind === "long").slice(0, 2);
-  const rest = unique.filter((m) => (m.kind ?? "mcq") === "mcq").slice(0, 10);
-  const mix = [...eng, ...math, ...an, ...short];
-  const seen = new Set<string>();
-  const out: MCQ[] = [];
-  for (const q of [...mix, ...rest]) {
-    if (seen.has(q.id)) continue;
-    seen.add(q.id);
-    out.push({ ...q, topic: `${q.topic} · ${y} paper set` });
-    if (out.length >= 12) break;
-  }
-  return out;
+export function mockLevel(n: number): "easy" | "medium" | "hard" {
+  if (n <= 3) return "easy";
+  if (n <= 7) return "medium";
+  return "hard";
 }
+
+/** Fresh draw every call so opening a mock is not the same paper twice. */
+export function questionsForPaper(testId: string, year?: number, mockN = 1): MCQ[] {
+  const cat = TESTS.find((x) => x.id === testId)?.category ?? "Recruitment";
+  const allowed = subjectsFor(testId, cat);
+  const unique = ALL_MCQS.filter((m) => m.test_id === testId && matchesSubject(m.subject, allowed));
+  const n = Math.min(10, Math.max(1, mockN));
+  const lvl = mockLevel(n);
+  let pool = unique.filter((m) => (m.difficulty ?? "medium") === lvl);
+  if (pool.length < 8) pool = unique;
+  const picked = shuffle(pool).slice(0, 12);
+  return picked.map((q) => ({
+    ...q,
+    topic: `${q.topic} · L${n} ${lvl} · ${year ?? 2025}`,
+  }));
+}
+
+export const MOCK_SLOTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
