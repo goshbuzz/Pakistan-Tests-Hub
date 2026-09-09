@@ -197,7 +197,7 @@ const extraIds: {
   },
   {
     id: "pol-01",
-    url: "https://www.punjabpolice.gov.pk",
+    url: "https://www.punjabpolice.gov.pk/punjabpolice-jobs",
     topics: [
       ["Physical", "Standards", "Height, chest, running as advertised", 25],
       ["Written", "Urdu / English / Islamiat / Pak Studies / GK", "MCQ paper", 50],

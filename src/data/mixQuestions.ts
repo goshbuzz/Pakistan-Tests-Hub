@@ -2,6 +2,7 @@ import { MCQ } from "@/lib/types";
 import { HAS_LONG } from "./patterns";
 import { allowMix, subjectsFor } from "./sections";
 import { scienceFor } from "./scienceBank";
+import { civicFor } from "./civicBank";
 
 function item(
   kind: MCQ["kind"],
@@ -157,6 +158,7 @@ export function mixFor(testId: string, category: string): Omit<MCQ, "id" | "test
   const allowed = subjectsFor(testId, category);
   const out: Omit<MCQ, "id" | "test_id">[] = [];
   out.push(...scienceFor(allowed));
+  out.push(...civicFor(allowed));
   if (a.english) out.push(...ENGLISH);
   if (a.maths) out.push(...MATHS);
   if (a.analytical) out.push(...ANALYTICAL);

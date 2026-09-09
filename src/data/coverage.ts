@@ -38,14 +38,18 @@ export const ALL_MCQS: MCQ[] = TESTS.flatMap((t) => bankFor(t.id));
 
 export const ALL_SYL: SyllabusItem[] = TESTS.flatMap((t) => {
   const have = SYLLABUS.filter((s) => s.test_id === t.id);
-  if (have.length) return have;
   const outline = outlineFor(t.id, t.category);
-  const rows = outline ?? subjectsFor(t.id, t.category).map((subject) => ({
-    subject,
-    topic: `${subject} — current outline`,
-    subtopic: patternFor(t.id),
-    weightage: Math.max(1, Math.round(100 / subjectsFor(t.id, t.category).length)),
-  }));
+  const rows =
+    outline && outline.length >= (have.length || 0)
+      ? outline
+      : have.length
+        ? have
+        : subjectsFor(t.id, t.category).map((subject) => ({
+            subject,
+            topic: `${subject} — current outline`,
+            subtopic: patternFor(t.id),
+            weightage: Math.max(1, Math.round(100 / subjectsFor(t.id, t.category).length)),
+          }));
   return rows.map((r, i) => ({
     id: `${t.id}-gen-sy-${i}`,
     test_id: t.id,
