@@ -8,6 +8,8 @@ import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
 import { Logo } from "@/components/Logo";
+import { FaqList } from "@/components/FaqList";
+import { GLOBAL_FAQS } from "@/data/faqs";
 
 export default function Home() {
   const { lang, user, saved, streak, points } = useStore();
@@ -127,6 +129,12 @@ export default function Home() {
           })}
         </ul>
       </section>
+      <p className="text-center text-sm">
+        <Link href="/faq" className="text-emerald-800 underline">
+          Full FAQ for government jobs &amp; test prep
+        </Link>
+      </p>
+      <FaqList items={GLOBAL_FAQS.slice(0, 6)} />
     </div>
   );
 }

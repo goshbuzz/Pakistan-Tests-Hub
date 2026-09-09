@@ -110,6 +110,18 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </Link>
         ))}
       </nav>
+      <footer className="mx-auto max-w-6xl px-4 pb-28 pt-8 text-xs text-stone-500">
+        <p className="font-medium text-stone-700">Pakistan Tests Hub — free CSS, MDCAT, PPSC, FPSC, NTS, ISSB, IELTS prep</p>
+        <nav className="mt-2 flex flex-wrap gap-3">
+          <Link href="/faq">FAQ</Link>
+          <Link href="/jobs">Government jobs</Link>
+          <Link href="/explore">All tests</Link>
+          <Link href="/alerts">Alerts</Link>
+        </nav>
+        <p className="mt-2">
+          For job seekers and fresh graduates in Pakistan. Apply only on official FPSC, PPSC, NTS and university sites.
+        </p>
+      </footer>
       <InstallPrompt />
     </div>
   );

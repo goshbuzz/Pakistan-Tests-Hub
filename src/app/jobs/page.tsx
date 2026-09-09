@@ -5,6 +5,8 @@ import { JOBS } from "@/data/jobs";
 import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
+import { FaqList } from "@/components/FaqList";
+import { GLOBAL_FAQS } from "@/data/faqs";
 
 export default function JobsPage() {
   const { lang, saved, jobFollow, lastSync, markSynced } = useStore();
@@ -56,6 +58,7 @@ export default function JobsPage() {
           );
         })}
       </ul>
+      <FaqList items={GLOBAL_FAQS.filter((_, i) => [1, 5, 6, 8].includes(i))} title="Jobs FAQ" />
     </div>
   );
 }
