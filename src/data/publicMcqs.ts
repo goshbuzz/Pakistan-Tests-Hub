@@ -43,6 +43,7 @@ const FACTS: Omit<MCQ, "id" | "test_id">[] = [
 export function publicMcqsFor(testId: string): MCQ[] {
   return FACTS.map((f, i) => ({
     ...f,
+    kind: "mcq" as const,
     id: `${testId}-pub-${i}`,
     test_id: testId,
   }));

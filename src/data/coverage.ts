@@ -4,6 +4,7 @@ import { ALERTS, MCQS, MOCKS, PAST_PAPERS, SYLLABUS } from "./content";
 import { publicMcqsFor } from "./publicMcqs";
 import { mixFor } from "./mixQuestions";
 import { matchesSubject, subjectsFor } from "./sections";
+import { outlineFor } from "./syllabusOutlines";
 import { Alert, MCQ, MockConfig, PastPaper, PrepPack, SyllabusItem } from "@/lib/types";
 import { patternFor } from "./patterns";
 
@@ -38,15 +39,20 @@ export const ALL_MCQS: MCQ[] = TESTS.flatMap((t) => bankFor(t.id));
 export const ALL_SYL: SyllabusItem[] = TESTS.flatMap((t) => {
   const have = SYLLABUS.filter((s) => s.test_id === t.id);
   if (have.length) return have;
-  const subs = subjectsFor(t.id, t.category);
-  const w = Math.max(1, Math.round(100 / subs.length));
-  return subs.map((subject, i) => ({
-    id: `${t.id}-gen-sy-${i}`,
-    test_id: t.id,
+  const outline = outlineFor(t.id, t.category);
+  const rows = outline ?? subjectsFor(t.id, t.category).map((subject) => ({
     subject,
     topic: `${subject} — current outline`,
-    subtopic: `${patternFor(t.id)} (syllabus_version ${t.last_updated})`,
-    weightage: w,
+    subtopic: patternFor(t.id),
+    weightage: Math.max(1, Math.round(100 / subjectsFor(t.id, t.category).length)),
+  }));
+  return rows.map((r, i) => ({
+    id: `${t.id}-gen-sy-${i}`,
+    test_id: t.id,
+    subject: r.subject,
+    topic: r.topic,
+    subtopic: `${r.subtopic} · v${t.last_updated}`,
+    weightage: r.weightage,
   }));
 });
 

@@ -54,10 +54,29 @@ export function allowMix(testId: string, category: string) {
   };
 }
 
+const ALIASES: Record<string, string[]> = {
+  analytical: ["analytical", "logical", "intelligence", "iq", "reasoning"],
+  "logical reasoning": ["logical", "analytical", "reasoning", "intelligence"],
+  intelligence: ["intelligence", "analytical", "logical", "iq"],
+  quantitative: ["quant", "quantitative", "mathematics", "maths", "math"],
+  mathematics: ["math", "maths", "mathematics", "quantitative", "quant"],
+  quant: ["quant", "quantitative", "mathematics"],
+  english: ["english", "verbal", "essay"],
+  verbal: ["verbal", "english"],
+  gk: ["gk", "current", "general"],
+  "current affairs": ["current", "gk"],
+  "pakistan studies": ["pakistan", "pak studies"],
+  "pakistan affairs": ["pakistan", "pak"],
+  computer: ["computer", "cs", "it"],
+  gsa: ["gsa", "science", "ability", "quant"],
+};
+
 export function matchesSubject(questionSubject: string, allowed: string[]) {
   const q = questionSubject.toLowerCase();
   return allowed.some((a) => {
     const x = a.toLowerCase();
-    return q.includes(x) || x.includes(q.split(" ")[0]);
+    if (q.includes(x) || x.includes(q.split(" ")[0]) || q.split(" ")[0] === x.split(" ")[0]) return true;
+    const keys = [...(ALIASES[x] ?? []), ...(ALIASES[q] ?? [])];
+    return keys.some((k) => q.includes(k) || x.includes(k));
   });
 }
