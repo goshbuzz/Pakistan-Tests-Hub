@@ -147,6 +147,16 @@ export const STUDY_GUIDES: Guide[] = [
     body: "100 MCQ / 120 min: Verbal, Quantitative, Analytical (A/B/C share). No Pakistan Studies. Analogies and analytic games need daily 20-minute drills. HEC/NTS passing marks depend on the university — check the programme, not rumours.",
   },
   {
+    test_id: "psc-02",
+    title: "PMS Punjab without an academy",
+    body: "PPSC PMS: screening MCQ then written English/Urdu/Islamiat/Pak Studies/optionals (long answers) then interview. Read the live PPSC syllabus booklet. Apply only on ppsc.gop.pk. Mocks here mix a few MCQs with short notes and one essay — not the full written diet.",
+  },
+  {
+    test_id: "pro-02",
+    title: "CA (ICAP) self-study",
+    body: "PRC is mostly objective; CAF mixes objective and long questions; CFAP/MSA are professional written. Use ICAP study packs and past attempts from student.icap.org.pk. This hub’s mocks are accounting MCQs plus one constructed scenario — not a full CAF paper.",
+  },
+  {
     test_id: "psc-07",
     title: "PPSC one-paper jobs",
     body: "Most general posts: one MCQ paper (English, Urdu, Islamiat, Pak Studies, GK, job-related) then interview. Read the advertisement’s syllabus line-by-line. Apply only on ppsc.gop.pk.",

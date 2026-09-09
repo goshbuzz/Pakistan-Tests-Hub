@@ -11,7 +11,7 @@ export function subjectsFor(testId: string, category: string): string[] {
     return ["Mathematics", "English", "Analytical", "Physics", "Computer"];
   }
   if (testId === "adm-07") return ["English", "Mathematics", "Analytical"];
-  if (testId === "adm-06") return ["Verbal", "Mathematics"];
+  if (testId === "adm-06") return ["Verbal", "English", "Mathematics"];
   if (testId === "adm-08" || testId === "adm-11") {
     return ["English", "Mathematics", "Analytical"];
   }
@@ -91,7 +91,7 @@ const ALIASES: Record<string, string[]> = {
   quantitative: ["quantitative", "quant", "mathematics", "maths"],
   mathematics: ["mathematics", "maths", "math", "quantitative", "quant"],
   quant: ["quant", "quantitative"],
-  english: ["english", "verbal"],
+  english: ["english"],
   verbal: ["verbal", "english"],
   gk: ["gk", "general knowledge"],
   "current affairs": ["current affairs", "current"],
@@ -128,9 +128,43 @@ function norm(s: string) {
   return s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
+const CANON: Record<string, string> = {
+  maths: "Mathematics",
+  math: "Mathematics",
+  quant: "Quantitative",
+  "pak studies": "Pakistan Studies",
+  civics: "Pakistan Studies",
+  current: "Current Affairs",
+  banking: "Banking GK",
+  iq: "Analytical",
+  psychology: "ISSB",
+  gto: "ISSB",
+  interview: "ISSB",
+  screening: "ISSB",
+  cpc: "Civil law",
+  ppc: "Criminal law",
+  crpc: "Criminal law",
+  costing: "Accounting",
+  pec: "Ethics",
+  cpd: "Ethics",
+  prc: "Accounting",
+  caf: "Accounting",
+  professional: "GK",
+  economics: "Banking GK",
+  punjab: "GK",
+};
+
+export function canonicalizeSubject(subject: string) {
+  const n = norm(subject);
+  if (CANON[n]) return CANON[n];
+  const first = n.split(" ")[0];
+  if (CANON[first]) return CANON[first];
+  return subject.trim();
+}
+
 /** Question subject must belong to an allowed paper section — never leak Pak Studies into German. */
 export function matchesSubject(questionSubject: string, allowed: string[]) {
-  const q = norm(questionSubject);
+  const q = norm(canonicalizeSubject(questionSubject));
   if (!q) return false;
   return allowed.some((a) => {
     const x = norm(a);

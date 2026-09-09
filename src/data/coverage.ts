@@ -3,7 +3,7 @@ import { TESTS } from "./tests";
 import { ALERTS, MCQS, PAST_PAPERS, SYLLABUS } from "./content";
 import { publicMcqsFor } from "./publicMcqs";
 import { mixFor } from "./mixQuestions";
-import { matchesSubject, subjectsFor } from "./sections";
+import { canonicalizeSubject, matchesSubject, subjectsFor } from "./sections";
 import { outlineFor } from "./syllabusOutlines";
 import { Alert, MCQ, MockConfig, PastPaper, PrepPack, SyllabusItem } from "@/lib/types";
 import { patternFor } from "./patterns";
@@ -31,7 +31,9 @@ function bankFor(testId: string): MCQ[] {
     test_id: testId,
   }));
   const pub = cat === "International" ? [] : publicMcqsFor(testId);
-  return [...MCQS.filter((m) => m.test_id === testId), ...pub, ...mix].filter((m) => matchesSubject(m.subject, allowed));
+  return [...MCQS.filter((m) => m.test_id === testId), ...pub, ...mix]
+    .map((m) => ({ ...m, subject: canonicalizeSubject(m.subject) }))
+    .filter((m) => matchesSubject(m.subject, allowed));
 }
 
 export const ALL_MCQS: MCQ[] = TESTS.flatMap((t) => bankFor(t.id));
