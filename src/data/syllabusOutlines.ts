@@ -55,11 +55,66 @@ const POLICE: OutlineRow[] = [
   { subject: "GK", topic: "Current & everyday", subtopic: "Pakistan current affairs, basic science, computer", weightage: 25 },
 ];
 
+const BANKING: OutlineRow[] = [
+  { subject: "English", topic: "Verbal", subtopic: "Grammar, comprehension, precis-style MCQ", weightage: 25 },
+  { subject: "Quantitative", topic: "Arithmetic", subtopic: "Percent, interest, ratio, averages, data", weightage: 25 },
+  { subject: "Analytical", topic: "Reasoning", subtopic: "Puzzles, syllogism, series", weightage: 15 },
+  { subject: "Banking GK", topic: "SBP & industry", subtopic: "Monetary policy, products, AML/CFT, digital banking", weightage: 25 },
+  { subject: "Computer", topic: "Office & ops", subtopic: "MS Office, basic IT as per bank ad", weightage: 10 },
+];
+
+const TEACHING: OutlineRow[] = [
+  { subject: "English", topic: "Language", subtopic: "Grammar and pedagogy of English", weightage: 20 },
+  { subject: "Pedagogy", topic: "Methods", subtopic: "Bloom, classroom management, assessment", weightage: 25 },
+  { subject: "Subject", topic: "Content", subtopic: "As per SESE/SSE/educator scale advertised", weightage: 25 },
+  { subject: "GK", topic: "Pakistan", subtopic: "Current affairs and everyday science", weightage: 10 },
+  { subject: "Islamiat", topic: "Basics", subtopic: "Ibadat and Islamic history", weightage: 10 },
+  { subject: "Pakistan Studies", topic: "Civics", subtopic: "Movement, constitution, geography", weightage: 10 },
+];
+
+const JUDICIAL: OutlineRow[] = [
+  { subject: "Civil law", topic: "CPC", subtopic: "Jurisdiction, pleadings, decree, execution (long papers)", weightage: 20 },
+  { subject: "Criminal law", topic: "PPC & CrPC", subtopic: "Offences, investigation, trial, bail", weightage: 20 },
+  { subject: "Constitution", topic: "1973 Constitution", subtopic: "Fundamental rights, judiciary, federation", weightage: 15 },
+  { subject: "Law", topic: "Evidence & limitation", subtopic: "QSO / Evidence Act themes, Limitation Act", weightage: 20 },
+  { subject: "English", topic: "Judgment writing", subtopic: "Issues, findings, relief (long)", weightage: 25 },
+];
+
+const ARMED: OutlineRow[] = [
+  { subject: "Intelligence", topic: "Verbal & non-verbal", subtopic: "Initial ISSB/PMA screening batteries", weightage: 25 },
+  { subject: "English", topic: "Usage", subtopic: "Grammar and vocabulary", weightage: 15 },
+  { subject: "Mathematics", topic: "Matric/FA maths", subtopic: "Arithmetic and algebra for initial tests", weightage: 15 },
+  { subject: "Islamiat", topic: "Fundamentals", subtopic: "As in academic MCQ", weightage: 10 },
+  { subject: "Pakistan Studies", topic: "History", subtopic: "Pakistan movement and geography", weightage: 10 },
+  { subject: "GK", topic: "Current", subtopic: "Defence and current affairs", weightage: 10 },
+  { subject: "Physics", topic: "PAF/Navy academic", subtopic: "When the branch paper includes physics", weightage: 15 },
+];
+
+const LAT: OutlineRow[] = [
+  { subject: "Law", topic: "Intro to law", subtopic: "Legal system of Pakistan, constitution basics", weightage: 40 },
+  { subject: "English", topic: "Language", subtopic: "MCQ + essay component as HEC notifies", weightage: 30 },
+  { subject: "Pakistan Studies", topic: "Civics", subtopic: "Institutions and rights", weightage: 15 },
+  { subject: "Islamiat", topic: "Ethics / Islamiat", subtopic: "As per LAT ad", weightage: 15 },
+];
+
+const NLE: OutlineRow[] = [
+  { subject: "Biology", topic: "Clinical sciences", subtopic: "NLE / PMDC licensing blueprint (medicine, surgery, pediatrics, gynae)", weightage: 40 },
+  { subject: "Biology", topic: "Basic sciences", subtopic: "Anatomy, physiology, pathology, pharmacology", weightage: 35 },
+  { subject: "English", topic: "Communication", subtopic: "Professional English as weighted in NLE notices", weightage: 10 },
+  { subject: "Logical Reasoning", topic: "Ethics & reasoning", subtopic: "Professionalism items when included", weightage: 15 },
+];
+
 export function outlineFor(testId: string, category: string): OutlineRow[] | null {
-  if (["adm-01", "adm-09", "adm-13", "adm-14", "adm-15"].includes(testId)) return MDCAT;
+  if (["adm-01", "adm-09", "adm-10", "adm-13", "adm-14", "adm-15"].includes(testId)) return MDCAT;
   if (["adm-02", "adm-03", "adm-04", "adm-12"].includes(testId)) return ECAT;
   if (["grd-01", "grd-03", "grd-05"].includes(testId)) return GAT;
   if (testId === "psc-01") return CSS;
   if (category === "Police") return POLICE;
+  if (category === "Banking") return BANKING;
+  if (category === "Teaching") return TEACHING;
+  if (category === "Judicial") return JUDICIAL;
+  if (category === "Armed Forces") return ARMED;
+  if (["pro-07", "pro-12", "grd-04"].includes(testId)) return LAT;
+  if (testId === "pro-09") return NLE;
   return null;
 }

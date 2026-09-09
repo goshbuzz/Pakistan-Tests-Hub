@@ -15,7 +15,8 @@ function MockInner() {
   const n = sp.get("n") ? Number(sp.get("n")) : 1;
   const test = TESTS.find((x) => x.id === id);
   const cfg = ALL_MOCKS.find((x) => x.test_id === id);
-  const questions = useMemo(() => questionsForPaper(id, year, n), [id, year, n]);
+  const r = sp.get("r") ?? "";
+  const questions = useMemo(() => questionsForPaper(id, year, n, r), [id, year, n, r]);
   const { addAttempt, lang } = useStore();
   const t = dict[lang];
   const router = useRouter();
@@ -26,6 +27,14 @@ function MockInner() {
   const [left, setLeft] = useState((cfg?.time_limit_minutes ?? 10) * 60);
   const [done, setDone] = useState(false);
   const [showAd, setShowAd] = useState(false);
+
+  useEffect(() => {
+    setI(0);
+    setAns({});
+    setWritten({});
+    setDone(false);
+    setShowModel(false);
+  }, [id, year, n, r]);
 
   useEffect(() => {
     if (done) return;
@@ -95,7 +104,7 @@ function MockInner() {
         <div className="flex items-center justify-between rounded-2xl bg-[#01411C] px-4 py-3 text-white">
           <div>
             <div className="text-xs opacity-80">
-              {test.name} · Mock {n} · {year}
+              {test.name} · Mock {n} ({questions[0]?.topic.includes("easy") ? "easy" : questions[0]?.topic.includes("hard") ? "hard" : "medium"}) · {year}
             </div>
             <div className="font-semibold">
               Q {i + 1} / {questions.length}
@@ -139,9 +148,16 @@ function MockInner() {
               {showModel && <p className="mt-2 text-sm text-emerald-900">{q.model_answer}</p>}
             </div>
           )}
-          <div className="mt-6 flex justify-between">
+          <div className="mt-6 flex justify-between gap-2">
             <button disabled={i === 0} onClick={() => setI(i - 1)} className="rounded-full border px-4 py-2 text-sm disabled:opacity-40">
               Prev
+            </button>
+            <button
+              type="button"
+              className="rounded-full border px-3 py-2 text-xs"
+              onClick={() => router.replace(`/mock/${id}?year=${year}&n=${n}&r=${Date.now()}`)}
+            >
+              New draw
             </button>
             {i < questions.length - 1 ? (
               <button onClick={() => setI(i + 1)} className="rounded-full bg-emerald-800 px-4 py-2 text-sm text-white">

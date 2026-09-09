@@ -138,18 +138,52 @@ export function mockLevel(n: number): "easy" | "medium" | "hard" {
   return "hard";
 }
 
+function pickBalanced(pool: MCQ[], want: number): MCQ[] {
+  const groups = new Map<string, MCQ[]>();
+  shuffle(pool).forEach((m) => {
+    const k = m.subject.split("(")[0].trim();
+    groups.set(k, [...(groups.get(k) ?? []), m]);
+  });
+  const keys = shuffle(Array.from(groups.keys()));
+  const picked: MCQ[] = [];
+  const seen = new Set<string>();
+  let guard = 0;
+  while (picked.length < want && guard < 400) {
+    guard += 1;
+    for (const k of keys) {
+      const bucket = groups.get(k) ?? [];
+      while (bucket.length) {
+        const q = bucket.shift()!;
+        if (seen.has(q.question_text)) continue;
+        seen.add(q.question_text);
+        picked.push(q);
+        break;
+      }
+      if (picked.length >= want) break;
+    }
+    if (keys.every((k) => !(groups.get(k) ?? []).length)) break;
+  }
+  return picked;
+}
+
 /** Fresh draw every call so opening a mock is not the same paper twice. */
-export function questionsForPaper(testId: string, year?: number, mockN = 1): MCQ[] {
+export function questionsForPaper(testId: string, year?: number, mockN = 1, salt = ""): MCQ[] {
   const cat = TESTS.find((x) => x.id === testId)?.category ?? "Recruitment";
   const allowed = subjectsFor(testId, cat);
   const unique = ALL_MCQS.filter((m) => m.test_id === testId && matchesSubject(m.subject, allowed));
   const n = Math.min(10, Math.max(1, mockN));
   const lvl = mockLevel(n);
   let pool = unique.filter((m) => (m.difficulty ?? "medium") === lvl);
+  if (pool.length < 8) {
+    if (lvl === "hard") pool = unique.filter((m) => (m.difficulty ?? "medium") !== "easy");
+    else if (lvl === "easy") pool = unique.filter((m) => (m.difficulty ?? "medium") !== "hard");
+    else pool = unique;
+  }
   if (pool.length < 8) pool = unique;
-  const picked = shuffle(pool).slice(0, 12);
+  const picked = pickBalanced(pool, 12);
   return picked.map((q) => ({
     ...q,
+    id: `${q.id}-m${n}-${salt || Math.random().toString(36).slice(2, 7)}`,
     topic: `${q.topic} · L${n} ${lvl} · ${year ?? 2025}`,
   }));
 }

@@ -1,6 +1,6 @@
 /** Which subjects belong on this test. Used so MDCAT never gets GAT quant, etc. */
 export function subjectsFor(testId: string, category: string): string[] {
-  if (["adm-01", "adm-09", "adm-13", "adm-14", "adm-15"].includes(testId)) {
+  if (["adm-01", "adm-09", "adm-10", "adm-13", "adm-14", "adm-15"].includes(testId)) {
     return ["Biology", "Chemistry", "Physics", "English", "Logical Reasoning"];
   }
   if (["adm-02", "adm-03", "adm-04", "adm-12"].includes(testId)) {
