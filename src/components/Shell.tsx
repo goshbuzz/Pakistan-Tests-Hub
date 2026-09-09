@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { TESTS } from "@/data/tests";
+import { Logo } from "@/components/Logo";
+import { InstallPrompt } from "@/components/InstallPrompt";
 
 export function Shell({ children }: { children: React.ReactNode }) {
   const { lang, user, streak } = useStore();
@@ -43,9 +45,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <header className="sticky top-0 z-40 border-b border-emerald-900/10 bg-[#01411C] text-white">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
           <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#C5A44E] text-sm text-[#01411C]">
-              PK
-            </span>
+            <Logo size={32} />
             <span className="hidden sm:inline">{t.app}</span>
           </Link>
           <div className="relative flex-1">
@@ -110,6 +110,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </Link>
         ))}
       </nav>
+      <InstallPrompt />
     </div>
   );
 }

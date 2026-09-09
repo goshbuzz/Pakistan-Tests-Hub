@@ -1,0 +1,27 @@
+{
+  "name": "Pakistan Tests Hub",
+  "short_name": "PK Tests",
+  "description": "MDCAT, CSS, NTS, ISSB and 60+ Pakistan tests — syllabus, mocks, jobs.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#01411C",
+  "theme_color": "#01411C",
+  "lang": "en",
+  "dir": "auto",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

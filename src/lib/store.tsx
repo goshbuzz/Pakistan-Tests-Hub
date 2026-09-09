@@ -3,6 +3,15 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { MockAttempt, User } from "./types";
 import { Lang } from "./i18n";
+import { authUser, createUser, kvGet, kvSet, logEvent } from "./db";
+import { notifyLocal } from "./notify";
+
+export type NotifyPrefs = {
+  enabled: boolean;
+  jobs: boolean;
+  alerts: boolean;
+  mocks: boolean;
+};
 
 type Store = {
   user: User | null;
@@ -18,7 +27,11 @@ type Store = {
   lastSync: string | null;
   jobFollow: string[];
   docsDone: Record<string, string[]>;
+  notify: NotifyPrefs;
+  dbReady: boolean;
   login: (name: string, email: string) => void;
+  registerLocal: (name: string, email: string, password: string) => Promise<void>;
+  loginLocal: (email: string, password: string) => Promise<void>;
   logout: () => void;
   setLang: (l: Lang) => void;
   toggleSave: (id: string) => void;
@@ -28,13 +41,50 @@ type Store = {
   markSynced: () => void;
   toggleJobFollow: (testId: string) => void;
   toggleDoc: (testId: string, doc: string) => void;
+  setNotify: (p: Partial<NotifyPrefs>) => void;
 };
 
 const Ctx = createContext<Store | null>(null);
 const KEY = "pth-store-v1";
+const defaultNotify: NotifyPrefs = { enabled: false, jobs: true, alerts: true, mocks: false };
+
+function snapshot(s: {
+  user: User | null;
+  lang: Lang;
+  saved: string[];
+  syllabusDone: Record<string, string[]>;
+  attempts: MockAttempt[];
+  points: number;
+  streak: number;
+  lastActive: string | null;
+  badges: string[];
+  pendingQueue: { testId: string; note: string }[];
+  lastSync: string | null;
+  jobFollow: string[];
+  docsDone: Record<string, string[]>;
+  notify: NotifyPrefs;
+}) {
+  return {
+    user: s.user,
+    lang: s.lang,
+    saved: s.saved,
+    syllabusDone: s.syllabusDone,
+    attempts: s.attempts,
+    points: s.points,
+    streak: s.streak,
+    lastActive: s.lastActive,
+    badges: s.badges,
+    pendingQueue: s.pendingQueue,
+    lastSync: s.lastSync,
+    jobFollow: s.jobFollow,
+    docsDone: s.docsDone,
+    notify: s.notify,
+  };
+}
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [hydrated, setHydrated] = useState(false);
+  const [dbReady, setDbReady] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [lang, setLang] = useState<Lang>("en");
   const [saved, setSaved] = useState<string[]>([]);
@@ -48,39 +98,74 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [lastSync, setLastSync] = useState<string | null>(null);
   const [jobFollow, setJobFollow] = useState<string[]>([]);
   const [docsDone, setDocsDone] = useState<Record<string, string[]>>({});
+  const [notify, setNotifyState] = useState<NotifyPrefs>(defaultNotify);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) {
-        const d = JSON.parse(raw);
-        setUser(d.user ?? null);
-        setLang(d.lang ?? "en");
-        setSaved(d.saved ?? []);
-        setSyllabusDone(d.syllabusDone ?? {});
-        setAttempts(d.attempts ?? []);
-        setPoints(d.points ?? 0);
-        setStreak(d.streak ?? 0);
-        setLastActive(d.lastActive ?? null);
-        setBadges(d.badges ?? []);
-        setPending(d.pendingQueue ?? []);
-        setLastSync(d.lastSync ?? null);
-        setJobFollow(d.jobFollow ?? []);
-        setDocsDone(d.docsDone ?? {});
+    (async () => {
+      try {
+        const fromDb = await kvGet<ReturnType<typeof snapshot>>("store");
+        const raw = fromDb ?? (localStorage.getItem(KEY) ? JSON.parse(localStorage.getItem(KEY) as string) : null);
+        if (raw) {
+          setUser(raw.user ?? null);
+          setLang(raw.lang ?? "en");
+          setSaved(raw.saved ?? []);
+          setSyllabusDone(raw.syllabusDone ?? {});
+          setAttempts(raw.attempts ?? []);
+          setPoints(raw.points ?? 0);
+          setStreak(raw.streak ?? 0);
+          setLastActive(raw.lastActive ?? null);
+          setBadges(raw.badges ?? []);
+          setPending(raw.pendingQueue ?? []);
+          setLastSync(raw.lastSync ?? null);
+          setJobFollow(raw.jobFollow ?? []);
+          setDocsDone(raw.docsDone ?? {});
+          setNotifyState({ ...defaultNotify, ...(raw.notify ?? {}) });
+        }
+        setDbReady(true);
+      } catch {
+        setDbReady(true);
       }
-    } catch {}
-    setHydrated(true);
+      setHydrated(true);
+    })();
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    localStorage.setItem(
-      KEY,
-      JSON.stringify({
-        user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue, lastSync, jobFollow, docsDone,
-      })
-    );
-  }, [hydrated, user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue, lastSync, jobFollow, docsDone]);
+    const snap = snapshot({
+      user,
+      lang,
+      saved,
+      syllabusDone,
+      attempts,
+      points,
+      streak,
+      lastActive,
+      badges,
+      pendingQueue,
+      lastSync,
+      jobFollow,
+      docsDone,
+      notify,
+    });
+    localStorage.setItem(KEY, JSON.stringify(snap));
+    kvSet("store", snap).catch(() => {});
+  }, [
+    hydrated,
+    user,
+    lang,
+    saved,
+    syllabusDone,
+    attempts,
+    points,
+    streak,
+    lastActive,
+    badges,
+    pendingQueue,
+    lastSync,
+    jobFollow,
+    docsDone,
+    notify,
+  ]);
 
   const value = useMemo<Store>(
     () => ({
@@ -97,9 +182,21 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       lastSync,
       jobFollow,
       docsDone,
-      login: (name, email) =>
-        setUser({ id: "u1", name, email, language: lang }),
-      logout: () => setUser(null),
+      notify,
+      dbReady,
+      login: (name, email) => setUser({ id: "u1", name, email, language: lang }),
+      registerLocal: async (name, email, password) => {
+        const u = await createUser(name, email, password);
+        setUser({ id: u.id, name: u.name, email: u.email, language: lang });
+      },
+      loginLocal: async (email, password) => {
+        const u = await authUser(email, password);
+        setUser({ id: u.id, name: u.name, email: u.email, language: lang });
+      },
+      logout: () => {
+        setUser(null);
+        logEvent("logout", "local");
+      },
       setLang,
       toggleSave: (id) => {
         if (!user) return;
@@ -119,19 +216,29 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
         setPoints((p) => p + Math.round((a.score / a.total) * 50) + 10);
         bumpActivity(setStreak, setLastActive, setPoints, setBadges);
         if (a.score / a.total >= 0.8) setBadges((b) => (b.includes("High Scorer") ? b : [...b, "High Scorer"]));
+        if (notify.enabled && notify.mocks) {
+          notifyLocal("Mock finished", `Score ${a.score}/${a.total}`, `/tests/${a.test_id}`);
+        }
       },
       suggest: (testId, note) => setPending((q) => [...q, { testId, note }]),
       markSynced: () => setLastSync(new Date().toISOString()),
-      toggleJobFollow: (testId) =>
-        setJobFollow((s) => (s.includes(testId) ? s.filter((x) => x !== testId) : [...s, testId])),
+      toggleJobFollow: (testId) => {
+        setJobFollow((s) => {
+          const on = !s.includes(testId);
+          const next = on ? [...s, testId] : s.filter((x) => x !== testId);
+          if (on && notify.enabled && notify.jobs) notifyLocal("Job alerts on", "We will ping this device when you open Jobs.", "/jobs");
+          return next;
+        });
+      },
       toggleDoc: (testId, doc) =>
         setDocsDone((prev) => {
           const cur = prev[testId] ?? [];
           const next = cur.includes(doc) ? cur.filter((x) => x !== doc) : [...cur, doc];
           return { ...prev, [testId]: next };
         }),
+      setNotify: (p) => setNotifyState((n) => ({ ...n, ...p })),
     }),
-    [user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue, lastSync, jobFollow, docsDone]
+    [user, lang, saved, syllabusDone, attempts, points, streak, lastActive, badges, pendingQueue, lastSync, jobFollow, docsDone, notify, dbReady]
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

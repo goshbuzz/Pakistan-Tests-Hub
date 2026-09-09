@@ -7,6 +7,7 @@ import { CATEGORY_META, TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
+import { Logo } from "@/components/Logo";
 
 export default function Home() {
   const { lang, user, saved, streak, points } = useStore();
@@ -18,8 +19,13 @@ export default function Home() {
   return (
     <div className="space-y-6">
       <section className="overflow-hidden rounded-3xl bg-gradient-to-br from-[#01411C] via-[#046a32] to-[#0a7a3e] p-6 text-white shadow-lg">
-        <p className="text-sm text-emerald-100">{t.tagline}</p>
-        <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{t.app}</h1>
+        <div className="flex items-center gap-3">
+          <Logo size={56} className="ring-2 ring-[#C5A44E]/80" />
+          <div>
+            <p className="text-sm text-emerald-100">{t.tagline}</p>
+            <h1 className="mt-1 text-2xl font-semibold sm:text-3xl">{t.app}</h1>
+          </div>
+        </div>
         <p className="mt-2 max-w-xl text-sm text-emerald-50">
           MDCAT, CSS, NTS, ISSB, ACCA and 60+ tests — syllabus, papers, MCQs, timed mocks, live alerts.
         </p>

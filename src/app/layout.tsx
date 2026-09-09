@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
@@ -13,6 +13,21 @@ export const metadata: Metadata = {
   title: "Pakistan Tests Hub",
   description:
     "Free hub for MDCAT, ECAT, CSS, NTS, ISSB, ACCA, CA, CFA and 60+ Pakistan tests — syllabus, past papers, MCQs, mocks, alerts.",
+  applicationName: "Pakistan Tests Hub",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/logo.png",
+    apple: "/apple-touch-icon.png",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "PK Tests",
+    statusBarStyle: "black-translucent",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#01411C",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
