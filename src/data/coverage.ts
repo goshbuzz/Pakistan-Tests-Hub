@@ -2,6 +2,7 @@ import { applyUrl } from "./applyUrls";
 import { TESTS } from "./tests";
 import { ALERTS, MCQS, MOCKS, PAST_PAPERS, SYLLABUS } from "./content";
 import { publicMcqsFor } from "./publicMcqs";
+import { mixFor } from "./mixQuestions";
 import { Alert, MCQ, MockConfig, PastPaper, PrepPack, SyllabusItem } from "@/lib/types";
 
 const YEARS = [2023, 2024, 2025];
@@ -72,7 +73,15 @@ function hash(s: string) {
 }
 
 function bankFor(testId: string, name: string): MCQ[] {
-  const existing = [...MCQS.filter((m) => m.test_id === testId), ...publicMcqsFor(testId)];
+  const existing = [
+    ...MCQS.filter((m) => m.test_id === testId),
+    ...publicMcqsFor(testId),
+    ...mixFor(testId, TESTS.find((x) => x.id === testId)?.category ?? "Recruitment").map((m, i) => ({
+      ...m,
+      id: `${testId}-mix-${i}`,
+      test_id: testId,
+    })),
+  ];
   const seeds: MCQ[] = [
     q(testId, "English", "Grammar", `For ${name}: choose the correct article — “He is ___ honest officer.”`, ["a", "an", "the", "no article"], 1, "honest begins with a vowel sound."),
     q(testId, "GK", "Pakistan", `National poet of Pakistan is generally regarded as:`, ["Mir Taqi Mir", "Allama Iqbal", "Ghalib", "Faiz only as national poet"], 1, "Allama Iqbal."),
@@ -221,8 +230,20 @@ function defaultDocs(cat: string): string[] {
 export function questionsForPaper(testId: string, year?: number): MCQ[] {
   const y = year ?? 2025;
   const all = ALL_MCQS.filter((m) => m.test_id === testId);
-  const tagged = all.filter((m) => m.topic.includes(String(y)));
-  if (tagged.length) return tagged.slice(0, 10);
   const unique = all.filter((m) => !m.topic.includes("paper set"));
-  return (unique.length ? unique : all).slice(0, 10);
+  const eng = unique.filter((m) => m.subject === "English" && (m.kind ?? "mcq") === "mcq").slice(0, 3);
+  const math = unique.filter((m) => (m.subject === "Mathematics" || m.subject === "Quant") && (m.kind ?? "mcq") === "mcq").slice(0, 3);
+  const an = unique.filter((m) => m.subject === "Analytical" && (m.kind ?? "mcq") === "mcq").slice(0, 2);
+  const short = unique.filter((m) => m.kind === "short" || m.kind === "long").slice(0, 2);
+  const rest = unique.filter((m) => (m.kind ?? "mcq") === "mcq").slice(0, 10);
+  const mix = [...eng, ...math, ...an, ...short];
+  const seen = new Set<string>();
+  const out: MCQ[] = [];
+  for (const q of [...mix, ...rest]) {
+    if (seen.has(q.id)) continue;
+    seen.add(q.id);
+    out.push({ ...q, topic: `${q.topic} · ${y} paper set` });
+    if (out.length >= 12) break;
+  }
+  return out;
 }

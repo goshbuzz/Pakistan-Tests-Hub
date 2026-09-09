@@ -61,6 +61,8 @@ export type MCQ = {
   explanation: string;
   difficulty: "easy" | "medium" | "hard";
   source: "official" | "ai_generated" | "aggregator";
+  kind?: "mcq" | "short" | "long";
+  model_answer?: string;
 };
 
 export type MockConfig = {

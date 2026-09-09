@@ -20,6 +20,8 @@ function MockInner() {
   const router = useRouter();
   const [i, setI] = useState(0);
   const [ans, setAns] = useState<Record<string, number>>({});
+  const [written, setWritten] = useState<Record<string, string>>({});
+  const [showModel, setShowModel] = useState(false);
   const [left, setLeft] = useState((cfg?.time_limit_minutes ?? 10) * 60);
   const [done, setDone] = useState(false);
   const [showAd, setShowAd] = useState(false);
@@ -104,22 +106,38 @@ function MockInner() {
         </div>
         <div className="mt-4 rounded-2xl border bg-white p-5">
           <p className="text-xs text-stone-500">
-            {q.subject} · {q.topic}
+            {(q.kind ?? "mcq").toUpperCase()} · {q.subject} · {q.topic}
           </p>
           <h2 className="mt-2 text-lg font-medium">{q.question_text}</h2>
-          <div className="mt-4 space-y-2">
-            {q.options.map((o, idx) => (
-              <button
-                key={idx}
-                onClick={() => setAns({ ...ans, [q.id]: idx })}
-                className={`block w-full rounded-xl border px-4 py-3 text-left ${
-                  ans[q.id] === idx ? "border-emerald-800 bg-emerald-50" : "hover:bg-stone-50"
-                }`}
-              >
-                {o}
+          {(q.kind ?? "mcq") === "mcq" ? (
+            <div className="mt-4 space-y-2">
+              {q.options.map((o, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setAns({ ...ans, [q.id]: idx })}
+                  className={`block w-full rounded-xl border px-4 py-3 text-left ${
+                    ans[q.id] === idx ? "border-emerald-800 bg-emerald-50" : "hover:bg-stone-50"
+                  }`}
+                >
+                  {o}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="mt-4">
+              <textarea
+                className="w-full rounded-xl border p-3 text-sm"
+                rows={q.kind === "long" ? 8 : 4}
+                placeholder="Write your answer (English / Urdu). Compare with the model after you finish."
+                value={written[q.id] ?? ""}
+                onChange={(e) => setWritten({ ...written, [q.id]: e.target.value })}
+              />
+              <button type="button" className="mt-2 text-sm text-emerald-800" onClick={() => setShowModel(!showModel)}>
+                {showModel ? "Hide model" : "Show model answer"}
               </button>
-            ))}
-          </div>
+              {showModel && <p className="mt-2 text-sm text-emerald-900">{q.model_answer}</p>}
+            </div>
+          )}
           <div className="mt-6 flex justify-between">
             <button disabled={i === 0} onClick={() => setI(i - 1)} className="rounded-full border px-4 py-2 text-sm disabled:opacity-40">
               Prev

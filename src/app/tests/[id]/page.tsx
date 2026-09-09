@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import { ALL_ALERTS, ALL_MCQS, ALL_MOCKS, ALL_PAPERS, ALL_SYL, PREP_PACKS } from "@/data/coverage";
+import { patternFor } from "@/data/patterns";
 import { JOBS } from "@/data/jobs";
 import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
@@ -42,12 +43,15 @@ export default function TestPage() {
     return g;
   }, [syl]);
 
-  const filteredMcq = mcqs.filter(
-    (m) =>
-      !filter ||
-      m.subject.toLowerCase().includes(filter.toLowerCase()) ||
-      m.question_text.toLowerCase().includes(filter.toLowerCase())
-  );
+  const filteredMcq = mcqs.filter((m) => {
+    const f = filter.toLowerCase();
+    if (!f) return true;
+    return (
+      m.subject.toLowerCase().includes(f) ||
+      m.question_text.toLowerCase().includes(f) ||
+      (m.kind ?? "mcq").includes(f)
+    );
+  });
 
   if (!test) return <p>Test not found.</p>;
 
@@ -109,6 +113,7 @@ export default function TestPage() {
         <div className="mt-4 space-y-4 rounded-2xl border bg-white p-5">
           <Row label={t.conducting} value={test.conducting_body} />
           <Row label={t.eligibility} value={test.eligibility} />
+          <Row label="Last exam pattern" value={patternFor(test.id)} />
           <Row label={t.format} value={test.format_description} />
           <Row label={t.fee} value={test.fee_info} />
           <Row
@@ -201,27 +206,29 @@ export default function TestPage() {
           <input
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            placeholder="Filter by subject or text"
+            placeholder="Filter: English, Mathematics, Analytical, short, long…"
             className="w-full rounded-xl border bg-white px-3 py-2 text-sm"
           />
           {filteredMcq.length === 0 && <p className="text-sm">MCQ bank filling in — practice the mock when available.</p>}
           {filteredMcq.map((m) => (
             <div key={m.id} className="rounded-xl border bg-white p-4">
               <div className="text-xs text-stone-500">
-                {m.subject} · {m.topic}
+                {(m.kind ?? "mcq").toUpperCase()} · {m.subject} · {m.topic}
               </div>
               <p className="mt-1 font-medium">{m.question_text}</p>
-              <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm">
-                {m.options.map((o, i) => (
-                  <li key={i}>{o}</li>
-                ))}
-              </ol>
+              {(m.kind ?? "mcq") === "mcq" && (
+                <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm">
+                  {m.options.map((o, i) => (
+                    <li key={i}>{o}</li>
+                  ))}
+                </ol>
+              )}
               <button className="mt-2 text-sm text-emerald-800" onClick={() => setRevealed(revealed === m.id ? null : m.id)}>
                 {revealed === m.id ? "Hide" : "Show answer"}
               </button>
               {revealed === m.id && (
                 <p className="mt-1 text-sm text-emerald-900">
-                  {m.options[m.correct_answer]} — {m.explanation}
+                  {(m.kind ?? "mcq") === "mcq" ? m.options[m.correct_answer] : m.model_answer} — {m.explanation}
                 </p>
               )}
             </div>
