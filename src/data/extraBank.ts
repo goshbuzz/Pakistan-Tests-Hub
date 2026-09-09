@@ -1,4 +1,5 @@
 import { MCQ } from "@/lib/types";
+import { matchesSubject } from "./sections";
 
 function q(
   subject: string,
@@ -36,6 +37,9 @@ export const TEACH_Q: Omit<MCQ, "id" | "test_id">[] = [
   q("Pedagogy", "Assessment", "Formative assessment is mainly to:", ["rank students once a year", "guide teaching during learning", "punish errors", "replace the syllabus"], 1, "Ongoing feedback."),
   q("Pedagogy", "Classroom", "Inclusive education means:", ["only high achievers", "learners of diverse needs in the same system", "no exams ever", "only private schools"], 1, "Access for all."),
   q("Subject", "Maths pedagogy", "Concrete–pictorial–abstract is a sequence for teaching:", ["history dates", "early mathematics", "sports only", "law"], 1, "CPA approach."),
+  q("Subject", "Science", "Photosynthesis mainly occurs in the:", ["mitochondria", "chloroplast", "ribosome", "vacuole only"], 1, "Chloroplast."),
+  q("Subject", "English content", "A topic sentence usually:", ["ends the essay only", "states the paragraph’s main idea", "is a citation", "must be a question"], 1, "Main idea first."),
+  q("Subject", "GAT field", "Peer review in a subject paper is mainly to:", ["print gossip", "check methods and claims before publication", "set CSS optionals", "replace labs"], 1, "Quality control."),
 ];
 
 export const LAW_Q: Omit<MCQ, "id" | "test_id">[] = [
@@ -81,12 +85,6 @@ export const ISSB_Q: Omit<MCQ, "id" | "test_id">[] = [
 ];
 
 export function extraFor(allowed: string[]): Omit<MCQ, "id" | "test_id">[] {
-  const low = allowed.map((a) => a.toLowerCase());
-  const hit = (sub: string) =>
-    low.some((a) => {
-      const s = sub.toLowerCase();
-      return s === a || a.includes(s) || s.includes(a.split(" ")[0]);
-    });
   const all = [...BANKING_Q, ...TEACH_Q, ...LAW_Q, ...PROF_Q, ...GAT_VERBAL, ...IT_Q, ...ISSB_Q];
-  return all.filter((x) => hit(x.subject));
+  return all.filter((x) => matchesSubject(x.subject, allowed));
 }

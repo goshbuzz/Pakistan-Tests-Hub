@@ -1,6 +1,6 @@
 import { MCQ } from "@/lib/types";
 import { HAS_LONG } from "./patterns";
-import { allowMix, subjectsFor } from "./sections";
+import { allowMix, matchesSubject, subjectsFor } from "./sections";
 import { scienceFor } from "./scienceBank";
 import { civicFor } from "./civicBank";
 import { languageFor } from "./languageBank";
@@ -120,6 +120,8 @@ const SHORT: Omit<MCQ, "id" | "test_id">[] = [
     "Model below.",
     "Courage is doing the right thing even when it is difficult."
   ),
+  item("short", "ISSB", "WAT", "Write one short sentence for the word DUTY.", [], 0, "Model.", "Duty means finishing the task even when no one is watching."),
+  item("short", "ISSB", "WAT", "Write one short sentence for the word TEAM.", [], 0, "Model.", "A team succeeds when every member puts the group goal first."),
 ];
 
 const LONG: Omit<MCQ, "id" | "test_id">[] = [
@@ -166,9 +168,9 @@ export function mixFor(testId: string, category: string): Omit<MCQ, "id" | "test
   if (a.english) out.push(...ENGLISH);
   if (a.maths) out.push(...MATHS);
   if (a.analytical) out.push(...ANALYTICAL);
-  if (HAS_LONG.has(testId) || category === "PSC" || category === "Judicial") {
+  if (HAS_LONG.has(testId) || category === "Judicial") {
     out.push(...SHORT, ...LONG);
   }
   if (testId === "arm-01") out.push(...SHORT.filter((s) => s.subject === "ISSB"));
-  return out;
+  return out.filter((m) => matchesSubject(m.subject, allowed));
 }

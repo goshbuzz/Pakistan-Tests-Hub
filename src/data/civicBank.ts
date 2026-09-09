@@ -1,4 +1,5 @@
 import { MCQ } from "@/lib/types";
+import { matchesSubject } from "./sections";
 
 function q(
   subject: string,
@@ -51,11 +52,5 @@ export const CIVIC: Omit<MCQ, "id" | "test_id">[] = [
 ];
 
 export function civicFor(allowed: string[]): Omit<MCQ, "id" | "test_id">[] {
-  const low = allowed.map((a) => a.toLowerCase());
-  return CIVIC.filter((s) =>
-    low.some((a) => {
-      const sub = s.subject.toLowerCase();
-      return sub === a || a.includes(sub) || sub.includes(a.split(" ")[0]) || (a.includes("gk") && sub === "gk");
-    })
-  );
+  return CIVIC.filter((s) => matchesSubject(s.subject, allowed));
 }

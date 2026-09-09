@@ -20,6 +20,9 @@ export function subjectsFor(testId: string, category: string): string[] {
   }
   if (["grd-02"].includes(testId)) return ["Subject", "Analytical", "English"];
   if (["grd-04", "pro-07", "pro-12"].includes(testId)) return ["Law", "English", "Pakistan Studies", "Islamiat"];
+  if (testId === "rec-09") {
+    return ["English", "Analytical", "Computer", "Job related"];
+  }
   if (category === "Recruitment" || testId.startsWith("rec-")) {
     return ["English", "Analytical", "Quantitative", "GK", "Islamiat", "Pakistan Studies", "Job related"];
   }
@@ -44,8 +47,20 @@ export function subjectsFor(testId: string, category: string): string[] {
   if (category === "Armed Forces") {
     return ["Intelligence", "English", "Mathematics", "Islamiat", "Pakistan Studies", "GK", "Physics", "ISSB"];
   }
-  if (["pro-01", "pro-02", "pro-03", "pro-04"].includes(testId)) {
+  if (["pro-01", "pro-02", "pro-03", "pro-04", "pro-05", "pro-06"].includes(testId)) {
     return ["FA", "MA", "AA", "FM", "Ethics", "Quant", "FRA", "Accounting"];
+  }
+  if (testId === "pro-09") {
+    return ["Biology", "Chemistry", "English", "Logical Reasoning"];
+  }
+  if (testId === "pro-10") {
+    return ["Biology", "Chemistry", "English"];
+  }
+  if (testId === "pro-11") {
+    return ["Physics", "Mathematics", "English", "Ethics"];
+  }
+  if (testId === "pro-08") {
+    return ["Law", "English", "Pakistan Studies", "Islamiat"];
   }
   if (["int-01", "int-02", "int-03", "int-04", "int-11", "int-12"].includes(testId)) {
     return ["Listening", "Reading", "Writing", "Speaking", "Grammar", "Vocabulary"];
@@ -70,8 +85,8 @@ export function allowMix(testId: string, category: string) {
 }
 
 const ALIASES: Record<string, string[]> = {
-  analytical: ["analytical", "logical reasoning", "intelligence"],
-  "logical reasoning": ["logical reasoning", "analytical"],
+  analytical: ["analytical"],
+  "logical reasoning": ["logical reasoning"],
   intelligence: ["intelligence"],
   quantitative: ["quantitative", "quant", "mathematics", "maths"],
   mathematics: ["mathematics", "maths", "math", "quantitative", "quant"],
@@ -120,6 +135,6 @@ export function matchesSubject(questionSubject: string, allowed: string[]) {
   return allowed.some((a) => {
     const x = norm(a);
     const keys = [x, ...(ALIASES[x] ?? [])];
-    return keys.some((k) => q === k || q.startsWith(k + " ") || q.endsWith(" " + k));
+    return keys.some((k) => q === k || q.startsWith(k + " "));
   });
 }

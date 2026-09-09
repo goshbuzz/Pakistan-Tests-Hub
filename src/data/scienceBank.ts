@@ -1,4 +1,5 @@
 import { MCQ } from "@/lib/types";
+import { matchesSubject } from "./sections";
 
 function q(
   subject: string,
@@ -77,8 +78,5 @@ export const SCIENCE: Omit<MCQ, "id" | "test_id">[] = [
 ];
 
 export function scienceFor(allowed: string[]): Omit<MCQ, "id" | "test_id">[] {
-  const low = allowed.map((a) => a.toLowerCase());
-  return SCIENCE.filter((s) =>
-    low.some((a) => s.subject.toLowerCase() === a || a.includes(s.subject.toLowerCase()) || s.subject.toLowerCase().includes(a.split(" ")[0]))
-  );
+  return SCIENCE.filter((s) => matchesSubject(s.subject, allowed));
 }
