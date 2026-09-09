@@ -124,8 +124,13 @@ function MockInner() {
         </div>
         <p className="mt-2 rounded-xl bg-white/80 px-3 py-2 text-[11px] text-stone-600">{shape.note}</p>
         <div className="mt-4 rounded-2xl border bg-white p-5">
+          <p className="text-xs font-medium uppercase tracking-wide text-emerald-800">
+            {(q.kind ?? "mcq") === "mcq" ? "MCQ section" : q.kind === "long" ? "Written / essay" : "Short / speaking"}
+            {" · "}
+            {q.subject}
+          </p>
           <p className="text-xs text-stone-500">
-            {(q.kind ?? "mcq").toUpperCase()} · {q.subject} · {q.topic}
+            {q.topic}
           </p>
           <h2 className="mt-2 text-lg font-medium">{q.question_text}</h2>
           {(q.kind ?? "mcq") === "mcq" ? (

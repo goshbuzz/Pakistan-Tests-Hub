@@ -112,6 +112,11 @@ export const STUDY_GUIDES: Guide[] = [
     body: "Verbal: text completion, sentence equivalence, reading. Quant: arithmetic to basic stats, no calculus. AWA: 30 min issue essay. Official PowerPrep on ets.org is the real software.",
   },
   {
+    test_id: "adm-06",
+    title: "LCAT vs SAT",
+    body: "LUMS UG often accepts SAT/ACT instead of LCAT. LCAT itself is Verbal + Quantitative MCQ in several timed sections (~2h40), no calculator. Do not study Pakistan GK or Biology for LCAT. Drill reading speed and algebra word problems under a clock — that is the mock, not the MCQ bank.",
+  },
+  {
     test_id: "adm-01",
     title: "MDCAT without a coaching factory",
     body: "Finish FSc textbooks first (they ARE the syllabus). Then this hub’s Biology/Chemistry/Physics bank and 10 levelled mocks. PMDC weight: Bio 45% Chem 25% Phy 20% Eng 5% LR 5% (confirm current uniform curriculum). Past paper leaks are illegal and often wrong keys.",

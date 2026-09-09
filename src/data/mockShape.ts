@@ -60,6 +60,24 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 5, "English"), s("mcq", 5, "Mathematics")],
     };
   }
+  if (testId === "adm-05") {
+    return {
+      minutes: 18,
+      negative: false,
+      negativeValue: 0,
+      note: "FAST NU mini: Maths, English, Analytical MCQ (Physics/CS depends on programme).",
+      slots: [s("mcq", 4, "Mathematics"), s("mcq", 3, "English"), s("mcq", 3, "Analytical")],
+    };
+  }
+  if (["grd-01", "grd-03", "grd-05"].includes(testId)) {
+    return {
+      minutes: 20,
+      negative: false,
+      negativeValue: 0,
+      note: "GAT/NAT/HAT mini: Verbal, Quantitative, Analytical MCQ (full GAT is 100q / 120 min).",
+      slots: [s("mcq", 4, "English"), s("mcq", 3, "Quantitative"), s("mcq", 3, "Analytical")],
+    };
+  }
   if (["int-01", "int-02"].includes(testId)) {
     return {
       minutes: 25,

@@ -79,6 +79,21 @@ const GER_A: Omit<MCQ, "id" | "test_id">[] = [
   q("German", "B2 Konjunktiv", "Wenn ich Zeit ___, ___ ich kommen. (haben / würden)", ["hätte / würde", "habe / will", "hatte / muss", "hat / kommt"], 0, "Irrealis: hätte, würde.", "hard"),
   q("German", "B2 connectors", "“dennoch” is closest to:", ["therefore", "nevertheless", "because", "before"], 1, "Nevertheless.", "medium"),
   q("German", "C1 style", "Nominalisierung of “die Stadt wächst”:", ["das Wachstum der Stadt", "die Stadt gehen", "wachst du", "Städte klein"], 0, "Noun phrase for academic German.", "hard"),
+  q("Grammar", "A1 articles", "Die Pluralform von “das Kind” is:", ["die Kinder", "die Kinds", "der Kinder", "das Kinder"], 0, "die Kinder.", "easy"),
+  q("Grammar", "A2 word order", "In a weil-clause the verb is:", ["second position", "at the end", "first", "deleted"], 1, "Verb-final in subordinate clauses.", "medium"),
+  q(
+    "Speaking",
+    "A1 dialog",
+    "Partner task: Ask three questions in German (name, where from, languages). Write the questions.",
+    [],
+    0,
+    "Model.",
+    "easy",
+    {
+      kind: "short",
+      model_answer: "Wie heißen Sie? Woher kommen Sie? Welche Sprachen sprechen Sie?",
+    }
+  ),
   q(
     "Writing",
     "A1 form",
