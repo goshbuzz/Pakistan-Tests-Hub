@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { ALL_MOCKS, questionsForPaper } from "@/data/coverage";
+import { ALL_MOCKS, paperShape, questionsForPaper } from "@/data/coverage";
 import { TESTS } from "@/data/tests";
 import { useStore } from "@/lib/store";
 import { dict } from "@/lib/i18n";
@@ -17,6 +17,7 @@ function MockInner() {
   const cfg = ALL_MOCKS.find((x) => x.test_id === id);
   const r = sp.get("r") ?? "";
   const questions = useMemo(() => questionsForPaper(id, year, n, r), [id, year, n, r]);
+  const shape = paperShape(id, test?.category ?? "Recruitment");
   const { addAttempt, lang } = useStore();
   const t = dict[lang];
   const router = useRouter();
@@ -34,7 +35,8 @@ function MockInner() {
     setWritten({});
     setDone(false);
     setShowModel(false);
-  }, [id, year, n, r]);
+    setLeft((cfg?.time_limit_minutes ?? shape.minutes) * 60);
+  }, [id, year, n, r, cfg, shape.minutes]);
 
   useEffect(() => {
     if (done) return;
@@ -55,12 +57,13 @@ function MockInner() {
     if (done) return;
     setDone(true);
     let raw = 0;
-    questions.forEach((q) => {
+    const mcqItems = questions.filter((q) => (q.kind ?? "mcq") === "mcq");
+    mcqItems.forEach((q) => {
       const a = ans[q.id];
       if (a === q.correct_answer) raw += 1;
       else if (a !== undefined && cfg?.negative_marking) raw -= cfg.negative_value;
     });
-    addAttempt({ test_id: id, score: Math.max(0, raw), total: questions.length, date: new Date().toISOString(), paper_year: year });
+    addAttempt({ test_id: id, score: Math.max(0, raw), total: mcqItems.length || questions.length, date: new Date().toISOString(), paper_year: year });
     setShowAd(true);
   }
 
@@ -78,18 +81,23 @@ function MockInner() {
   const ss = String(left % 60).padStart(2, "0");
 
   if (showAd) {
+    const mcqItems = questions.filter((qq) => (qq.kind ?? "mcq") === "mcq");
     let score = 0;
-    questions.forEach((qq) => {
+    mcqItems.forEach((qq) => {
       if (ans[qq.id] === qq.correct_answer) score += 1;
     });
+    const writtenN = questions.length - mcqItems.length;
     return (
       <div className="min-h-screen bg-[#01411C] p-6 text-white">
         <div className="mx-auto max-w-lg rounded-2xl bg-white p-6 text-stone-900">
           <p className="text-xs uppercase text-amber-700">{t.ads}</p>
           <h2 className="text-xl font-semibold">{t.interstitial}</h2>
           <p className="mt-4 text-lg font-semibold">
-            {t.score}: {score} / {questions.length}
+            {t.score} (MCQ): {score} / {mcqItems.length || 0}
           </p>
+          {writtenN > 0 && (
+            <p className="text-sm text-stone-600">{writtenN} written task(s) — compare with the model, not auto-marked.</p>
+          )}
           <button className="mt-4 w-full rounded-full bg-emerald-800 py-2 text-white" onClick={() => router.push(`/tests/${id}`)}>
             {t.skip}
           </button>
@@ -104,7 +112,7 @@ function MockInner() {
         <div className="flex items-center justify-between rounded-2xl bg-[#01411C] px-4 py-3 text-white">
           <div>
             <div className="text-xs opacity-80">
-              {test.name} · Mock {n} ({questions[0]?.topic.includes("easy") ? "easy" : questions[0]?.topic.includes("hard") ? "hard" : "medium"}) · {year}
+              {test.name} · Mock {n} · {year} · timed paper (not the MCQ bank)
             </div>
             <div className="font-semibold">
               Q {i + 1} / {questions.length}
@@ -114,6 +122,7 @@ function MockInner() {
             {mm}:{ss}
           </div>
         </div>
+        <p className="mt-2 rounded-xl bg-white/80 px-3 py-2 text-[11px] text-stone-600">{shape.note}</p>
         <div className="mt-4 rounded-2xl border bg-white p-5">
           <p className="text-xs text-stone-500">
             {(q.kind ?? "mcq").toUpperCase()} · {q.subject} · {q.topic}

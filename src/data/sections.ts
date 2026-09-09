@@ -42,7 +42,7 @@ export function subjectsFor(testId: string, category: string): string[] {
     return ["English", "Pedagogy", "Subject", "GK", "Islamiat", "Pakistan Studies"];
   }
   if (category === "Armed Forces") {
-    return ["Intelligence", "English", "Mathematics", "Islamiat", "Pakistan Studies", "GK", "Physics"];
+    return ["Intelligence", "English", "Mathematics", "Islamiat", "Pakistan Studies", "GK", "Physics", "ISSB"];
   }
   if (["pro-01", "pro-02", "pro-03", "pro-04"].includes(testId)) {
     return ["FA", "MA", "AA", "FM", "Ethics", "Quant", "FRA", "Accounting"];

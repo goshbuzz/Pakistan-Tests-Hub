@@ -255,7 +255,7 @@ export default function TestPage() {
       {tab === "mock" && (
         <div className="mt-4 rounded-2xl border bg-white p-5">
           <p className="text-sm text-stone-600">
-            10 mocks from this syllabus ({subjectsFor(test.id, test.category).join(", ")}). A new draw each start. 1–3 easy, 4–7 medium, 8–10 hard.
+            <strong>MCQ bank</strong> = untimed drill. <strong>Mock</strong> = timed mini-paper in this exam’s mix (MCQ, short notes, essays/speaking where the real test has them) — {subjectsFor(test.id, test.category).join(", ")}. Levels 1–3 easy, 4–7 medium, 8–10 hard.
           </p>
           <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
             {MOCK_SLOTS.map((n) => (

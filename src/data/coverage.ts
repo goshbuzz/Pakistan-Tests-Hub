@@ -1,12 +1,15 @@
 import { applyUrl } from "./applyUrls";
 import { TESTS } from "./tests";
-import { ALERTS, MCQS, MOCKS, PAST_PAPERS, SYLLABUS } from "./content";
+import { ALERTS, MCQS, PAST_PAPERS, SYLLABUS } from "./content";
 import { publicMcqsFor } from "./publicMcqs";
 import { mixFor } from "./mixQuestions";
 import { matchesSubject, subjectsFor } from "./sections";
 import { outlineFor } from "./syllabusOutlines";
 import { Alert, MCQ, MockConfig, PastPaper, PrepPack, SyllabusItem } from "@/lib/types";
 import { patternFor } from "./patterns";
+import { paperShape, slotCount } from "./mockShape";
+
+export { paperShape } from "./mockShape";
 
 const YEARS = [2023, 2024, 2025];
 
@@ -28,10 +31,7 @@ function bankFor(testId: string): MCQ[] {
     test_id: testId,
   }));
   const pub = cat === "International" ? [] : publicMcqsFor(testId);
-  const existing = [...MCQS.filter((m) => m.test_id === testId), ...pub, ...mix].filter((m) =>
-    matchesSubject(m.subject, allowed)
-  );
-  return existing;
+  return [...MCQS.filter((m) => m.test_id === testId), ...pub, ...mix].filter((m) => matchesSubject(m.subject, allowed));
 }
 
 export const ALL_MCQS: MCQ[] = TESTS.flatMap((t) => bankFor(t.id));
@@ -86,17 +86,15 @@ export const ALL_PAPERS: PastPaper[] = TESTS.flatMap((t) => {
 });
 
 export const ALL_MOCKS: MockConfig[] = TESTS.map((t) => {
-  const have = MOCKS.find((m) => m.test_id === t.id);
-  return (
-    have ?? {
-      id: `mk-all-${t.id}`,
-      test_id: t.id,
-      time_limit_minutes: 15,
-      negative_marking: t.category === "PSC" || t.category === "Recruitment",
-      negative_value: 0.25,
-      question_count: 12,
-    }
-  );
+  const shape = paperShape(t.id, t.category);
+  return {
+    id: `mk-all-${t.id}`,
+    test_id: t.id,
+    time_limit_minutes: shape.minutes,
+    negative_marking: shape.negative,
+    negative_value: shape.negativeValue,
+    question_count: slotCount(shape),
+  };
 });
 
 export const ALL_ALERTS: Alert[] = [
@@ -150,54 +148,65 @@ export function mockLevel(n: number): "easy" | "medium" | "hard" {
   return "hard";
 }
 
-function pickBalanced(pool: MCQ[], want: number): MCQ[] {
-  const groups = new Map<string, MCQ[]>();
-  shuffle(pool).forEach((m) => {
-    const k = m.subject.split("(")[0].trim();
-    groups.set(k, [...(groups.get(k) ?? []), m]);
-  });
-  const keys = shuffle(Array.from(groups.keys()));
-  const picked: MCQ[] = [];
-  const seen = new Set<string>();
-  let guard = 0;
-  while (picked.length < want && guard < 400) {
-    guard += 1;
-    for (const k of keys) {
-      const bucket = groups.get(k) ?? [];
-      while (bucket.length) {
-        const q = bucket.shift()!;
-        if (seen.has(q.question_text)) continue;
-        seen.add(q.question_text);
-        picked.push(q);
-        break;
-      }
-      if (picked.length >= want) break;
-    }
-    if (keys.every((k) => !(groups.get(k) ?? []).length)) break;
-  }
-  return picked;
+function takeKind(pool: MCQ[], kind: MCQ["kind"], n: number, subject?: string): MCQ[] {
+  const want = kind ?? "mcq";
+  let rows = pool.filter((m) => (m.kind ?? "mcq") === want);
+  if (subject) rows = rows.filter((m) => matchesSubject(m.subject, [subject]));
+  return shuffle(rows).slice(0, n);
 }
 
-/** Fresh draw every call so opening a mock is not the same paper twice. */
+function writtenStub(testId: string, kind: "short" | "long", subject: string, i: number): MCQ {
+  const long = kind === "long";
+  return {
+    id: `${testId}-stub-${kind}-${subject}-${i}`,
+    test_id: testId,
+    subject,
+    topic: long ? "Written paper" : "Short answer",
+    question_text: long
+      ? `Write a structured ${subject} answer as this exam requires (introduction, 3 points, conclusion).`
+      : `Write a short note (6–10 lines) on a core ${subject} point from this paper’s syllabus.`,
+    options: ["Write your answer", "See model answer", "Skip", "Mark for review"],
+    correct_answer: 1,
+    explanation: "Written item — compare with the model; not an MCQ.",
+    difficulty: "medium",
+    source: "ai_generated",
+    kind,
+    model_answer: long
+      ? "Intro (paraphrase the task) → two or three evidenced paragraphs → short conclusion that answers the question directly."
+      : "Definition → one example → why it matters in this exam.",
+  };
+}
+
+/** Timed paper in this test’s real mix (MCQ / short / long). Not the same as the drill bank. */
 export function questionsForPaper(testId: string, year?: number, mockN = 1, salt = ""): MCQ[] {
   const cat = TESTS.find((x) => x.id === testId)?.category ?? "Recruitment";
   const allowed = subjectsFor(testId, cat);
   const unique = ALL_MCQS.filter((m) => m.test_id === testId && matchesSubject(m.subject, allowed));
   const n = Math.min(10, Math.max(1, mockN));
   const lvl = mockLevel(n);
-  let pool = unique.filter((m) => (m.difficulty ?? "medium") === lvl);
-  if (pool.length < 8) {
-    if (lvl === "hard") pool = unique.filter((m) => (m.difficulty ?? "medium") !== "easy");
-    else if (lvl === "easy") pool = unique.filter((m) => (m.difficulty ?? "medium") !== "hard");
-    else pool = unique;
-  }
-  if (pool.length < 8) pool = unique;
-  const picked = pickBalanced(pool, 12);
-  return picked.map((q) => ({
-    ...q,
-    id: `${q.id}-m${n}-${salt || Math.random().toString(36).slice(2, 7)}`,
-    topic: `${q.topic} · L${n} ${lvl} · ${year ?? 2025}`,
-  }));
+  const shape = paperShape(testId, cat);
+  const out: MCQ[] = [];
+  const used = new Set<string>();
+  shape.slots.forEach((slot, si) => {
+    const leftover = unique.filter((m) => !used.has(m.question_text));
+    let got = takeKind(leftover, slot.kind, slot.n, slot.subject);
+    if (got.length < slot.n && slot.kind === "mcq") {
+      got = got.concat(takeKind(leftover.filter((m) => !got.includes(m)), "mcq", slot.n - got.length));
+    }
+    while ((slot.kind === "short" || slot.kind === "long") && got.length < slot.n) {
+      got.push(writtenStub(testId, slot.kind, slot.subject ?? allowed[0] ?? "Writing", got.length + si));
+    }
+    got.forEach((q) => {
+      used.add(q.question_text);
+      out.push({
+        ...q,
+        id: `${q.id}-m${n}-${salt || "x"}-${out.length}`,
+        difficulty: lvl,
+        topic: `${q.topic} · ${slot.kind.toUpperCase()} · L${n} ${lvl} · ${year ?? 2025}`,
+      });
+    });
+  });
+  return out;
 }
 
 export const MOCK_SLOTS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const;
