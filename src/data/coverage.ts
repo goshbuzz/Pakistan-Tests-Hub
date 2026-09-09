@@ -133,6 +133,14 @@ function defaultDocs(cat: string): string[] {
   if (cat === "Police") return [...common, "Physical standard printout"];
   if (cat === "Professional") return [...common, "Institute registration number"];
   if (cat === "Admissions" || cat === "Admissions-Grad") return [...common, "HSSC / bachelor result card"];
+  if (cat === "International")
+    return [
+      "Valid passport (name must match the test ID)",
+      "Passport-size photos if the centre asks",
+      "Booking confirmation / candidate ID",
+      "Payment receipt",
+      "For UKVI/SELT: the exact test type written on the visa form",
+    ];
   return common;
 }
 

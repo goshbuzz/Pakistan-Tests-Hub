@@ -8,14 +8,16 @@ export type Category =
   | "Judicial"
   | "Teaching"
   | "Armed Forces"
-  | "Professional";
+  | "Professional"
+  | "International";
 
 export type CareerStage =
   | "Matric"
   | "Intermediate"
   | "Graduate"
   | "Job Seeker"
-  | "Professional";
+  | "Professional"
+  | "Abroad";
 
 export type Test = {
   id: string;

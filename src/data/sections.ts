@@ -42,6 +42,13 @@ export function subjectsFor(testId: string, category: string): string[] {
   if (["pro-01", "pro-02", "pro-03", "pro-04"].includes(testId)) {
     return ["FA", "MA", "AA", "FM", "Ethics", "Quant", "FRA", "Accounting"];
   }
+  if (["int-01", "int-02", "int-03", "int-04", "int-11", "int-12"].includes(testId)) {
+    return ["Listening", "Reading", "Writing", "Speaking", "Grammar", "Vocabulary"];
+  }
+  if (["int-05", "int-06", "int-07", "int-08", "int-09", "int-10"].includes(testId)) {
+    return ["German", "Grammar", "Vocabulary", "Listening", "Reading", "Writing", "Speaking"];
+  }
+  if (testId === "int-13") return ["Verbal", "Quantitative", "Writing", "Vocabulary"];
   return ["English", "GK", "Pakistan Studies", "Islamiat"];
 }
 

@@ -72,6 +72,19 @@ export const EXAM_PATTERN: Record<string, string> = {
   "pro-10": "Pharmacy Council: licensing paper as notified.",
   "pro-11": "PEC EPE: professional practice (often MCQ/short).",
   "pro-12": "HEC Law GAT: MCQ law.",
+  "int-01": "IELTS Academic: L 40q / R 40q / W Task1+Task2 / S 3 parts. Bands 0–9. Computer or paper.",
+  "int-02": "IELTS General / UKVI: same timing; GT reading + letter writing. SELT if the visa form requires UKVI.",
+  "int-03": "PTE Academic: ~2h computer, integrated speaking-writing, reading, listening. Score 10–90.",
+  "int-04": "TOEFL iBT: four sections 0–30 each (total 120). Confirm current timing on ETS.",
+  "int-05": "Goethe A1 Start Deutsch 1: four skills, elementary survival German.",
+  "int-06": "Goethe A2: four skills, everyday routine German.",
+  "int-07": "Goethe/telc B1: modular four skills — common settlement / Arbeit threshold.",
+  "int-08": "Goethe B2: independent user, study and skilled work.",
+  "int-09": "Goethe C1 or TestDaF: academic German for Hochschulzugang.",
+  "int-10": "Goethe C2 GDS: near-native.",
+  "int-11": "CELPIP-General: computer L/R/W/S, CLB mapped for IRCC.",
+  "int-12": "Duolingo English Test: adaptive ~1h online, camera proctored.",
+  "int-13": "GRE General: Verbal, Quant, Analytical Writing (ETS).",
 };
 
 export function patternFor(id: string) {
@@ -93,4 +106,11 @@ export const HAS_LONG = new Set([
   "pro-03",
   "pro-07",
   "arm-01",
+  "int-01",
+  "int-02",
+  "int-03",
+  "int-04",
+  "int-05",
+  "int-07",
+  "int-08",
 ]);

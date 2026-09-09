@@ -27,7 +27,7 @@ export default function Home() {
           </div>
         </div>
         <p className="mt-2 max-w-xl text-sm text-emerald-50">
-          MDCAT, CSS, NTS, ISSB, ACCA and 60+ tests — syllabus, papers, MCQs, timed mocks, live alerts.
+          MDCAT, CSS, IELTS, PTE, German A1–C2 and 70+ tests — self-study so you can sit the exam without an academy, including immigration language tests.
         </p>
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
           <span className="rounded-full bg-white/15 px-3 py-1">🔥 {t.streak}: {streak}</span>

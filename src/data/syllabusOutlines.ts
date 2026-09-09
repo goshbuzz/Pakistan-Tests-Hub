@@ -104,6 +104,26 @@ const NLE: OutlineRow[] = [
   { subject: "Logical Reasoning", topic: "Ethics & reasoning", subtopic: "Professionalism items when included", weightage: 15 },
 ];
 
+const IELTS: OutlineRow[] = [
+  { subject: "Listening", topic: "Section 1–2", subtopic: "Everyday dialogue + monologue; form completion, maps", weightage: 12 },
+  { subject: "Listening", topic: "Section 3–4", subtopic: "Academic discussion + lecture; MCQ, matching", weightage: 13 },
+  { subject: "Reading", topic: "Question types", subtopic: "TFNG/YNNG, headings, matching, summary, MCQ", weightage: 25 },
+  { subject: "Writing", topic: "Task 1", subtopic: "Academic chart/process OR GT letter", weightage: 12 },
+  { subject: "Writing", topic: "Task 2", subtopic: "250-word discursive essay, band descriptors", weightage: 13 },
+  { subject: "Speaking", topic: "Parts 1–3", subtopic: "Interview, long turn, discussion", weightage: 15 },
+  { subject: "Grammar", topic: "Accuracy", subtopic: "Tenses, articles, complex sentences for W/S", weightage: 5 },
+  { subject: "Vocabulary", topic: "Topic banks", subtopic: "Education, environment, health, technology, work", weightage: 5 },
+];
+
+const GERMAN: OutlineRow[] = [
+  { subject: "Listening", topic: "Hören", subtopic: "Announcements, dialogues, radio (level-adjusted)", weightage: 20 },
+  { subject: "Reading", topic: "Lesen", subtopic: "Signs, emails, articles (level-adjusted)", weightage: 20 },
+  { subject: "Writing", topic: "Schreiben", subtopic: "Forms, emails, statements of opinion", weightage: 20 },
+  { subject: "Speaking", topic: "Sprechen", subtopic: "Introduce, plan, discuss, present", weightage: 20 },
+  { subject: "Grammar", topic: "Strukturen", subtopic: "Articles, cases, tenses, connectors by CEFR level", weightage: 10 },
+  { subject: "Vocabulary", topic: "Wortschatz", subtopic: "Family, work, housing, Behörden, study", weightage: 10 },
+];
+
 export function outlineFor(testId: string, category: string): OutlineRow[] | null {
   if (["adm-01", "adm-09", "adm-10", "adm-13", "adm-14", "adm-15"].includes(testId)) return MDCAT;
   if (["adm-02", "adm-03", "adm-04", "adm-12"].includes(testId)) return ECAT;
@@ -116,5 +136,7 @@ export function outlineFor(testId: string, category: string): OutlineRow[] | nul
   if (category === "Armed Forces") return ARMED;
   if (["pro-07", "pro-12", "grd-04"].includes(testId)) return LAT;
   if (testId === "pro-09") return NLE;
+  if (["int-01", "int-02", "int-03", "int-04", "int-11", "int-12"].includes(testId)) return IELTS;
+  if (["int-05", "int-06", "int-07", "int-08", "int-09", "int-10"].includes(testId)) return GERMAN;
   return null;
 }

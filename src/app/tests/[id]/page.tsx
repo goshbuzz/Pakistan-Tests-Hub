@@ -12,8 +12,9 @@ import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
+import { guidesFor } from "@/data/studyGuides";
 
-const TABS = ["overview", "syllabus", "papers", "mcq", "mock", "jobs", "apply", "alerts"] as const;
+const TABS = ["overview", "study", "syllabus", "papers", "mcq", "mock", "jobs", "apply", "alerts"] as const;
 
 export default function TestPage() {
   const { id } = useParams<{ id: string }>();
@@ -57,6 +58,7 @@ export default function TestPage() {
 
   const labels: Record<(typeof TABS)[number], string> = {
     overview: t.overview,
+    study: t.study,
     syllabus: t.syllabus,
     papers: t.papers,
     mcq: t.mcq,
@@ -145,6 +147,20 @@ export default function TestPage() {
             />
             <button className="mt-2 rounded-lg bg-emerald-800 px-3 py-1.5 text-sm text-white">Submit</button>
           </form>
+        </div>
+      )}
+
+      {tab === "study" && (
+        <div className="mt-4 space-y-3">
+          <p className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-950">
+            Self-study path so you do not need an academy: tick the syllabus, drill the bank, sit 10 mocks, book only on the official site. Original methods — not leaked coaching PDFs.
+          </p>
+          {guidesFor(test.id).map((g) => (
+            <article key={g.title} className="rounded-2xl border bg-white p-4">
+              <h3 className="font-semibold text-[#01411C]">{g.title}</h3>
+              <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-stone-700">{g.body}</p>
+            </article>
+          ))}
         </div>
       )}
 

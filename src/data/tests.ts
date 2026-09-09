@@ -1,4 +1,5 @@
 import { Category, Test } from "@/lib/types";
+import { INTL_TESTS } from "./international";
 
 export const TESTS: Test[] = [
   { id: "adm-01", name: "MDCAT", category: "Admissions", career_stage: "Intermediate", conducting_body: "PMDC / UHS / provincial boards", official_url: "https://pmdc.pk", eligibility: "FSc Pre-Medical (or equivalent) with minimum 60% marks. Age and domicile as per provincial policy.", format_description: "200 MCQs · 3.5 hours · Biology 68, Chemistry 54, Physics 54, English 18, Logical Reasoning 6. No negative marking.", fee_info: "Typically PKR 6,000–8,000 (varies by province).", last_updated: "2026-08-15", priority: true },
@@ -73,6 +74,7 @@ export const TESTS: Test[] = [
   { id: "pol-06", name: "Islamabad Police Test", category: "Police", career_stage: "Job Seeker", conducting_body: "ICT Police / FPSC or testing service", official_url: "https://islamabadpolice.gov.pk", eligibility: "Per ICT Police / FPSC ads.", format_description: "Physical + written MCQ.", fee_info: "As advertised.", last_updated: "2026-07-01" },
   { id: "arm-07", name: "FC / Frontier Corps Test", category: "Armed Forces", career_stage: "Job Seeker", conducting_body: "Frontier Corps", official_url: "https://www.joinpakarmy.gov.pk", eligibility: "As per FC recruitment notices.", format_description: "Physical + written.", fee_info: "As advertised.", last_updated: "2026-06-01" },
   { id: "pro-12", name: "HEC Law GAT", category: "Professional", career_stage: "Graduate", conducting_body: "HEC", official_url: "https://www.hec.gov.pk", eligibility: "LLB for bar enrollment pathway (with PBC).", format_description: "MCQ law subjects; passing score as notified by HEC/PBC.", fee_info: "HEC fee.", last_updated: "2026-07-01" },
+  ...INTL_TESTS,
 ];
 
 export const CATEGORY_META: { key: Category; label: string; ur: string; icon: string; color: string }[] = [
@@ -86,6 +88,7 @@ export const CATEGORY_META: { key: Category; label: string; ur: string; icon: st
   { key: "Teaching", label: "Teaching", ur: "تدریس", icon: "🍎", color: "bg-orange-100 text-orange-900" },
   { key: "Armed Forces", label: "Armed Forces", ur: "مسلح افواج", icon: "⭐", color: "bg-emerald-200 text-emerald-950" },
   { key: "Professional", label: "Professional", ur: "پیشہ ورانہ", icon: "💼", color: "bg-cyan-100 text-cyan-900" },
+  { key: "International", label: "Abroad / IELTS / German", ur: "بیرون ملک", icon: "✈️", color: "bg-sky-100 text-sky-900" },
 ];
 
-export const STAGES = ["Matric", "Intermediate", "Graduate", "Job Seeker", "Professional"] as const;
+export const STAGES = ["Matric", "Intermediate", "Graduate", "Job Seeker", "Professional", "Abroad"] as const;
