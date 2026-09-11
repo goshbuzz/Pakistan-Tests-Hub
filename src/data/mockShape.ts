@@ -24,7 +24,7 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 4, "Biology"), s("mcq", 3, "Chemistry"), s("mcq", 2, "Physics"), s("mcq", 1, "English"), s("mcq", 1, "Logical Reasoning")],
     };
   }
-  if (["adm-02", "adm-03", "adm-12"].includes(testId)) {
+  if (["adm-02", "adm-03", "adm-12", "adm-16"].includes(testId)) {
     return {
       minutes: 18,
       negative: false,
@@ -69,7 +69,25 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 4, "Mathematics"), s("mcq", 3, "English"), s("mcq", 3, "Analytical")],
     };
   }
-  if (["grd-01", "grd-03", "grd-05", "adm-08", "adm-11"].includes(testId)) {
+  if (testId === "adm-18") {
+    return {
+      minutes: 20,
+      negative: false,
+      negativeValue: 0,
+      note: "Mini digital SAT: Reading/Writing + Math MCQ only (no essay on current SAT).",
+      slots: [s("mcq", 6, "Verbal"), s("mcq", 6, "Mathematics")],
+    };
+  }
+  if (testId === "grd-06") {
+    return {
+      minutes: 20,
+      negative: false,
+      negativeValue: 0,
+      note: "GMAT Focus mini: Verbal, Quant, Data/Analytical MCQ — no AWA essay.",
+      slots: [s("mcq", 4, "Verbal"), s("mcq", 4, "Quantitative"), s("mcq", 2, "Analytical")],
+    };
+  }
+  if (["grd-01", "grd-03", "grd-05", "adm-08", "adm-11", "adm-17"].includes(testId)) {
     return {
       minutes: 20,
       negative: false,
@@ -96,7 +114,7 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 4, "Law"), s("mcq", 2, "English"), s("mcq", 2, "Pakistan Studies"), s("long", 1, "English")],
     };
   }
-  if (["int-01", "int-02"].includes(testId)) {
+  if (["int-01", "int-02", "int-14"].includes(testId)) {
     return {
       minutes: 25,
       negative: false,
@@ -141,7 +159,7 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 4), s("short", 2), s("long", 1)],
     };
   }
-  if (["psc-06", "psc-07", "psc-08"].includes(testId)) {
+  if (["psc-06", "psc-07", "psc-08", "psc-09"].includes(testId)) {
     return {
       minutes: 16,
       negative: true,
@@ -195,7 +213,7 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 6, "Accounting"), s("long", 1, "FA")],
     };
   }
-  if (testId === "pro-04") {
+  if (["pro-04", "pro-14"].includes(testId)) {
     return {
       minutes: 18,
       negative: false,
@@ -240,7 +258,7 @@ export function paperShape(testId: string, category: string): PaperShape {
       slots: [s("mcq", 2, "English"), s("mcq", 3, "Pedagogy"), s("mcq", 2, "Subject"), s("mcq", 1, "GK"), s("mcq", 1, "Islamiat"), s("mcq", 1, "Pakistan Studies")],
     };
   }
-  if (testId === "rec-09") {
+  if (testId === "rec-09" || testId === "rec-13") {
     return {
       minutes: 16,
       negative: true,

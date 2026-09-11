@@ -147,6 +147,31 @@ export const STUDY_GUIDES: Guide[] = [
     body: "100 MCQ / 120 min: Verbal, Quantitative, Analytical (A/B/C share). No Pakistan Studies. Analogies and analytic games need daily 20-minute drills. HEC/NTS passing marks depend on the university — check the programme, not rumours.",
   },
   {
+    test_id: "adm-18",
+    title: "Digital SAT (for LUMS & abroad)",
+    body: "Two sections: Reading & Writing, Math. Adaptive modules. No Pakistani GK, no essay. Official Bluebook app on collegeboard.org is the real software. LUMS often accepts SAT instead of LCAT.",
+  },
+  {
+    test_id: "int-14",
+    title: "OET for doctors & nurses",
+    body: "Same four skills as IELTS but healthcare: referral letters, patient role-play. Grade B is a common UK/Aus cut. Book only on oet.com. Our mini-mock: L/R MCQ + writing + speaking.",
+  },
+  {
+    test_id: "tch-04",
+    title: "PPSC Lecturer",
+    body: "Subject MCQs carry the paper. Add pedagogy, English, Islamiat/Pak Studies. Apply on ppsc.gop.pk only.",
+  },
+  {
+    test_id: "rec-14",
+    title: "Rescue 1122",
+    body: "Clear physical (running, height) first. Written is MCQ: first aid, GK, Islamiat, English — not CSS essays. Official: rescue.gov.pk.",
+  },
+  {
+    test_id: "grd-06",
+    title: "GMAT Focus",
+    body: "Verbal, Quant, Data Insights. No AWA. Official prep on mba.com. Mini-mocks here follow that three-part MCQ mix.",
+  },
+  {
     test_id: "psc-02",
     title: "PMS Punjab without an academy",
     body: "PPSC PMS: screening MCQ then written English/Urdu/Islamiat/Pak Studies/optionals (long answers) then interview. Read the live PPSC syllabus booklet. Apply only on ppsc.gop.pk. Mocks here mix a few MCQs with short notes and one essay — not the full written diet.",

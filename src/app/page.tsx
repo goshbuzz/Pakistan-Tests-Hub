@@ -29,7 +29,7 @@ export default function Home() {
           </div>
         </div>
         <p className="mt-2 max-w-xl text-sm text-emerald-50">
-          MDCAT, CSS, IELTS, PTE, German A1–C2 and 70+ tests — self-study so you can sit the exam without an academy, including immigration language tests.
+          100 packed tests — MDCAT, CSS, PPSC, NTS, SAT, OET, Rescue 1122 and more. Playful self-study: syllabus ticks, MCQ bank, 10 mocks in that paper’s mix. Apply only on official sites.
         </p>
         <div className="mt-4 flex flex-wrap gap-3 text-sm">
           <span className="rounded-full bg-white/15 px-3 py-1">🔥 {t.streak}: {streak}</span>

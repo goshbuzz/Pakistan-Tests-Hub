@@ -123,7 +123,7 @@ const GRE: Omit<MCQ, "id" | "test_id">[] = [
 export function languageFor(testId: string): Omit<MCQ, "id" | "test_id">[] {
   if (["int-05", "int-06", "int-07", "int-08", "int-09", "int-10"].includes(testId)) return GER_A;
   if (testId === "int-03") return [...EN, ...PTE];
-  if (["int-01", "int-02", "int-04", "int-11", "int-12"].includes(testId)) return EN;
+  if (["int-01", "int-02", "int-04", "int-11", "int-12", "int-14"].includes(testId)) return EN;
   if (testId === "int-13") return [...GRE, ...EN.filter((x) => x.subject === "Vocabulary" || x.subject === "Grammar")];
   return [];
 }

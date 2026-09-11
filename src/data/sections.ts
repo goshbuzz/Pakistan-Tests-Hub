@@ -3,7 +3,7 @@ export function subjectsFor(testId: string, category: string): string[] {
   if (["adm-01", "adm-09", "adm-10", "adm-13", "adm-14", "adm-15"].includes(testId)) {
     return ["Biology", "Chemistry", "Physics", "English", "Logical Reasoning"];
   }
-  if (["adm-02", "adm-03", "adm-12"].includes(testId)) {
+  if (["adm-02", "adm-03", "adm-12", "adm-16"].includes(testId)) {
     return ["Mathematics", "Physics", "Chemistry", "English", "Intelligence"];
   }
   if (testId === "adm-04") return ["Mathematics", "Physics", "English"];
@@ -12,15 +12,17 @@ export function subjectsFor(testId: string, category: string): string[] {
   }
   if (testId === "adm-07") return ["English", "Mathematics", "Analytical"];
   if (testId === "adm-06") return ["Verbal", "English", "Mathematics"];
-  if (testId === "adm-08" || testId === "adm-11") {
+  if (["adm-08", "adm-11", "adm-17"].includes(testId)) {
     return ["English", "Mathematics", "Analytical"];
   }
+  if (testId === "adm-18") return ["Verbal", "English", "Mathematics"];
+  if (testId === "grd-06") return ["Verbal", "Quantitative", "Analytical", "English"];
   if (["grd-01", "grd-03", "grd-05"].includes(testId)) {
     return ["English", "Verbal", "Quantitative", "Mathematics", "Analytical"];
   }
   if (["grd-02"].includes(testId)) return ["Subject", "Analytical", "English"];
   if (["grd-04", "pro-07", "pro-12"].includes(testId)) return ["Law", "English", "Pakistan Studies", "Islamiat"];
-  if (testId === "rec-09") {
+  if (testId === "rec-09" || testId === "rec-13") {
     return ["English", "Analytical", "Computer", "Job related"];
   }
   if (category === "Recruitment" || testId.startsWith("rec-")) {
@@ -47,9 +49,10 @@ export function subjectsFor(testId: string, category: string): string[] {
   if (category === "Armed Forces") {
     return ["Intelligence", "English", "Mathematics", "Islamiat", "Pakistan Studies", "GK", "Physics", "ISSB"];
   }
-  if (["pro-01", "pro-02", "pro-03", "pro-04", "pro-05", "pro-06"].includes(testId)) {
+  if (["pro-01", "pro-02", "pro-03", "pro-04", "pro-05", "pro-06", "pro-13"].includes(testId)) {
     return ["FA", "MA", "AA", "FM", "Ethics", "Quant", "FRA", "Accounting"];
   }
+  if (testId === "pro-14") return ["Quant", "Ethics", "FRA", "FM"];
   if (testId === "pro-09") {
     return ["Biology", "Chemistry", "English", "Logical Reasoning"];
   }
@@ -62,7 +65,7 @@ export function subjectsFor(testId: string, category: string): string[] {
   if (testId === "pro-08") {
     return ["Law", "English", "Pakistan Studies", "Islamiat"];
   }
-  if (["int-01", "int-02", "int-03", "int-04", "int-11", "int-12"].includes(testId)) {
+  if (["int-01", "int-02", "int-03", "int-04", "int-11", "int-12", "int-14"].includes(testId)) {
     return ["Listening", "Reading", "Writing", "Speaking", "Grammar", "Vocabulary"];
   }
   if (["int-05", "int-06", "int-07", "int-08", "int-09", "int-10"].includes(testId)) {

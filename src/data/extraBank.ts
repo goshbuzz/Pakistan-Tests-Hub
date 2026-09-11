@@ -84,7 +84,13 @@ export const ISSB_Q: Omit<MCQ, "id" | "test_id">[] = [
   q("ISSB", "GTO", "In a group task the selector mainly watches:", ["who shouts loudest", "cooperation, planning, and leadership under time", "memorised GK lists", "calligraphy"], 1, "Officer-like qualities."),
 ];
 
+export const RESCUE_Q: Omit<MCQ, "id" | "test_id">[] = [
+  q("Job related", "First aid", "For severe bleeding you should first:", ["give water", "apply direct pressure", "wait for X-ray", "apply heat only"], 1, "Direct pressure."),
+  q("Job related", "EMS", "1122 in Punjab is primarily:", ["income tax helpline", "emergency rescue service", "railway inquiry", "NADRA token"], 1, "Rescue 1122."),
+  q("Job related", "Fire", "PASS for extinguishers means:", ["Pull, Aim, Squeeze, Sweep", "Push, Ask, Sit, Stop", "Park, Alert, Sprint, Shout", "None"], 0, "Standard PASS."),
+];
+
 export function extraFor(allowed: string[]): Omit<MCQ, "id" | "test_id">[] {
-  const all = [...BANKING_Q, ...TEACH_Q, ...LAW_Q, ...PROF_Q, ...GAT_VERBAL, ...IT_Q, ...ISSB_Q];
+  const all = [...BANKING_Q, ...TEACH_Q, ...LAW_Q, ...PROF_Q, ...GAT_VERBAL, ...IT_Q, ...ISSB_Q, ...RESCUE_Q];
   return all.filter((x) => matchesSubject(x.subject, allowed));
 }

@@ -85,6 +85,21 @@ export const EXAM_PATTERN: Record<string, string> = {
   "int-11": "CELPIP-General: computer L/R/W/S, CLB mapped for IRCC.",
   "int-12": "Duolingo English Test: adaptive ~1h online, camera proctored.",
   "int-13": "GRE General: Verbal, Quant, Analytical Writing (ETS).",
+  "adm-16": "NED engineering aptitude: Maths, Physics, Chemistry/CS, English MCQ.",
+  "adm-17": "PU faculty admission test: English, quantitative, subject cluster MCQ as notified.",
+  "adm-18": "Digital SAT: Reading & Writing + Math adaptive modules; no essay.",
+  "grd-06": "GMAT Focus: Verbal, Quantitative, Data Insights — no AWA.",
+  "rec-10": "FBR/FPSC: English, analytical, GK, job-related tax MCQs.",
+  "rec-11": "Railways screening MCQ: English, GK, Pak Studies, job-related.",
+  "rec-12": "WAPDA/DISCO: English, analytical, technical MCQs.",
+  "rec-13": "NADRA: English, IQ, computer, GK MCQs.",
+  "rec-14": "Rescue 1122: physical then MCQ English/GK/Islamiat/Pak Studies/first-aid.",
+  "pol-07": "NHMP: physical + written MCQ (Urdu, English, Islamiat, Pak Studies, GK).",
+  "tch-04": "PPSC Lecturer: subject MCQ + English/pedagogy/GK + interview.",
+  "psc-09": "Tehsildar/Naib Tehsildar: typically one-paper MCQ + interview (confirm PSC ad).",
+  "pro-13": "CIMA: objective tests + case study constructed response.",
+  "pro-14": "FRM: computer MCQ Parts I–II (quant, risk, markets).",
+  "int-14": "OET: L/R/W (referral letter) / S (clinical role-play). Healthcare English, not Pak GK.",
 };
 
 export function patternFor(id: string) {
@@ -115,4 +130,6 @@ export const HAS_LONG = new Set([
   "int-08",
   "pro-12",
   "grd-04",
+  "int-14",
+  "pro-13",
 ]);

@@ -85,6 +85,21 @@ export const APPLY_URL: Record<string, string> = {
   "int-11": "https://www.celpip.ca",
   "int-12": "https://englishtest.duolingo.com",
   "int-13": "https://www.ets.org/gre",
+  "adm-16": "https://www.neduet.edu.pk",
+  "adm-17": "https://admissions.pu.edu.pk",
+  "adm-18": "https://satsuite.collegeboard.org/sat",
+  "grd-06": "https://www.mba.com",
+  "rec-10": "https://www.fbr.gov.pk",
+  "rec-11": "https://www.pakrail.gov.pk",
+  "rec-12": "https://www.wapda.gov.pk",
+  "rec-13": "https://www.nadra.gov.pk",
+  "rec-14": "https://www.rescue.gov.pk",
+  "pol-07": "https://nhmp.gov.pk",
+  "tch-04": "https://www.ppsc.gop.pk",
+  "psc-09": "https://www.ppsc.gop.pk",
+  "pro-13": "https://www.cimaglobal.com",
+  "pro-14": "https://www.garp.org/frm",
+  "int-14": "https://oet.com",
 };
 
 export function applyUrl(testId: string, fallback: string) {

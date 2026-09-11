@@ -156,13 +156,13 @@ const GIKI: OutlineRow[] = [
 
 export function outlineFor(testId: string, category: string): OutlineRow[] | null {
   if (["adm-01", "adm-09", "adm-10", "adm-13", "adm-14", "adm-15"].includes(testId)) return MDCAT;
-  if (["adm-02", "adm-03", "adm-12"].includes(testId)) return ECAT;
+  if (["adm-02", "adm-03", "adm-12", "adm-16"].includes(testId)) return ECAT;
   if (testId === "adm-04") return GIKI;
   if (testId === "adm-05") return FAST;
-  if (testId === "adm-06") return LCAT;
+  if (testId === "adm-06" || testId === "adm-18") return LCAT;
   if (testId === "adm-07") return IBA;
   if (testId === "adm-08" || testId === "adm-11") return GAT;
-  if (["grd-01", "grd-03", "grd-05"].includes(testId)) return GAT;
+  if (["grd-01", "grd-03", "grd-05", "grd-06", "adm-17"].includes(testId)) return GAT;
   if (testId === "psc-01") return CSS;
   if (category === "Police") return POLICE;
   if (category === "Banking") return BANKING;
@@ -171,7 +171,7 @@ export function outlineFor(testId: string, category: string): OutlineRow[] | nul
   if (category === "Armed Forces") return ARMED;
   if (["pro-07", "pro-12", "grd-04"].includes(testId)) return LAT;
   if (testId === "pro-09") return NLE;
-  if (["int-01", "int-02", "int-03", "int-04", "int-11", "int-12"].includes(testId)) return IELTS;
+  if (["int-01", "int-02", "int-03", "int-04", "int-11", "int-12", "int-14"].includes(testId)) return IELTS;
   if (["int-05", "int-06", "int-07", "int-08", "int-09", "int-10"].includes(testId)) return GERMAN;
   return null;
 }

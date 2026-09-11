@@ -10,7 +10,7 @@ import { Logo } from "@/components/Logo";
 import { InstallPrompt } from "@/components/InstallPrompt";
 
 export function Shell({ children }: { children: React.ReactNode }) {
-  const { lang, user, streak } = useStore();
+  const { lang, streak, points } = useStore();
   const t = dict[lang];
   const path = usePathname();
   const rtl = lang === "ur";
@@ -19,11 +19,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const tabs = [
-    { href: "/", label: t.home, icon: "⌂" },
-    { href: "/explore", label: t.explore, icon: "▣" },
+    { href: "/", label: t.home, icon: "🏠" },
+    { href: "/explore", label: t.explore, icon: "🧭" },
     { href: "/jobs", label: t.jobs, icon: "💼" },
-    { href: "/alerts", label: t.alerts, icon: "⚑" },
-    { href: "/profile", label: t.profile, icon: "☺" },
+    { href: "/alerts", label: t.alerts, icon: "🔔" },
+    { href: "/profile", label: t.profile, icon: "😎" },
   ];
 
   const hits = q.trim()
@@ -41,14 +41,23 @@ export function Shell({ children }: { children: React.ReactNode }) {
   }, [path]);
 
   return (
-    <div dir={rtl ? "rtl" : "ltr"} className="min-h-screen bg-[#f4f1e8] text-stone-900">
-      <header className="sticky top-0 z-40 border-b border-emerald-900/10 bg-[#01411C] text-white">
-        <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
-          <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-            <Logo size={32} />
-            <span className="hidden sm:inline">{t.app}</span>
-          </Link>
-          <div className="relative flex-1">
+    <div dir={rtl ? "rtl" : "ltr"} className="min-h-dvh bg-emerald-950 md:bg-gradient-to-br md:from-emerald-950 md:via-[#01411C] md:to-lime-900">
+      <div className="mx-auto flex min-h-dvh max-w-md flex-col bg-[#f7f4ea] shadow-2xl md:max-w-lg">
+        <header className="sticky top-0 z-40 bg-gradient-to-br from-[#01411C] via-[#046a32] to-[#0a8f44] pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] text-white">
+          <div className="flex items-center gap-2 px-4">
+            <Link href="/" className="flex items-center gap-2">
+              <Logo size={36} />
+              <div>
+                <div className="text-sm font-bold leading-tight">{t.app}</div>
+                <div className="text-[10px] text-emerald-100">100 tests · playful prep</div>
+              </div>
+            </Link>
+            <div className="ml-auto flex items-center gap-1 text-[11px]">
+              <span className="rounded-full bg-white/15 px-2 py-0.5">🔥 {streak}</span>
+              <span className="rounded-full bg-[#C5A44E] px-2 py-0.5 font-semibold text-[#01411C]">⭐ {points}</span>
+            </div>
+          </div>
+          <div className="relative mx-4 mt-3">
             <input
               value={q}
               onChange={(e) => {
@@ -56,15 +65,15 @@ export function Shell({ children }: { children: React.ReactNode }) {
                 setOpen(true);
               }}
               onFocus={() => setOpen(true)}
-              placeholder={t.search}
-              className="w-full rounded-full border-0 bg-white/15 px-4 py-2 text-sm text-white placeholder:text-white/60 outline-none ring-1 ring-white/20 focus:bg-white/20"
+              placeholder="🔍  CSS, MDCAT, PPSC, IELTS…"
+              className="w-full rounded-2xl border-0 bg-white px-4 py-2.5 text-sm text-stone-800 shadow-inner outline-none placeholder:text-stone-400"
             />
             {open && hits.length > 0 && (
-              <div className="absolute mt-1 w-full overflow-hidden rounded-xl bg-white text-stone-800 shadow-xl">
+              <div className="absolute mt-1 w-full overflow-hidden rounded-2xl bg-white text-stone-800 shadow-xl">
                 {hits.map((h) => (
                   <button
                     key={h.id}
-                    className="block w-full px-4 py-2 text-left text-sm hover:bg-emerald-50"
+                    className="block w-full px-4 py-3 text-left text-sm active:bg-emerald-50"
                     onClick={() => router.push(`/tests/${h.id}`)}
                   >
                     <span className="font-medium">{h.name}</span>
@@ -74,55 +83,39 @@ export function Shell({ children }: { children: React.ReactNode }) {
               </div>
             )}
           </div>
-          <Link href="/profile" className="hidden text-xs text-white/80 sm:block">
-            {user ? user.name : t.guest}
-            {user && streak > 0 ? ` · 🔥 ${streak}` : ""}
-          </Link>
-        </div>
-      </header>
-      <main className="mx-auto max-w-6xl px-4 pb-24 pt-4">{children}</main>
-      <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-stone-200 bg-white/95 backdrop-blur md:hidden">
-        <div className="flex justify-around py-2">
-          {tabs.map((tab) => (
-            <Link
-              key={tab.href}
-              href={tab.href}
-              className={`flex flex-col items-center px-3 text-[11px] ${
-                path === tab.href ? "text-emerald-800 font-semibold" : "text-stone-500"
-              }`}
-            >
-              <span className="text-lg">{tab.icon}</span>
-              {tab.label}
-            </Link>
-          ))}
-        </div>
-      </nav>
-      <nav className="fixed bottom-6 left-1/2 z-40 hidden -translate-x-1/2 rounded-full border border-stone-200 bg-white px-2 py-1 shadow-lg md:flex">
-        {tabs.map((tab) => (
-          <Link
-            key={tab.href}
-            href={tab.href}
-            className={`rounded-full px-4 py-2 text-sm ${
-              path === tab.href ? "bg-emerald-800 text-white" : "text-stone-600 hover:bg-stone-50"
-            }`}
-          >
-            {tab.label}
-          </Link>
-        ))}
-      </nav>
-      <footer className="mx-auto max-w-6xl px-4 pb-28 pt-8 text-xs text-stone-500">
-        <p className="font-medium text-stone-700">Pakistan Tests Hub — free CSS, MDCAT, PPSC, FPSC, NTS, ISSB, IELTS prep</p>
-        <nav className="mt-2 flex flex-wrap gap-3">
-          <Link href="/faq">FAQ</Link>
-          <Link href="/jobs">Government jobs</Link>
-          <Link href="/explore">All tests</Link>
-          <Link href="/alerts">Alerts</Link>
+        </header>
+        <main className="flex-1 px-4 pb-28 pt-4">{children}</main>
+        <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 border-t border-emerald-900/10 bg-white/95 pb-[max(0.4rem,env(safe-area-inset-bottom))] pt-1 shadow-[0_-8px_30px_rgba(1,65,28,0.12)] backdrop-blur md:max-w-lg">
+          <div className="grid grid-cols-5">
+            {tabs.map((tab) => {
+              const on = path === tab.href;
+              return (
+                <Link
+                  key={tab.href}
+                  href={tab.href}
+                  className={`flex flex-col items-center gap-0.5 py-1.5 text-[10px] ${on ? "font-bold text-emerald-800" : "text-stone-400"}`}
+                >
+                  <span
+                    className={`grid h-9 w-9 place-items-center rounded-2xl text-lg transition ${
+                      on ? "scale-110 bg-emerald-100 shadow-sm" : "bg-transparent"
+                    }`}
+                  >
+                    {tab.icon}
+                  </span>
+                  {tab.label}
+                </Link>
+              );
+            })}
+          </div>
         </nav>
-        <p className="mt-2">
-          For job seekers and fresh graduates in Pakistan. Apply only on official FPSC, PPSC, NTS and university sites.
-        </p>
-      </footer>
-      <InstallPrompt />
+        <footer className="px-4 pb-4 text-center text-[10px] text-stone-400">
+          <Link href="/faq" className="text-emerald-800">
+            FAQ
+          </Link>
+          {" · "}100 packed tests · apply only on official sites
+        </footer>
+        <InstallPrompt />
+      </div>
     </div>
   );
 }
@@ -130,9 +123,9 @@ export function Shell({ children }: { children: React.ReactNode }) {
 export function AdBanner() {
   const { lang } = useStore();
   return (
-    <div className="my-3 flex items-center justify-between rounded-xl border border-dashed border-amber-400/70 bg-amber-50 px-4 py-3 text-xs text-amber-900">
-      <span>{dict[lang].ads} · Pakistan Tests Hub is free with ads</span>
-      <span className="rounded bg-amber-200 px-2 py-0.5 font-medium">AdMob / AdSense slot</span>
+    <div className="my-3 flex items-center justify-between rounded-2xl border border-dashed border-amber-400/70 bg-gradient-to-r from-amber-50 to-lime-50 px-4 py-3 text-xs text-amber-900">
+      <span>✨ {dict[lang].ads} · free hub</span>
+      <span className="rounded-full bg-amber-200 px-2 py-0.5 font-medium">Ad slot</span>
     </div>
   );
 }
