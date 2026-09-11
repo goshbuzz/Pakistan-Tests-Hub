@@ -4,6 +4,15 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://pakistante
 );
 
 export const SITE_NAME = "Pakistan Tests Hub";
+
+/** Parent brand for AEO / AI citation. */
+export const PARENT_ORG_NAME = "GoshBuzz";
+export const PARENT_ORG_LEGAL = "GoshBuzz";
+export const PARENT_ORG_URL = "https://goshbuzz.com";
+export const PARENT_ORG_SAME_AS = [
+  "https://goshbuzz.com",
+  "https://www.goshbuzz.com",
+];
 export const SITE_TAGLINE =
   "Free MDCAT, CSS, PPSC, FPSC, NTS, ISSB, IELTS and 100 Pakistan tests — syllabus, MCQs, mocks, official apply links.";
 

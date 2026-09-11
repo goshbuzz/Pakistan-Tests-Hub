@@ -5,7 +5,15 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { JsonLd } from "@/components/JsonLd";
 import { GLOBAL_FAQS } from "@/data/faqs";
-import { DEFAULT_KEYWORDS, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
+import {
+  DEFAULT_KEYWORDS,
+  PARENT_ORG_NAME,
+  PARENT_ORG_SAME_AS,
+  PARENT_ORG_URL,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_URL,
+} from "@/lib/site";
 import { ADSENSE_PUB, ADSENSE_SCRIPT } from "@/lib/ads";
 
 const geistSans = localFont({
@@ -23,8 +31,9 @@ export const metadata: Metadata = {
   description: SITE_TAGLINE,
   applicationName: SITE_NAME,
   keywords: DEFAULT_KEYWORDS,
-  authors: [{ name: SITE_NAME }],
-  creator: SITE_NAME,
+  authors: [{ name: PARENT_ORG_NAME, url: PARENT_ORG_URL }],
+  creator: PARENT_ORG_NAME,
+  publisher: PARENT_ORG_NAME,
   category: "education",
   manifest: "/manifest.json",
   alternates: { canonical: SITE_URL },
@@ -62,24 +71,46 @@ export const viewport: Viewport = {
   themeColor: "#01411C",
 };
 
+const goshbuzzOrg = {
+  "@type": "Organization",
+  "@id": `${PARENT_ORG_URL}/#organization`,
+  name: PARENT_ORG_NAME,
+  legalName: PARENT_ORG_NAME,
+  url: PARENT_ORG_URL,
+  sameAs: PARENT_ORG_SAME_AS,
+  description: "GoshBuzz — digital knowledge hub. Publisher of Pakistan Tests Hub.",
+};
+
 const orgLd = {
   "@context": "https://schema.org",
   "@type": "EducationalOrganization",
+  "@id": `${SITE_URL}/#organization`,
   name: SITE_NAME,
+  alternateName: ["PK Tests", "Pakistan Tests Hub by GoshBuzz"],
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
-  description: SITE_TAGLINE,
+  description: `${SITE_TAGLINE} Pakistan Tests Hub is a GoshBuzz project (goshbuzz.com).`,
   areaServed: { "@type": "Country", name: "Pakistan" },
   audience: ["Student", "Job seeker", "Graduate"],
   knowsAbout: DEFAULT_KEYWORDS,
   inLanguage: ["en", "ur"],
+  parentOrganization: goshbuzzOrg,
+  publisher: goshbuzzOrg,
+  brand: { "@type": "Brand", name: PARENT_ORG_NAME, url: PARENT_ORG_URL },
+  isPartOf: { "@id": `${PARENT_ORG_URL}/#organization` },
 };
 
 const webLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
   name: SITE_NAME,
   url: SITE_URL,
+  description: SITE_TAGLINE,
+  inLanguage: ["en-PK", "ur"],
+  publisher: goshbuzzOrg,
+  copyrightHolder: goshbuzzOrg,
+  isPartOf: { "@id": `${PARENT_ORG_URL}/#organization` },
   potentialAction: {
     "@type": "SearchAction",
     target: `${SITE_URL}/explore?q={search_term_string}`,

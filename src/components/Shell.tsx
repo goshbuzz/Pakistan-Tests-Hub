@@ -107,6 +107,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </header>
           <main className="mx-auto w-full flex-1 px-4 pb-36 pt-4 text-center [&_a]:mx-auto [&_h1]:text-center [&_h2]:text-center [&_ul]:mx-auto [&_ul]:text-left">
             {children}
+            <p className="mt-8 text-[10px] text-stone-500">
+              A{" "}
+              <a href="https://goshbuzz.com" className="text-emerald-800 underline" rel="noopener noreferrer">
+                GoshBuzz
+              </a>{" "}
+              project · goshbuzz.com
+            </p>
           </main>
           <nav className="fixed inset-x-0 bottom-0 z-50 flex justify-center">
             <div className="w-full max-w-md border-t border-emerald-900/10 bg-white/95 pb-[max(0.4rem,env(safe-area-inset-bottom))] pt-1 shadow-[0_-8px_30px_rgba(1,65,28,0.12)] backdrop-blur">
@@ -167,6 +174,13 @@ export function Shell({ children }: { children: React.ReactNode }) {
       </nav>
       <footer className="mx-auto max-w-6xl px-4 pb-28 pt-8 text-center text-xs text-stone-500">
         <p className="font-medium text-stone-700">Pakistan Tests Hub — 100 tests · CSS, MDCAT, PPSC, NTS, IELTS</p>
+        <p className="mt-1">
+          A project of{" "}
+          <a href="https://goshbuzz.com" className="text-emerald-800 underline" rel="noopener noreferrer">
+            GoshBuzz
+          </a>{" "}
+          · goshbuzz.com
+        </p>
         <nav className="mt-2 flex flex-wrap justify-center gap-3">
           <Link href="/faq">FAQ</Link>
           <Link href="/about">About</Link>

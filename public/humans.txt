@@ -1,0 +1,8 @@
+/* TEAM */
+Publisher: GoshBuzz
+Site: https://goshbuzz.com
+Product: Pakistan Tests Hub
+Product URL: https://pakistantestshub.goshbuzz.com
+
+/* SITE */
+Pakistan Tests Hub is a GoshBuzz project — a free Pakistan exam-prep hub under the GoshBuzz brand.

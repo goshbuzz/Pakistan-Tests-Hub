@@ -13,8 +13,8 @@ export default function PrivacyPage() {
       <h1 className="text-2xl font-semibold">Privacy Policy</h1>
       <p className="text-stone-500">Last updated: 11 September 2026</p>
       <p>
-        Pakistan Tests Hub is a free self-study site for exam preparation in Pakistan. Logins, streaks and mock scores stay in this
-        browser (IndexedDB). We do not run a user cloud database.
+        Pakistan Tests Hub is a GoshBuzz (goshbuzz.com) project — a free self-study site for exam preparation in Pakistan. Logins,
+        streaks and mock scores stay in this browser (IndexedDB). We do not run a user cloud database.
       </p>
       <h2 className="mt-6 text-lg font-semibold">Advertising</h2>
       <p>

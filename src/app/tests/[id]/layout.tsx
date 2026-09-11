@@ -3,7 +3,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { FaqList } from "@/components/FaqList";
 import { faqsForTest } from "@/data/faqs";
 import { TESTS } from "@/data/tests";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { PARENT_ORG_NAME, PARENT_ORG_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return TESTS.map((t) => ({ id: t.id }));
@@ -35,7 +35,13 @@ export default function TestLayout({ children, params }: { children: React.React
           "@type": "Course",
           name: `${test.name} self-study`,
           description: test.format_description,
-          provider: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+          provider: {
+            "@type": "EducationalOrganization",
+            name: SITE_NAME,
+            url: SITE_URL,
+            parentOrganization: { "@type": "Organization", name: PARENT_ORG_NAME, url: PARENT_ORG_URL },
+            publisher: { "@type": "Organization", name: PARENT_ORG_NAME, url: PARENT_ORG_URL },
+          },
           educationalLevel: test.career_stage,
           inLanguage: ["en", "ur"],
           url: `${SITE_URL}/tests/${test.id}`,

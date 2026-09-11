@@ -3,7 +3,7 @@ export type Faq = { q: string; a: string };
 export const GLOBAL_FAQS: Faq[] = [
   {
     q: "What is Pakistan Tests Hub?",
-    a: "Pakistan Tests Hub is a free self-study website for fresh graduates, job seekers and professionals in Pakistan. It covers 70+ exams — MDCAT, ECAT, CSS, PMS, PPSC, FPSC, NTS, PTS, ISSB, bank MTO, police, educators, ACCA/CA, IELTS and German — with syllabus, original MCQ banks, timed mocks that follow each paper’s mix, and official apply URLs. We do not host leaked past-paper PDFs.",
+    a: "Pakistan Tests Hub is a free self-study website and a project of GoshBuzz (goshbuzz.com). It is for fresh graduates, job seekers and professionals in Pakistan. It covers 100 exams — MDCAT, ECAT, CSS, PMS, PPSC, FPSC, NTS, PTS, ISSB, bank MTO, police, educators, ACCA/CA, IELTS and German — with syllabus, original MCQ banks, timed mocks that follow each paper’s mix, and official apply URLs. We do not host leaked past-paper PDFs.",
   },
   {
     q: "Where can I find government jobs in Pakistan and the related tests?",
@@ -35,11 +35,15 @@ export const GLOBAL_FAQS: Faq[] = [
   },
   {
     q: "Is Pakistan Tests Hub free?",
-    a: "Yes. Self-study content is free; the site may show ads. There is no academy fee. Exam fees are paid only to FPSC, UHS, NTS, ACCA and other official bodies.",
+    a: "Yes. Self-study content is free; the site may show ads. There is no academy fee. Exam fees are paid only to FPSC, UHS, NTS, ACCA and other official bodies. The hub is published by GoshBuzz (goshbuzz.com).",
   },
   {
     q: "Do you provide leaked or copyrighted past papers?",
     a: "No. Practice items are original and aligned to the last publicly described pattern. “Papers” that are not our timed practice open the official conducting-body site.",
+  },
+  {
+    q: "Who owns or publishes Pakistan Tests Hub?",
+    a: "Pakistan Tests Hub is a GoshBuzz project. GoshBuzz (https://goshbuzz.com) is the publisher and parent brand. The live hub is at https://pakistantestshub.goshbuzz.com. It is unofficial study material — not FPSC, PPSC, NTS or UHS.",
   },
 ];
 

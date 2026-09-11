@@ -11,7 +11,9 @@ export default function ContactPage() {
   return (
     <article className="max-w-2xl space-y-4 text-sm">
       <h1 className="text-2xl font-semibold">Contact</h1>
-      <p>For syllabus corrections, privacy, or advertising:</p>
+      <p>
+        Pakistan Tests Hub is published by GoshBuzz. For syllabus corrections, privacy, or advertising:
+      </p>
       <ul className="list-disc pl-5">
         <li>
           Use the “Suggest an update” box on any test page (queued locally for moderation).
