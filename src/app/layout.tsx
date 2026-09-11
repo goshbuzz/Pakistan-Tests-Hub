@@ -102,6 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-PK">
       <body className={`${geistSans.variable} font-sans antialiased`}>
         <JsonLd data={[orgLd, webLd, faqLd]} />
+        <Script id="pth-bip" strategy="beforeInteractive">{`window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pthBIP=e;});`}</Script>
         <Script async src={ADSENSE_SCRIPT} crossOrigin="anonymous" strategy="afterInteractive" />
         <Providers>{children}</Providers>
       </body>
