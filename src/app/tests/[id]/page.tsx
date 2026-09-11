@@ -13,6 +13,7 @@ import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
 import { guidesFor } from "@/data/studyGuides";
+import { applyUrl } from "@/data/applyUrls";
 
 const TABS = ["overview", "study", "syllabus", "papers", "mcq", "mock", "jobs", "apply", "alerts"] as const;
 
@@ -300,31 +301,44 @@ export default function TestPage() {
         </div>
       )}
 
-      {tab === "apply" && pack && (
+      {tab === "apply" && (
         <div className="mt-4 space-y-4 rounded-2xl border bg-white p-5">
-          <h3 className="font-semibold">{t.documents}</h3>
-          <ul className="space-y-2">
-            {pack.documents.map((d) => (
-              <li key={d} className="flex items-start gap-2 text-sm">
-                <input type="checkbox" checked={(docsDone[test.id] ?? []).includes(d)} onChange={() => toggleDoc(test.id, d)} />
-                <span>{d}</span>
-              </li>
-            ))}
-          </ul>
-          <div>
-            <div className="text-xs uppercase text-stone-500">{t.challan}</div>
-            <p className="text-sm">{pack.challan}</p>
-          </div>
-          <a
-            href={pack.apply_url}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-block rounded-full bg-emerald-800 px-5 py-2 text-sm text-white"
-          >
-            {pack.apply_label}
-          </a>
+          {pack ? (
+            <>
+              <h3 className="font-semibold">{t.documents}</h3>
+              <ul className="space-y-2">
+                {pack.documents.map((d) => (
+                  <li key={d} className="flex items-start gap-2 text-sm">
+                    <input type="checkbox" checked={(docsDone[test.id] ?? []).includes(d)} onChange={() => toggleDoc(test.id, d)} />
+                    <span>{d}</span>
+                  </li>
+                ))}
+              </ul>
+              <div>
+                <div className="text-xs uppercase text-stone-500">{t.challan}</div>
+                <p className="text-sm">{pack.challan}</p>
+              </div>
+              <a
+                href={pack.apply_url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-block rounded-full bg-emerald-800 px-5 py-2 text-sm text-white"
+              >
+                {pack.apply_label}
+              </a>
+            </>
+          ) : (
+            <a
+              href={applyUrl(test.id, test.official_url)}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block rounded-full bg-emerald-800 px-5 py-2 text-sm text-white"
+            >
+              {t.applyNow} →
+            </a>
+          )}
           <p className="text-xs text-stone-500">
-            You always submit on the official site. This pack only checks documents and opens the correct apply URL.
+            You always submit on the official site. This hub does not take applications.
           </p>
         </div>
       )}

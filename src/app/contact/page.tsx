@@ -17,8 +17,10 @@ export default function ContactPage() {
           Use the “Suggest an update” box on any test page (queued locally for moderation).
         </li>
         <li>
-          Email: <a className="text-emerald-800 underline" href="mailto:hello@pakistantestshub.com">hello@pakistantestshub.com</a>{" "}
-          (replace with your live inbox after you set DNS).
+          Email:{" "}
+          <a className="text-emerald-800 underline" href="mailto:hello@pakistantestshub.com">
+            hello@pakistantestshub.com
+          </a>
         </li>
       </ul>
     </article>

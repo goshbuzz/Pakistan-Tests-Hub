@@ -5,7 +5,7 @@ export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://pakistan-t
 
 export const SITE_NAME = "Pakistan Tests Hub";
 export const SITE_TAGLINE =
-  "Free MDCAT, CSS, PPSC, FPSC, NTS, ISSB, IELTS and 70+ Pakistan government job tests — syllabus, MCQs, mocks, official apply links.";
+  "Free MDCAT, CSS, PPSC, FPSC, NTS, ISSB, IELTS and 100 Pakistan tests — syllabus, MCQs, mocks, official apply links.";
 
 export const DEFAULT_KEYWORDS = [
   "Pakistan government jobs",
