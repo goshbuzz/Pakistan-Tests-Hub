@@ -10,6 +10,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/jobs`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
     { url: `${SITE_URL}/alerts`, lastModified: now, changeFrequency: "daily", priority: 0.7 },
     { url: `${SITE_URL}/faq`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${SITE_URL}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
+    { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
+    { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: "monthly", priority: 0.3 },
   ];
   const tests = TESTS.map((t) => ({
     url: `${SITE_URL}/tests/${t.id}`,

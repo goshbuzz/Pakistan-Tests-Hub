@@ -1,10 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 import { JsonLd } from "@/components/JsonLd";
 import { GLOBAL_FAQS } from "@/data/faqs";
 import { DEFAULT_KEYWORDS, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
+import { ADSENSE_PUB, ADSENSE_SCRIPT } from "@/lib/ads";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -50,6 +52,9 @@ export const metadata: Metadata = {
     capable: true,
     title: "PK Tests",
     statusBarStyle: "black-translucent",
+  },
+  other: {
+    "google-adsense-account": ADSENSE_PUB,
   },
 };
 
@@ -97,6 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en-PK">
       <body className={`${geistSans.variable} font-sans antialiased`}>
         <JsonLd data={[orgLd, webLd, faqLd]} />
+        <Script async src={ADSENSE_SCRIPT} crossOrigin="anonymous" strategy="afterInteractive" />
         <Providers>{children}</Providers>
       </body>
     </html>
