@@ -1,4 +1,4 @@
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://pakistan-tests-hub.vercel.app").replace(
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://pakistantestshub.goshbuzz.com").replace(
   /\/$/,
   ""
 );
