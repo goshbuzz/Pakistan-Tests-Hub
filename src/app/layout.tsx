@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Analytics } from "@/components/Analytics";
 import { JsonLd } from "@/components/JsonLd";
 import { GLOBAL_FAQS } from "@/data/faqs";
 import {
@@ -131,6 +132,9 @@ const faqLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-PK">
+      <head>
+        <Analytics />
+      </head>
       <body className={`${geistSans.variable} font-sans antialiased`}>
         <JsonLd data={[orgLd, webLd, faqLd]} />
         <Script id="pth-bip" strategy="beforeInteractive">{`window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pthBIP=e;});`}</Script>
