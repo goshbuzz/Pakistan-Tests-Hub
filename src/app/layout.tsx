@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
+import { Analytics } from "@/components/Analytics";
 import { JsonLd } from "@/components/JsonLd";
 import { GLOBAL_FAQS } from "@/data/faqs";
 import {
@@ -53,9 +54,16 @@ export const metadata: Metadata = {
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
   icons: {
-    icon: [{ url: "/logo.png?v=3", type: "image/png", sizes: "512x512" }],
-    apple: [{ url: "/logo.png?v=3", type: "image/png", sizes: "512x512" }],
-    shortcut: "/logo.png?v=3",
+    // Real, correctly-sized favicons (the 1024px /logo.png used to be served as a
+    // 512px "favicon", which Google's favicon crawler rejects). Google wants a
+    // square icon that is a multiple of 48px — /favicon.ico carries 48/32/16.
+    icon: [
+      { url: "/favicon.ico", type: "image/x-icon", sizes: "any" },
+      { url: "/icon-192.png?v=4", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png?v=4", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png?v=4", type: "image/png", sizes: "180x180" }],
+    shortcut: "/favicon.ico",
   },
   appleWebApp: {
     capable: true,
@@ -131,6 +139,9 @@ const faqLd = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-PK">
+      <head>
+        <Analytics />
+      </head>
       <body className={`${geistSans.variable} font-sans antialiased`}>
         <JsonLd data={[orgLd, webLd, faqLd]} />
         <Script id="pth-bip" strategy="beforeInteractive">{`window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pthBIP=e;});`}</Script>
