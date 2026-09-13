@@ -38,3 +38,25 @@ silently fall back to serving a static folder.
 - The connected Git repo must be `goshbuzz/Pakistan-Tests-Hub`. A `DEPLOYMENT_NOT_FOUND` error on
   the live domain means the project is still linked to an old (deleted) repo — reconnect the
   correct repo and redeploy, then re-add the `pakistantestshub.goshbuzz.com` domain if needed.
+
+## Brand assets (logo, favicons, PWA icons)
+
+`public/logo.png` is the one brand file (1024x1024). `src/lib/brand.ts` `LOGO_SRC` is the single
+source of truth for its URL — header, login, install prompt, notifications, Open Graph and the
+JSON-LD `logo` all read it, so they cannot drift apart again.
+
+**Putting a new logo on Vercel**
+
+1. Replace `public/logo.png` (and re-export `favicon.ico`, `icon-192.png`, `icon-512.png`,
+   `apple-touch-icon.png` from it — `icon-512.png` is the one Android/Play uses full-bleed).
+2. Bump the cache-buster in `src/lib/brand.ts` (`?v=5` -> `?v=6`) **and** `CACHE` in
+   `public/sw.js` (`pth-pk-v5` -> `pth-pk-v6`) in the same commit. Also bump the `?v=` on the
+   icon links in `src/app/layout.tsx` and `public/manifest.json` if the icons changed.
+3. Merge to `main`. Vercel builds `main`, and the bumped `CACHE` name makes the service worker
+   drop the old entries on next load, so the new artwork reaches installed PWAs too.
+
+Step 2 is not optional. The service worker precached `/logo.png` and served it cache-first, so
+after a swap the old logo stayed pinned in visitors' Cache Storage no matter what Vercel was
+serving — the deploy looked broken while the file on the CDN was already correct. Brand assets are
+now network-first (still cached for offline), and the version query is the belt-and-braces path for
+browsers that never install the PWA.

@@ -16,6 +16,7 @@ import {
   SITE_URL,
 } from "@/lib/site";
 import { ADSENSE_PUB, ADSENSE_SCRIPT } from "@/lib/ads";
+import { LOGO_HEIGHT, LOGO_SRC, LOGO_WIDTH } from "@/lib/brand";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,7 +46,7 @@ export const metadata: Metadata = {
     siteName: SITE_NAME,
     title: `${SITE_NAME} — CSS, MDCAT, PPSC, NTS, IELTS`,
     description: SITE_TAGLINE,
-    images: [{ url: "/logo.png?v=3", width: 512, height: 512, alt: SITE_NAME }],
+    images: [{ url: LOGO_SRC, width: LOGO_WIDTH, height: LOGO_HEIGHT, alt: SITE_NAME }],
   },
   twitter: {
     card: "summary",
@@ -96,7 +97,7 @@ const orgLd = {
   name: SITE_NAME,
   alternateName: ["PK Tests", "Pakistan Tests Hub by GoshBuzz"],
   url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
+  logo: `${SITE_URL}${LOGO_SRC}`,
   description: `${SITE_TAGLINE} Pakistan Tests Hub is a GoshBuzz project (goshbuzz.com).`,
   areaServed: { "@type": "Country", name: "Pakistan" },
   audience: ["Student", "Job seeker", "Graduate"],
