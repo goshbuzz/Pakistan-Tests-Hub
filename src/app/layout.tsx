@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Analytics } from "@/components/Analytics";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 import { JsonLd } from "@/components/JsonLd";
 import { GLOBAL_FAQS } from "@/data/faqs";
 import {
@@ -148,6 +149,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="pth-bip" strategy="beforeInteractive">{`window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pthBIP=e;});`}</Script>
         <Script async src={ADSENSE_SCRIPT} crossOrigin="anonymous" strategy="afterInteractive" />
         <Providers>{children}</Providers>
+        <VercelAnalytics />
       </body>
     </html>
   );
