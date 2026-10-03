@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/site";
+import { PageFaq } from "@/components/PageFaq";
+import { PAGE_FAQS } from "@/data/pageFaqs";
+import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact Pakistan Tests Hub about content, privacy, or ads.",
+  title: { absolute: "Contact — Corrections, Ad Issues & Privacy" },
+  description: `Report a wrong syllabus or dead link on ${SITE_NAME}, or reach the GoshBuzz editorial team for privacy and advertising questions.`,
   alternates: { canonical: `${SITE_URL}/contact` },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/contact`,
+    title: `Contact ${SITE_NAME}`,
+    description: "Content corrections, advertising and privacy contacts.",
+    images: [OG_IMAGE],
+  },
 };
 
 export default function ContactPage() {
@@ -25,6 +34,7 @@ export default function ContactPage() {
           </a>
         </li>
       </ul>
+      <PageFaq items={PAGE_FAQS.contact} title="Before you write — quick answers" idPrefix="contact-faq" />
     </article>
   );
 }

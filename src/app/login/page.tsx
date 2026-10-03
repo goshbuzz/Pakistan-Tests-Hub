@@ -30,7 +30,7 @@ export default function LoginPage() {
         if (!email.trim() || !password) throw new Error("Email and password required.");
         await loginLocal(email, password);
       }
-      router.push("/");
+      router.push("/start");
     } catch (ex) {
       setErr(ex instanceof Error ? ex.message : "Could not sign in.");
     } finally {
@@ -71,7 +71,7 @@ export default function LoginPage() {
         <button disabled={busy} className="mt-4 w-full rounded-full bg-emerald-800 py-2 text-white disabled:opacity-60">
           {busy ? "…" : mode === "signup" ? t.signup : t.login}
         </button>
-        <Link href="/" className="mt-3 block text-center text-sm text-emerald-800">
+        <Link href="/start" className="mt-3 block text-center text-sm text-emerald-800">
           {t.guest}
         </Link>
       </form>

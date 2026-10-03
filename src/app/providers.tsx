@@ -7,7 +7,8 @@ import { useEffect } from "react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const path = usePathname();
-  const bare = path === "/login" || path.startsWith("/mock/");
+  // "/" is the standalone marketing home — it ships its own header/footer, so no Shell.
+  const bare = path === "/" || path === "/login" || path.startsWith("/mock/");
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {

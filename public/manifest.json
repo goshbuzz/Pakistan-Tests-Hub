@@ -3,7 +3,7 @@
   "name": "Pakistan Tests Hub",
   "short_name": "PK Tests",
   "description": "MDCAT, CSS, NTS, ISSB and 100 Pakistan tests — syllabus, mocks, jobs.",
-  "start_url": "/?source=pwa",
+  "start_url": "/start?source=pwa",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",

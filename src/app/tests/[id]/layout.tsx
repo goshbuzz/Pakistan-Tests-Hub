@@ -3,7 +3,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { FaqList } from "@/components/FaqList";
 import { faqsForTest } from "@/data/faqs";
 import { TESTS } from "@/data/tests";
-import { PARENT_ORG_NAME, PARENT_ORG_URL, SITE_NAME, SITE_URL } from "@/lib/site";
+import { OG_IMAGE, PARENT_ORG_NAME, PARENT_ORG_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export function generateStaticParams() {
   return TESTS.map((t) => ({ id: t.id }));
@@ -11,17 +11,24 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { id: string } }): Metadata {
   const test = TESTS.find((t) => t.id === params.id);
-  if (!test) return { title: "Test not found" };
-  const title = `${test.name} preparation Pakistan — syllabus, MCQs, mocks, apply | ${SITE_NAME}`;
-  const description = `${test.name} by ${test.conducting_body}. ${test.format_description} Eligibility: ${test.eligibility} Free original MCQs and 10 mocks. Apply only on the official site.`;
+  if (!test) return { title: { absolute: "Test not found" }, robots: { index: false } };
+  // SERP-friendly lengths (Phase 5): ~60 visible title chars incl. the template suffix,
+  // ~160 description chars. Long exam names fall back to a shorter base form.
+  const clamp = (s: string, n: number) => (s.length <= n ? s : `${s.slice(0, n - 1).trimEnd()}…`);
+  const long = `${test.name} Prep Pakistan 2026 — Syllabus, MCQs, Mocks`;
+  const title = long.length <= 58 ? long : `${test.name} Prep — Syllabus, MCQs & Mocks`;
+  const description = clamp(
+    `${test.name} by ${test.conducting_body}: ${test.format_description} Free MCQ bank, 10 timed mocks, apply on the official site.`,
+    168
+  );
   const url = `${SITE_URL}/tests/${test.id}`;
   return {
     title,
     description,
     keywords: [test.name, `${test.name} MCQs`, `${test.name} syllabus`, `${test.name} mock`, test.conducting_body, "Pakistan jobs"],
     alternates: { canonical: url },
-    openGraph: { title, description, url, type: "article", locale: "en_PK" },
-    twitter: { card: "summary", title, description },
+    openGraph: { description, url, type: "article", images: [OG_IMAGE] },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 

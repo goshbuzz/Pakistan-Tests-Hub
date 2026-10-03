@@ -6,6 +6,8 @@ import { ALL_ALERTS } from "@/data/coverage";
 import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
+import { PageFaq } from "@/components/PageFaq";
+import { PAGE_FAQS } from "@/data/pageFaqs";
 
 export default function AlertsPage() {
   const { lang, saved } = useStore();
@@ -44,6 +46,7 @@ export default function AlertsPage() {
           );
         })}
       </ul>
+      <PageFaq items={PAGE_FAQS.alerts} title="Alerts — quick answers" idPrefix="alerts-faq" />
     </div>
   );
 }

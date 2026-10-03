@@ -5,8 +5,8 @@ import { JOBS } from "@/data/jobs";
 import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
-import { FaqList } from "@/components/FaqList";
-import { GLOBAL_FAQS } from "@/data/faqs";
+import { PageFaq } from "@/components/PageFaq";
+import { PAGE_FAQS } from "@/data/pageFaqs";
 
 export default function JobsPage() {
   const { lang, saved, jobFollow, lastSync, markSynced } = useStore();
@@ -58,7 +58,7 @@ export default function JobsPage() {
           );
         })}
       </ul>
-      <FaqList items={GLOBAL_FAQS.filter((_, i) => [1, 5, 6, 8].includes(i))} title="Jobs FAQ" />
+      <PageFaq items={PAGE_FAQS.jobs} title="Jobs & apply — quick answers" idPrefix="jobs-faq" />
     </div>
   );
 }

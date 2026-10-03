@@ -3,14 +3,21 @@ import { FaqList } from "@/components/FaqList";
 import { JsonLd } from "@/components/JsonLd";
 import { GLOBAL_FAQS } from "@/data/faqs";
 import { TESTS } from "@/data/tests";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "FAQ — Government jobs, CSS, MDCAT, NTS, PPSC in Pakistan",
+  title: { absolute: "CSS, MDCAT, NTS & PPSC Exam Prep FAQ — Pakistan" },
   description:
-    "Answers for Pakistani job seekers and graduates: how to apply on FPSC/PPSC, MDCAT pattern, NTS vs PTS, free mocks vs academies, IELTS and German for immigration.",
+    "Plain answers for Pakistani job seekers and graduates: applying via FPSC/PPSC, MDCAT patterns, NTS vs PTS, free mocks vs academies, IELTS & German routes.",
   alternates: { canonical: `${SITE_URL}/faq` },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/faq`,
+    title: "Pakistan test-prep & govt-job FAQ — every common question answered",
+    description: "How the hub, official apply links, patterns and free mocks work.",
+    images: [OG_IMAGE],
+  },
 };
 
 export default function FaqPage() {
