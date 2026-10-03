@@ -2,9 +2,15 @@ import type { Metadata } from "next";
 import { PARENT_ORG_NAME, PARENT_ORG_URL, SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "About",
-  description: `${SITE_NAME} is a ${PARENT_ORG_NAME} project (goshbuzz.com) — free Pakistan test prep.`,
+  title: { absolute: "About Pakistan Tests Hub — who we are & how the free hub works" },
+  description: `Pakistan Tests Hub is a free self-study project of ${PARENT_ORG_NAME} (goshbuzz.com): 100 Pakistani exam prep pages with original MCQs, timed mocks and official apply links — never leaked papers.`,
   alternates: { canonical: `${SITE_URL}/about` },
+  openGraph: {
+    type: "profile",
+    url: `${SITE_URL}/about`,
+    title: `About ${SITE_NAME} — a ${PARENT_ORG_NAME} project`,
+    description: "Why a free, honest, official-links-only exam prep hub exists for Pakistani students and job seekers.",
+  },
 };
 
 export default function AboutPage() {

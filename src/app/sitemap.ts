@@ -4,8 +4,11 @@ import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  // Indexable website pages only. The app dashboard (/start) and interactive screens
+  // (/profile, /leaderboard, /mock/*, /login) are noindexed and must stay out of the
+  // sitemap — listing them would fight their meta robots and confuse GSC.
   const staticPages: MetadataRoute.Sitemap = [
-    { url: SITE_URL, lastModified: now, changeFrequency: "daily", priority: 1 },
+    { url: `${SITE_URL}/`, lastModified: now, changeFrequency: "daily", priority: 1 },
     { url: `${SITE_URL}/explore`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/jobs`, lastModified: now, changeFrequency: "daily", priority: 0.95 },
     { url: `${SITE_URL}/alerts`, lastModified: now, changeFrequency: "daily", priority: 0.7 },

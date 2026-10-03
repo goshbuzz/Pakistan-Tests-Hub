@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Terms of use",
+  title: { absolute: "Terms of Use — unofficial study material, official sites only" },
+  description: `${SITE_NAME} provides unofficial practice only. Exam rules, dates and fees are authoritative solely on FPSC, PPSC, NTS, UHS and other conducting-body sites. Read the full terms before relying on anything here.`,
   alternates: { canonical: `${SITE_URL}/terms` },
 };
 

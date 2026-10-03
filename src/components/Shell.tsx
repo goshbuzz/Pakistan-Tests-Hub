@@ -31,7 +31,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
   }, []);
 
   const tabs = [
-    { href: "/", label: t.home, icon: phone ? "🏠" : "⌂" },
+    { href: "/start", label: t.home, icon: phone ? "🏠" : "⌂" },
     { href: "/explore", label: t.explore, icon: phone ? "🧭" : "▣" },
     { href: "/jobs", label: t.jobs, icon: "💼" },
     { href: "/alerts", label: t.alerts, icon: phone ? "🔔" : "⚑" },
@@ -91,7 +91,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <div className="flex min-h-dvh w-full max-w-md flex-col">
           <header className="sticky top-0 z-40 bg-gradient-to-br from-[#01411C] via-[#046a32] to-[#0a8f44] pb-3 pt-[max(0.75rem,env(safe-area-inset-top))] text-white">
             <div className="flex items-center justify-center gap-2 px-4">
-              <Link href="/" className="flex items-center gap-2">
+              <Link href="/start" className="flex items-center gap-2">
                 <Logo size={36} />
                 <div className="text-left">
                   <div className="text-sm font-bold leading-tight">{t.app}</div>
@@ -147,7 +147,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
     <div dir={rtl ? "rtl" : "ltr"} className="min-h-screen bg-[#f4f1e8] text-stone-900">
       <header className="sticky top-0 z-40 border-b border-emerald-900/10 bg-[#01411C] text-white">
         <div className="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
-          <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
+          <Link href="/start" className="flex items-center gap-2 font-semibold tracking-tight">
             <Logo size={32} />
             <span className="hidden sm:inline">{t.app}</span>
           </Link>

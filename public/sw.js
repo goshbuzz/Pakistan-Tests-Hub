@@ -1,6 +1,12 @@
 // Bump CACHE together with LOGO_SRC in src/lib/brand.ts whenever brand artwork changes.
-const CACHE = "pth-pk-v5";
-const CORE = ["/", "/logo.png?v=5", "/manifest.json"];
+// v6: the site root is now a static marketing homepage and the app moved to /start.
+// The old cache pinned the previous dashboard HTML — including its stale <title> and
+// canonical — which Google then re-crawled through Chrome, confusing indexing. Bumping
+// the cache name force-drops every cached page on the next load.
+const CACHE = "pth-pk-v6";
+// Precache brand chrome only — NEVER "/" or app pages. HTML must stay network-first
+// (see the navigate branch below) so crawlers and users always see fresh content.
+const CORE = ["/logo.png?v=5", "/manifest.json"];
 
 // Brand assets must never be pinned in the cache: a deploy that swaps the logo or an
 // icon has to reach returning visitors and installed PWAs on their next load. These are
@@ -40,6 +46,24 @@ self.addEventListener("fetch", (e) => {
     return;
   }
 
+  // Page navigations = network-first. Fresh HTML for Google (indexing depends on the
+  // <title>/canonical/robots a crawl actually receives) and for users after each
+  // deploy; the cache is only the offline fallback, never the primary answer.
+  const isHtml =
+    e.request.mode === "navigate" || (e.request.headers.get("accept") || "").includes("text/html");
+  if (isHtml) {
+    e.respondWith(
+      fetch(e.request)
+        .then((res) => {
+          putInCache(e.request, res);
+          return res;
+        })
+        .catch(() => caches.match(e.request))
+    );
+    return;
+  }
+
+  // Everything else (fonts, images, hashed static chunks) stays cache-first.
   e.respondWith(
     caches.match(e.request).then((hit) => {
       const net = fetch(e.request)

@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: `How ${SITE_NAME} handles data, cookies, and Google advertising.`,
+  title: { absolute: "Privacy Policy — on-device practice, cookies & Google ads" },
+  description: `How ${SITE_NAME} (a GoshBuzz project) handles data: logins and scores stay in your browser via IndexedDB, no cloud account database, AdSense cookies on web and the choices you control.`,
   alternates: { canonical: `${SITE_URL}/privacy` },
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacyPage() {

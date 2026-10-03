@@ -7,10 +7,16 @@ import { SITE_NAME, SITE_URL } from "@/lib/site";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "FAQ — Government jobs, CSS, MDCAT, NTS, PPSC in Pakistan",
+  title: { absolute: "FAQ — government jobs, CSS, MDCAT, NTS & PPSC questions answered" },
   description:
-    "Answers for Pakistani job seekers and graduates: how to apply on FPSC/PPSC, MDCAT pattern, NTS vs PTS, free mocks vs academies, IELTS and German for immigration.",
+    "Plain answers for Pakistani job seekers and graduates: applying on FPSC/PPSC portals, the latest MDCAT pattern, NTS vs PTS vs OTS, free mocks vs academies, IELTS and German for immigration — the deep FAQ for the hub.",
   alternates: { canonical: `${SITE_URL}/faq` },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/faq`,
+    title: "Pakistan test-prep & govt-job FAQ — every common question answered",
+    description: "How the hub, official apply links, patterns and free mocks work.",
+  },
 };
 
 export default function FaqPage() {

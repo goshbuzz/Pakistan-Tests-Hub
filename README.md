@@ -6,6 +6,30 @@ Free self-study hub for **100** Pakistani exams (MDCAT, CSS, PPSC, NTS, IELTS, �
 - `public/ads.txt` must stay at the **site root** for AdSense (`ca-pub-4067724379997931`)
 - Web ads = AdSense. Android Play = AdMob banners only (native SDK later)
 
+## Site structure (SEO / Google Search Console)
+
+Google was struggling with the app-shaped root (client-only dashboard, inherited
+canonicals, a cache-first service worker). The site is now structured as:
+
+| Route | What it is | Indexing |
+| --- | --- | --- |
+| `/` | **Static marketing home** — pure server-rendered website page with the CTA into the app | index, own title/canonical/OG + unique FAQ schema |
+| `/start` | The interactive hub (dashboard formerly at `/`) | `noindex, follow`; PWA `start_url` |
+| `/explore` `/jobs` `/alerts` `/faq` `/about` `/contact` `/privacy` `/terms` | Website content pages | index, each with its own title, description, canonical and Open Graph |
+| `/tests/[id]` (100 pages) | Per-test prep pages | index, generated unique metadata per test |
+| `/login` `/profile` `/leaderboard` `/mock/*` | App-only screens | `noindex` |
+
+Rules to keep it working:
+
+1. **Every page declares its own `title` + `canonical`** (page or `layout.tsx`). Never
+   re-add a `alternates.canonical` to the root layout — it leaks into every page and
+   makes them look like duplicates of the homepage.
+2. **Never precache HTML in `public/sw.js`.** Pages are network-first (cache = offline
+   fallback only); only hashed assets and brand files may be cache-first.
+3. `sitemap.ts` lists only indexable pages. Keep noindexed routes out of it.
+4. The home FAQ copy must stay **different** from `/faq` — two pages shipping the same
+   Q&A (or the same `FAQPage` schema) re-creates the duplicate identity problem.
+
 ```bash
 npm ci
 npm run build

@@ -11,17 +11,18 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { id: string } }): Metadata {
   const test = TESTS.find((t) => t.id === params.id);
-  if (!test) return { title: "Test not found" };
-  const title = `${test.name} preparation Pakistan — syllabus, MCQs, mocks, apply | ${SITE_NAME}`;
-  const description = `${test.name} by ${test.conducting_body}. ${test.format_description} Eligibility: ${test.eligibility} Free original MCQs and 10 mocks. Apply only on the official site.`;
+  if (!test) return { title: { absolute: "Test not found" }, robots: { index: false } };
+  // No manual `| Pakistan Tests Hub` suffix: the root template appends it (previously
+  // every test page rendered a doubled "… | Pakistan Tests Hub | Pakistan Tests Hub").
+  const title = `${test.name} preparation Pakistan 2026 — syllabus, MCQs & timed mocks`;
+  const description = `${test.name} by ${test.conducting_body}. ${test.format_description} Eligibility: ${test.eligibility} Free original MCQs and 10 timed mocks, then apply only on the official site.`;
   const url = `${SITE_URL}/tests/${test.id}`;
   return {
     title,
     description,
     keywords: [test.name, `${test.name} MCQs`, `${test.name} syllabus`, `${test.name} mock`, test.conducting_body, "Pakistan jobs"],
     alternates: { canonical: url },
-    openGraph: { title, description, url, type: "article", locale: "en_PK" },
-    twitter: { card: "summary", title, description },
+    openGraph: { description, url, type: "article" },
   };
 }
 

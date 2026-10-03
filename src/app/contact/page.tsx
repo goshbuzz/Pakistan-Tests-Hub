@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/site";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact Pakistan Tests Hub about content, privacy, or ads.",
+  title: { absolute: "Contact — report a wrong syllabus, ad issue or privacy question" },
+  description: `Reach ${SITE_NAME} (published by GoshBuzz). Suggest test corrections from any test page or email the editorial team — replies within a few working days.`,
   alternates: { canonical: `${SITE_URL}/contact` },
+  openGraph: {
+    type: "website",
+    url: `${SITE_URL}/contact`,
+    title: `Contact ${SITE_NAME}`,
+    description: "Content corrections, advertising and privacy contacts.",
+  },
 };
 
 export default function ContactPage() {

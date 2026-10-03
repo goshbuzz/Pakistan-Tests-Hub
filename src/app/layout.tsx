@@ -5,7 +5,6 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Analytics } from "@/components/Analytics";
 import { JsonLd } from "@/components/JsonLd";
-import { GLOBAL_FAQS } from "@/data/faqs";
 import {
   DEFAULT_KEYWORDS,
   PARENT_ORG_NAME,
@@ -38,20 +37,19 @@ export const metadata: Metadata = {
   publisher: PARENT_ORG_NAME,
   category: "education",
   manifest: "/manifest.json",
-  alternates: { canonical: SITE_URL },
+  // NOTE: no `alternates.canonical` here on purpose. A root-level canonical used to be
+  // inherited by every page that forgot its own, which made /start, /profile,
+  // /leaderboard etc. look like exact duplicates of the homepage to Google. Each page
+  // (and each page layout) now declares its own unique title + canonical.
+  // OG title/description/url are left unset so they fall through to each page's own
+  // metadata; only the brand image and site name stay global.
   openGraph: {
-    type: "website",
     locale: "en_PK",
-    url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — CSS, MDCAT, PPSC, NTS, IELTS`,
-    description: SITE_TAGLINE,
     images: [{ url: LOGO_SRC, width: LOGO_WIDTH, height: LOGO_HEIGHT, alt: SITE_NAME }],
   },
   twitter: {
     card: "summary",
-    title: SITE_NAME,
-    description: SITE_TAGLINE,
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
   icons: {
@@ -127,15 +125,11 @@ const webLd = {
   },
 };
 
-const faqLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: GLOBAL_FAQS.map((f) => ({
-    "@type": "Question",
-    name: f.q,
-    acceptedAnswer: { "@type": "Answer", text: f.a },
-  })),
-};
+// Site-wide schema is limited to Organization + WebSearch-capable WebSite. The FAQPage
+// schema used to be emitted on EVERY page here, which (a) duplicated the same Q&A
+// across the whole site — weakening each page's distinct identity — and (b) mismatched
+// the visible content on non-FAQ pages. Each FAQ-rich page now ships its own FAQPage:
+// /faq with GLOBAL_FAQS, the home page with its own shorter question set.
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -144,7 +138,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Analytics />
       </head>
       <body className={`${geistSans.variable} font-sans antialiased`}>
-        <JsonLd data={[orgLd, webLd, faqLd]} />
+        <JsonLd data={[orgLd, webLd]} />
         <Script id="pth-bip" strategy="beforeInteractive">{`window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pthBIP=e;});`}</Script>
         <Script async src={ADSENSE_SCRIPT} crossOrigin="anonymous" strategy="afterInteractive" />
         <Providers>{children}</Providers>
