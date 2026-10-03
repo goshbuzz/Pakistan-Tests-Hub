@@ -7,6 +7,8 @@ import { CATEGORY_META, STAGES, TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
+import { PageFaq } from "@/components/PageFaq";
+import { PAGE_FAQS } from "@/data/pageFaqs";
 
 function ExploreInner() {
   const { lang } = useStore();
@@ -27,8 +29,6 @@ function ExploreInner() {
 
   return (
     <div className="mx-auto max-w-4xl text-center">
-      <h1 className="text-2xl font-semibold sm:text-3xl">{t.explore}</h1>
-      <p className="mt-1 text-sm text-stone-500">{TESTS.length} tests · filter by category or career stage</p>
       <div className="mx-auto max-w-xl">
         <AdBanner />
       </div>
@@ -97,10 +97,24 @@ function ExploreInner() {
   );
 }
 
+/**
+ * Structure matters for indexing: the interactive filter grid reads searchParams, so it
+ * lives behind <Suspense> and is NOT in the prerendered HTML. The h1, intro copy and the
+ * page FAQ therefore render in the static shell ABOVE/BELOW the boundary — otherwise
+ * Googlebot used to fetch a near-empty document here ("Crawled – currently not indexed").
+ */
 export default function ExplorePage() {
   return (
-    <Suspense>
-      <ExploreInner />
-    </Suspense>
+    <div className="mx-auto max-w-4xl text-center">
+      <h1 className="text-2xl font-semibold sm:text-3xl">Explore Pakistan tests — {TESTS.length} exams, free</h1>
+      <p className="mt-1 text-sm text-stone-500">
+        Admissions, one-paper recruitment, public service, policing, banking, teaching, professional licensing and
+        international exams — filter by category or career stage.
+      </p>
+      <Suspense fallback={<p className="mt-6 text-sm text-stone-400">Loading filters &amp; test list…</p>}>
+        <ExploreInner />
+      </Suspense>
+      <PageFaq items={PAGE_FAQS.explore} title="Exploring tests — quick answers" idPrefix="explore-faq" />
+    </div>
   );
 }

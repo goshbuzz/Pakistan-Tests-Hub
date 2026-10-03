@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { PageFaq } from "@/components/PageFaq";
+import { PAGE_FAQS } from "@/data/pageFaqs";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { absolute: "Terms of Use — unofficial study material, official sites only" },
-  description: `${SITE_NAME} provides unofficial practice only. Exam rules, dates and fees are authoritative solely on FPSC, PPSC, NTS, UHS and other conducting-body sites. Read the full terms before relying on anything here.`,
+  title: { absolute: "Terms of Use — Unofficial Study Material" },
+  description: `${SITE_NAME} is unofficial practice material. Rules, dates and fees are authoritative only on FPSC, PPSC, NTS, UHS and other official sites.`,
   alternates: { canonical: `${SITE_URL}/terms` },
 };
 
@@ -17,6 +19,7 @@ export default function TermsPage() {
         submit applications on this site.
       </p>
       <p>Content is provided as-is. Ads may appear on content pages after Google approval.</p>
+      <PageFaq items={PAGE_FAQS.terms} title="Terms — quick answers" idPrefix="terms-faq" />
     </article>
   );
 }

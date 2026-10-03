@@ -22,3 +22,20 @@ html {
     text-wrap: balance;
   }
 }
+
+/* ————— Marketing home hero: one deliberate entrance sequence (Phase 4 motion rule).
+   Static fallback via prefers-reduced-motion — never blocks content for crawlers. */
+@keyframes pth-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-rise > * { animation: pth-rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-rise > *:nth-child(2) { animation-delay: 0.08s; }
+.hero-rise > *:nth-child(3) { animation-delay: 0.16s; }
+.hero-rise > *:nth-child(4) { animation-delay: 0.24s; }
+.hero-rise > *:nth-child(5) { animation-delay: 0.32s; }
+.hero-rise-side { animation: pth-rise 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-rise > *,
+  .hero-rise-side { animation: none; }
+}

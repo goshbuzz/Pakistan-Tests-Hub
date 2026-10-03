@@ -7,8 +7,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { Logo } from "@/components/Logo";
 import { CookieBar } from "@/components/CookieBar";
 import { InstallPrompt } from "@/components/InstallPrompt";
-import { LOGO_HEIGHT, LOGO_SRC, LOGO_WIDTH } from "@/lib/brand";
-import { PARENT_ORG_URL, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
+import { OG_IMAGE, PARENT_ORG_URL, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
 
 /**
  * Marketing homepage — a pure, fully server-rendered website page.
@@ -18,11 +17,9 @@ import { PARENT_ORG_URL, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
  */
 
 export const metadata: Metadata = {
-  title: {
-    absolute: "Pakistan Tests Hub — Free MDCAT, CSS, PPSC, NTS & Govt Job Test Prep 2026",
-  },
+  title: { absolute: "Pakistan Tests Hub — Free MDCAT, CSS, PPSC & NTS Prep" },
   description:
-    "Pakistan Tests Hub by GoshBuzz: free self-study for 100 Pakistani exams — MDCAT, ECAT, CSS, PMS, PPSC, FPSC, NTS, ISSB, bank MTO, police, IELTS & German. Syllabus checklists, original MCQ banks, 10 timed mocks per test, live job listings and official apply links. No academy fee, no leaked papers.",
+    "Free practice for 100 Pakistani exams — MDCAT, CSS, PPSC, FPSC, NTS, ISSB, IELTS: real syllabi, original MCQ banks, timed mocks and official apply links. No academy fee.",
   keywords: [
     "Pakistan tests hub",
     "free mock tests Pakistan",
@@ -41,7 +38,7 @@ export const metadata: Metadata = {
     url: `${SITE_URL}/`,
     title: "Pakistan Tests Hub — 100 free Pakistan test prep & government job guides",
     description: SITE_TAGLINE,
-    images: [{ url: LOGO_SRC, width: LOGO_WIDTH, height: LOGO_HEIGHT, alt: SITE_NAME }],
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
@@ -219,7 +216,7 @@ export default function HomePage() {
             aria-hidden
           />
           <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 pb-16 pt-12 sm:pt-16 lg:grid-cols-[1.15fr_.85fr] lg:pb-24">
-            <div>
+            <div className="hero-rise">
               <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-emerald-50 ring-1 ring-white/20">
                 🇵🇰 For students, fresh graduates &amp; job seekers
               </p>
@@ -256,7 +253,7 @@ export default function HomePage() {
             </div>
 
             {/* Static "app preview" card — pure website décor, no app state */}
-            <div className="relative mx-auto w-full max-w-sm" aria-hidden>
+            <div className="hero-rise-side relative mx-auto w-full max-w-sm" aria-hidden>
               <div className="absolute -inset-4 rounded-[2.5rem] bg-white/10 blur-2xl" />
               <div className="relative rounded-3xl border border-white/20 bg-white p-4 text-stone-900 shadow-2xl">
                 <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-wider text-stone-400">

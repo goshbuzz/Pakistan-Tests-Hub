@@ -15,7 +15,7 @@ import {
   SITE_URL,
 } from "@/lib/site";
 import { ADSENSE_PUB, ADSENSE_SCRIPT } from "@/lib/ads";
-import { LOGO_HEIGHT, LOGO_SRC, LOGO_WIDTH } from "@/lib/brand";
+import { LOGO_SRC } from "@/lib/brand";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,14 +42,16 @@ export const metadata: Metadata = {
   // /leaderboard etc. look like exact duplicates of the homepage to Google. Each page
   // (and each page layout) now declares its own unique title + canonical.
   // OG title/description/url are left unset so they fall through to each page's own
-  // metadata; only the brand image and site name stay global.
+  // metadata. The share image is a 1424×752 (~1.9:1, OG-recommended) brand cover.
   openGraph: {
     locale: "en_PK",
     siteName: SITE_NAME,
-    images: [{ url: LOGO_SRC, width: LOGO_WIDTH, height: LOGO_HEIGHT, alt: SITE_NAME }],
+    images: [{ url: "/og-cover.png", width: 1424, height: 752, alt: `${SITE_NAME} — free Pakistan test prep hub` }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_TAGLINE,
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 } },
   icons: {

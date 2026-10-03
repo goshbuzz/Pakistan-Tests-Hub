@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { PageFaq } from "@/components/PageFaq";
+import { PAGE_FAQS } from "@/data/pageFaqs";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { absolute: "Privacy Policy — on-device practice, cookies & Google ads" },
-  description: `How ${SITE_NAME} (a GoshBuzz project) handles data: logins and scores stay in your browser via IndexedDB, no cloud account database, AdSense cookies on web and the choices you control.`,
+  title: { absolute: "Privacy Policy — On-Device Data, Cookies & Ads" },
+  description: `How ${SITE_NAME} handles data: practice stays in your browser's IndexedDB, no cloud database, and how AdSense cookies and your choices work.`,
   alternates: { canonical: `${SITE_URL}/privacy` },
   robots: { index: true, follow: true },
 };
@@ -36,6 +38,7 @@ export default function PrivacyPage() {
       <p>
         Privacy questions: <a className="text-emerald-800 underline" href="/contact">Contact</a>.
       </p>
+      <PageFaq items={PAGE_FAQS.privacy} title="Privacy — quick answers" idPrefix="privacy-faq" />
     </article>
   );
 }

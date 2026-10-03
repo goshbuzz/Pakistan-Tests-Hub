@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { SITE_URL } from "@/lib/site";
+import { OG_IMAGE, SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: { absolute: "Explore tests — filter 100+ Pakistan exams by category & career stage" },
+  title: { absolute: "Explore 100+ Pakistan Tests — Admissions, Jobs, IELTS" },
   description:
-    "Browse MDCAT, ECAT, CSS, PMS, GAT, ISSB, ACCA, IELTS, German A1–C2 and recruitment tests for Pakistan. Filter by category or career stage, then open any test for syllabus, MCQs and timed mocks.",
+    "Filter MDCAT, ECAT, CSS, PMS, GAT, ISSB, ACCA, IELTS and recruitment tests by category or career stage — free syllabus, MCQs and timed mocks for each.",
   alternates: { canonical: `${SITE_URL}/explore` },
   openGraph: {
     type: "website",
@@ -12,6 +12,7 @@ export const metadata: Metadata = {
     title: "Explore — every major Pakistan test in one filterable hub",
     description:
       "100+ exams for admissions, jobs, licensing and immigration. Free syllabus ticklists, original MCQ banks and timed mocks for each.",
+    images: [OG_IMAGE],
   },
 };
 

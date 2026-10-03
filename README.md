@@ -29,6 +29,23 @@ Rules to keep it working:
 3. `sitemap.ts` lists only indexable pages. Keep noindexed routes out of it.
 4. The home FAQ copy must stay **different** from `/faq` — two pages shipping the same
    Q&A (or the same `FAQPage` schema) re-creates the duplicate identity problem.
+5. **Every indexable page carries its own page-relevant FAQ block + `FAQPage` JSON-LD**
+   (`src/data/pageFaqs.ts`, rendered by `<PageFaq>`). Interactive pages that read
+   `searchParams` must keep their `h1`/intro/FAQ OUTSIDE the `<Suspense>` boundary so
+   the prerendered HTML has content for crawlers (this is what made /explore look empty
+   to Google).
+6. Pages that define their own `openGraph` must also set `images: [OG_IMAGE]` — Next
+   does not deep-merge the root OG images into a page that overrides any OG field.
+
+## SEO identity regression check
+
+After any metadata/routing change, run the audit harness (it parses the prerendered
+HTML and PASS/FAILs every rule above, plus title/description lengths, unique titles,
+canonicals, the noindex set and og:image):
+
+```bash
+npm run build && npx tsx scripts/check-seo.mts
+```
 
 ```bash
 npm ci

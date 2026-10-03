@@ -16,6 +16,18 @@ export const PARENT_ORG_SAME_AS = [
 export const SITE_TAGLINE =
   "Free MDCAT, CSS, PPSC, FPSC, NTS, ISSB, IELTS and 100 Pakistan tests — syllabus, MCQs, mocks, official apply links.";
 
+/**
+ * Brand Open Graph cover (public/og-cover.png, 1424×752 ≈ 1.9:1 as Google recommends).
+ * Spread into every indexable page's openGraph — Next only merges OG top-level, so a
+ * page that defines its own openGraph block must also set `images` or lose og:image.
+ */
+export const OG_IMAGE = {
+  url: "/og-cover.png",
+  width: 1424,
+  height: 752,
+  alt: "Pakistan Tests Hub — every major test. One free hub.",
+} as const;
+
 export const DEFAULT_KEYWORDS = [
   "Pakistan government jobs",
   "CSS preparation",
