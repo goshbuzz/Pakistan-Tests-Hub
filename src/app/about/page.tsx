@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageFaq } from "@/components/PageFaq";
 import { PAGE_FAQS } from "@/data/pageFaqs";
 import { OG_IMAGE, PARENT_ORG_NAME, PARENT_ORG_URL, SITE_NAME, SITE_URL } from "@/lib/site";
+import { AdsterraBanner } from "@/components/Adsterra";
 
 export const metadata: Metadata = {
   title: { absolute: "About Pakistan Tests Hub — a GoshBuzz Project" },
@@ -36,6 +37,7 @@ export default function AboutPage() {
       <p>
         The website is free and may show Google ads. An Android wrapper, if you install one, uses AdMob banners instead of AdSense.
       </p>
+      <AdsterraBanner />
       <PageFaq items={PAGE_FAQS.about} title="About this project — quick answers" idPrefix="about-faq" />
     </article>
   );

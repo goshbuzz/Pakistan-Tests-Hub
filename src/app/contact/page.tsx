@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageFaq } from "@/components/PageFaq";
 import { PAGE_FAQS } from "@/data/pageFaqs";
 import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
+import { AdsterraBanner } from "@/components/Adsterra";
 
 export const metadata: Metadata = {
   title: { absolute: "Contact — Corrections, Ad Issues & Privacy" },
@@ -35,6 +36,7 @@ export default function ContactPage() {
         </li>
       </ul>
       <PageFaq items={PAGE_FAQS.contact} title="Before you write — quick answers" idPrefix="contact-faq" />
+      <AdsterraBanner />
     </article>
   );
 }

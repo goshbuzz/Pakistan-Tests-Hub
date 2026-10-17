@@ -8,6 +8,7 @@ import { Logo } from "@/components/Logo";
 import { CookieBar } from "@/components/CookieBar";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { OG_IMAGE, PARENT_ORG_URL, SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/site";
+import { AdsterraBanner, AdsterraMediumRect, AdsterraNative, AdsterraSmartlink } from "@/components/Adsterra";
 
 /**
  * Marketing homepage — a pure, fully server-rendered website page.
@@ -300,6 +301,7 @@ export default function HomePage() {
           </div>
         </section>
 
+        <div className="px-4 pt-6"><AdsterraBanner /></div>
         {/* ————— Categories ————— */}
         <section className="mx-auto max-w-6xl px-4 py-14 sm:py-16" aria-labelledby="cats-h">
           <h2 id="cats-h" className="text-center text-balance text-3xl font-bold tracking-tight text-[#01411C]">
@@ -355,6 +357,7 @@ export default function HomePage() {
           </div>
         </section>
 
+        <div className="mx-auto max-w-6xl px-4"><AdsterraNative /></div>
         {/* ————— Trending tests ————— */}
         <section className="mx-auto max-w-6xl px-4 py-14 sm:py-16" aria-labelledby="pop-h">
           <div className="flex flex-wrap items-end justify-between gap-3">
@@ -494,6 +497,7 @@ export default function HomePage() {
           </div>
         </section>
 
+        <div className="mx-auto max-w-6xl px-4"><AdsterraMediumRect /></div>
         {/* ————— Final CTA band ————— */}
         <section className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#01411C] via-[#046a32] to-[#0a8f44] px-6 py-10 text-center text-white shadow-xl sm:px-12">
@@ -520,6 +524,7 @@ export default function HomePage() {
             </p>
           </div>
         </section>
+        <div className="mx-auto max-w-6xl px-4 pb-14"><AdsterraSmartlink /></div>
       </main>
 
       {/* ————— Site footer ————— */}

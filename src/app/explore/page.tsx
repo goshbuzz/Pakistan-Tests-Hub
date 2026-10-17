@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState, Suspense } from "react";
+import { Fragment, useMemo, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { CATEGORY_META, STAGES, TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
@@ -9,6 +9,7 @@ import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
 import { PageFaq } from "@/components/PageFaq";
 import { PAGE_FAQS } from "@/data/pageFaqs";
+import { AdsterraNative, AdsterraSmartlink } from "@/components/Adsterra";
 
 function ExploreInner() {
   const { lang } = useStore();
@@ -76,8 +77,14 @@ function ExploreInner() {
       </div>
       <p className="mt-5 text-sm text-stone-500">{list.length} matching</p>
       <div className="mt-2 grid gap-3 text-left sm:grid-cols-2">
-        {list.map((test) => (
-          <Link key={test.id} href={`/tests/${test.id}`} className="rounded-2xl border bg-white p-4 text-left hover:border-emerald-700">
+        {list.map((test, i) => (
+          <Fragment key={test.id}>
+          {i === 6 && (
+            <div className="sm:col-span-2">
+              <AdsterraNative />
+            </div>
+          )}
+          <Link href={`/tests/${test.id}`} className="rounded-2xl border bg-white p-4 text-left hover:border-emerald-700">
             <div className="flex justify-between">
               <div>
                 <div className="font-semibold">{test.name}</div>
@@ -91,8 +98,10 @@ function ExploreInner() {
               {test.category} · {test.career_stage}
             </div>
           </Link>
+          </Fragment>
         ))}
       </div>
+      <AdsterraSmartlink className="mt-6 text-left" />
     </div>
   );
 }

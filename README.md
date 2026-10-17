@@ -101,3 +101,25 @@ after a swap the old logo stayed pinned in visitors' Cache Storage no matter wha
 serving — the deploy looked broken while the file on the CDN was already correct. Brand assets are
 now network-first (still cached for offline), and the version query is the belt-and-braces path for
 browsers that never install the PWA.
+
+## Adsterra ad units (web only)
+
+Keys and URLs live in one place: `src/lib/adsterra.ts`. Components are in `src/components/Adsterra.tsx`.
+
+| Format | Where | Notes |
+| --- | --- | --- |
+| Popunder + Social bar | Root layout, every page | Loaded once with `next/script`; not rendered in the Android wrapper |
+| Responsive banner (320×50 / 468×60 / 728×90) | Home, `/start`, `/alerts`, `/faq`, `/about`, `/contact`, `/privacy`, `/terms`, `/leaderboard`, `/profile` | Only one size mounts, picked by viewport |
+| Medium rectangle (300×250) | Home (after FAQ), `/tests/[id]` (end), mock results screen | Never during the timed mock paper |
+| Side rails (160×600 / 160×300) | Desktop app pages, ≥1536px only | Outside the 1152px content column |
+| Native banner | Home, `/start`, `/explore` (after card 6), `/jobs` (after card 3), `/faq` | **One per page**: the container id must be unique |
+| Smartlink | Home, `/start`, `/explore`, study tab of `/tests/[id]` | Shown as a labelled "Sponsored" card; never on an apply button |
+
+Rules:
+
+1. Display banners render in their own `srcdoc` iframe with Adsterra's snippet verbatim. Several `atOptions` globals on one page would race.
+2. Nothing Adsterra renders inside the Android (AdMob) wrapper. `useAdEnv().native` gates every component (see `src/lib/ads.ts`).
+3. Ads are lazy: display banners use `loading="lazy"`, and the native script loads only within 400px of the viewport.
+4. Never put a smartlink or Adsterra unit on an exam apply button. Apply links must stay on official sites.
+5. `/login` is ad-free. The timed mock paper (`/mock/[id]`) shows no display ads, but the site-wide popunder and social bar still load there.
+6. The Content-Security-Policy in `next.config.mjs` (currently report-only) allows `thatlobster.com`. Keep it allowed before enforcing the policy.

@@ -7,6 +7,7 @@ import { CATEGORY_META, TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
+import { AdsterraBanner, AdsterraNative, AdsterraSmartlink } from "@/components/Adsterra";
 import { Logo } from "@/components/Logo";
 import { FaqList } from "@/components/FaqList";
 import { GLOBAL_FAQS } from "@/data/faqs";
@@ -68,6 +69,7 @@ export default function StartPage() {
           })}
         </div>
       </section>
+      <AdsterraBanner />
       <section>
         <h2 className="mb-3 text-lg font-semibold">{t.trending}</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -84,6 +86,7 @@ export default function StartPage() {
           ))}
         </div>
       </section>
+      <AdsterraNative />
       {savedTests.length > 0 && (
         <section>
           <h2 className="mb-3 text-lg font-semibold">{t.saved}</h2>
@@ -136,6 +139,7 @@ export default function StartPage() {
           })}
         </ul>
       </section>
+      <AdsterraSmartlink />
       <p className="text-center text-sm">
         <Link href="/faq" className="text-emerald-800 underline">
           Full FAQ for government jobs &amp; test prep

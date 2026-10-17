@@ -5,6 +5,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Analytics } from "@/components/Analytics";
 import { JsonLd } from "@/components/JsonLd";
+import { AdsterraSiteScripts } from "@/components/Adsterra";
 import {
   DEFAULT_KEYWORDS,
   PARENT_ORG_NAME,
@@ -144,6 +145,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Script id="pth-bip" strategy="beforeInteractive">{`window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();window.__pthBIP=e;});`}</Script>
         <Script async src={ADSENSE_SCRIPT} crossOrigin="anonymous" strategy="afterInteractive" />
         <Providers>{children}</Providers>
+        <AdsterraSiteScripts />
       </body>
     </html>
   );

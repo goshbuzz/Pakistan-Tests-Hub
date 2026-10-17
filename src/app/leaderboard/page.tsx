@@ -2,6 +2,7 @@
 
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
+import { AdsterraBanner } from "@/components/Adsterra";
 
 export default function LeaderboardPage() {
   const { lang, points, user, streak } = useStore();
@@ -27,6 +28,7 @@ export default function LeaderboardPage() {
           <li className="rounded-xl border bg-white px-4 py-3 text-sm text-stone-600">Log in to join the board.</li>
         )}
       </ol>
+      <AdsterraBanner className="mt-6" />
     </div>
   );
 }
