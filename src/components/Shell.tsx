@@ -9,6 +9,7 @@ import { TESTS } from "@/data/tests";
 import { Logo } from "@/components/Logo";
 import { InstallPrompt } from "@/components/InstallPrompt";
 import { AdSlot } from "@/components/AdSlot";
+import { AdsterraRail } from "@/components/Adsterra";
 import { CookieBar } from "@/components/CookieBar";
 import { isStandaloneApp } from "@/lib/ads";
 
@@ -158,7 +159,11 @@ export function Shell({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
       </header>
-      <main className="mx-auto max-w-6xl px-4 pb-24 pt-4">{children}</main>
+      <main className="relative mx-auto max-w-6xl px-4 pb-24 pt-4">
+        {children}
+        <AdsterraRail side="left" />
+        <AdsterraRail side="right" />
+      </main>
       <nav className="fixed inset-x-0 bottom-6 z-40 hidden justify-center md:flex">
         <div className="flex rounded-full border border-stone-200 bg-white px-2 py-1 shadow-lg">
           {tabs.map((tab) => (

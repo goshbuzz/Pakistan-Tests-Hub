@@ -18,7 +18,7 @@ export function CookieBar() {
     <div className="pointer-events-none fixed inset-x-0 bottom-[11.5rem] z-[60] flex justify-center px-3 md:bottom-8">
       <div className="pointer-events-auto w-full max-w-md rounded-2xl border bg-white p-3 text-center text-xs text-stone-700 shadow-xl">
         <p>
-          We use cookies and Google may use cookies / device IDs to serve ads. See our{" "}
+          We use cookies. Google and our ad partner Adsterra may use cookies or device IDs to serve ads. See our{" "}
           <a className="text-emerald-800 underline" href="/privacy">
             Privacy Policy
           </a>{" "}

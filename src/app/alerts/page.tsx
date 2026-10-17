@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Link from "next/link";
 import { ALL_ALERTS } from "@/data/coverage";
 import { TESTS } from "@/data/tests";
@@ -8,6 +8,7 @@ import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { PageFaq } from "@/components/PageFaq";
 import { PAGE_FAQS } from "@/data/pageFaqs";
+import { AdsterraBanner } from "@/components/Adsterra";
 
 export default function AlertsPage() {
   const { lang, saved } = useStore();
@@ -30,10 +31,16 @@ export default function AlertsPage() {
       </div>
       <p className="mt-2 text-xs text-stone-500">Sourced from official conducting-body notices. Always re-check the linked site before applying.</p>
       <ul className="mt-4 space-y-2">
-        {items.map((a) => {
+        {items.map((a, i) => {
           const test = TESTS.find((x) => x.id === a.test_id);
           return (
-            <li key={a.id} className="rounded-xl border bg-white p-4">
+            <Fragment key={a.id}>
+            {i === 3 && (
+              <li className="list-none">
+                <AdsterraBanner />
+              </li>
+            )}
+            <li className="rounded-xl border bg-white p-4">
               <Link href={`/tests/${a.test_id}`} className="text-xs text-emerald-800">
                 {test?.name}
               </Link>
@@ -43,6 +50,7 @@ export default function AlertsPage() {
                 {a.type} · {a.published_at.slice(0, 10)}
               </div>
             </li>
+            </Fragment>
           );
         })}
       </ul>

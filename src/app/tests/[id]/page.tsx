@@ -14,6 +14,7 @@ import { useStore } from "@/lib/store";
 import { AdBanner } from "@/components/Shell";
 import { guidesFor } from "@/data/studyGuides";
 import { applyUrl } from "@/data/applyUrls";
+import { AdsterraMediumRect, AdsterraSmartlink } from "@/components/Adsterra";
 
 const TABS = ["overview", "study", "syllabus", "papers", "mcq", "mock", "jobs", "apply", "alerts"] as const;
 
@@ -162,6 +163,7 @@ export default function TestPage() {
               <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-stone-700">{g.body}</p>
             </article>
           ))}
+        <AdsterraSmartlink />
         </div>
       )}
 
@@ -357,6 +359,7 @@ export default function TestPage() {
           ))}
         </ul>
       )}
+      <AdsterraMediumRect className="mt-6" />
     </div>
   );
 }

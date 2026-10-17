@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageFaq } from "@/components/PageFaq";
 import { PAGE_FAQS } from "@/data/pageFaqs";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { AdsterraBanner } from "@/components/Adsterra";
 
 export const metadata: Metadata = {
   title: { absolute: "Terms of Use — Unofficial Study Material" },
@@ -18,8 +19,9 @@ export default function TermsPage() {
         authoritative on FPSC, PPSC, NTS, UHS and other conducting-body sites. Practice scores are not official results. Do not
         submit applications on this site.
       </p>
-      <p>Content is provided as-is. Ads may appear on content pages after Google approval.</p>
+      <p>Content is provided as-is. Ads from Google AdSense and our ad partner Adsterra may appear on the website. Ads are labelled and never change exam dates, fees or apply links.</p>
       <PageFaq items={PAGE_FAQS.terms} title="Terms — quick answers" idPrefix="terms-faq" />
+      <AdsterraBanner />
     </article>
   );
 }

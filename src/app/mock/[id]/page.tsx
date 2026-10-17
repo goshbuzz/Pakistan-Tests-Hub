@@ -7,6 +7,7 @@ import { ALL_MOCKS, paperShape, questionsForPaper } from "@/data/coverage";
 import { TESTS } from "@/data/tests";
 import { useStore } from "@/lib/store";
 import { dict } from "@/lib/i18n";
+import { AdsterraMediumRect } from "@/components/Adsterra";
 
 function MockInner() {
   const { id } = useParams<{ id: string }>();
@@ -98,6 +99,9 @@ function MockInner() {
           {writtenN > 0 && (
             <p className="text-sm text-stone-600">{writtenN} written task(s) — compare with the model, not auto-marked.</p>
           )}
+          <div className="mt-4 flex justify-center">
+            <AdsterraMediumRect />
+          </div>
           <button className="mt-4 w-full rounded-full bg-emerald-800 py-2 text-white" onClick={() => router.push(`/tests/${id}`)}>
             {t.skip}
           </button>

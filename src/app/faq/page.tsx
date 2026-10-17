@@ -5,6 +5,7 @@ import { GLOBAL_FAQS } from "@/data/faqs";
 import { TESTS } from "@/data/tests";
 import { OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/site";
 import Link from "next/link";
+import { AdsterraBanner, AdsterraNative } from "@/components/Adsterra";
 
 export const metadata: Metadata = {
   title: { absolute: "CSS, MDCAT, NTS & PPSC Exam Prep FAQ — Pakistan" },
@@ -42,7 +43,9 @@ export default function FaqPage() {
         </Link>
         .
       </p>
+      <AdsterraBanner />
       <FaqList items={GLOBAL_FAQS} />
+      <AdsterraNative />
       <section className="mt-8">
         <h2 className="text-lg font-semibold">Popular tests</h2>
         <ul className="mt-3 grid gap-2 sm:grid-cols-2">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageFaq } from "@/components/PageFaq";
 import { PAGE_FAQS } from "@/data/pageFaqs";
 import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { AdsterraBanner } from "@/components/Adsterra";
 
 export const metadata: Metadata = {
   title: { absolute: "Privacy Policy — On-Device Data, Cookies & Ads" },
@@ -29,6 +30,11 @@ export default function PrivacyPage() {
         </a>
         .
       </p>
+      <p>
+        The website also shows banner, native, popunder, social-bar and sponsored-link ads from <strong>Adsterra</strong>, a
+        third-party ad network. Adsterra and its partners may set cookies or use device identifiers to serve and measure ads. Adsterra
+        ads are never shown inside the Android app.
+      </p>
       <h2 className="mt-6 text-lg font-semibold">Children</h2>
       <p>
         This hub is aimed at intermediate students, graduates and job seekers — not children under 13. We do not knowingly collect
@@ -39,6 +45,7 @@ export default function PrivacyPage() {
         Privacy questions: <a className="text-emerald-800 underline" href="/contact">Contact</a>.
       </p>
       <PageFaq items={PAGE_FAQS.privacy} title="Privacy — quick answers" idPrefix="privacy-faq" />
+      <AdsterraBanner />
     </article>
   );
 }

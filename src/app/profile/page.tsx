@@ -8,6 +8,7 @@ import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { Logo } from "@/components/Logo";
 import { enableNotifications } from "@/lib/notify";
+import { AdsterraBanner } from "@/components/Adsterra";
 
 export default function ProfilePage() {
   const { lang, setLang, user, logout, saved, attempts, points, streak, badges, syllabusDone, notify, setNotify, dbReady } =
@@ -169,6 +170,7 @@ export default function ProfilePage() {
         <p className="mt-3 text-sm font-medium">{t.offline}</p>
         <p className="text-xs text-stone-500">{t.localDbHint}</p>
       </section>
+      <AdsterraBanner />
     </div>
   );
 }

@@ -1,12 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { Fragment } from "react";
 import { JOBS } from "@/data/jobs";
 import { TESTS } from "@/data/tests";
 import { dict } from "@/lib/i18n";
 import { useStore } from "@/lib/store";
 import { PageFaq } from "@/components/PageFaq";
 import { PAGE_FAQS } from "@/data/pageFaqs";
+import { AdsterraNative } from "@/components/Adsterra";
 
 export default function JobsPage() {
   const { lang, saved, jobFollow, lastSync, markSynced } = useStore();
@@ -37,10 +39,16 @@ export default function JobsPage() {
         Showing {prefs.size ? "followed / saved tests" : "all synced ads"}. Save a test or tap Follow on its Jobs tab.
       </p>
       <ul className="mt-4 space-y-3">
-        {list.map((j) => {
+        {list.map((j, i) => {
           const test = TESTS.find((x) => x.id === j.test_id);
           return (
-            <li key={j.id} className="rounded-2xl border bg-white p-4">
+            <Fragment key={j.id}>
+            {i === 2 && (
+              <li className="list-none">
+                <AdsterraNative />
+              </li>
+            )}
+            <li className="rounded-2xl border bg-white p-4">
               <Link href={`/tests/${j.test_id}`} className="text-xs text-emerald-800">
                 {test?.name}
               </Link>
@@ -55,6 +63,7 @@ export default function JobsPage() {
                 {t.applyNow} →
               </a>
             </li>
+            </Fragment>
           );
         })}
       </ul>
